@@ -1,0 +1,5 @@
+{{#if name}}
+  export * from './{{pascalCase name}}';
+{{else}}
+  export * from './{{pascalCase iconname}}';
+{{/if}}

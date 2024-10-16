@@ -1,0 +1,25 @@
+Proveedores: - Bancos - Bancolobia - Davivienda
+Bloquear proveedor (Justificación...)
+
+- Fecha de bloqueo y justificación...
+- Justificación de desbloqueo.
+
+Permisos:
+
+    - Consulta de Datos personales
+    - Llamadas telefonicas
+    - Envio de SMS
+    - Envio de Emails
+    - Contacto por Whatsapp
+    - Consulta de información financiera
+
+Puntos que te otorga el permiso
+Descripcion de fecha y hora de habilitacion de permiso
+mensaje de bienvenida con puntos acumulados
+
+Actualizaciones nuevas son las que no he habilitido o he tenido relacion
+
+ - Menu hamburguesa 🤔
+ - Icono de usuario 👌
+ - Boton de terminos y condiciones que muestre un PDF (pdf viewer) 👌 🤖
+ - Historico de permisos (log de permisos) 🤖
