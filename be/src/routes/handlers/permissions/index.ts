@@ -1,1 +1,1 @@
-export * from './insertPermissionLog';
+export * from './updatePermissionHandler';

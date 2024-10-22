@@ -1,6 +1,11 @@
 // src/index.ts
 import express from 'express';
-import { permissionRoutes, userRoutes } from '@routes/index';
+import {
+  notificationRoutes,
+  permissionRoutes,
+  providerRoutes,
+  userRoutes,
+} from '@routes/index';
 import cors from 'cors';
 
 // Create an Express application
@@ -24,6 +29,11 @@ app.use(permissionRoutes);
 
 // Register user routes
 app.use(userRoutes);
+
+// Register user routes
+app.use(notificationRoutes);
+
+app.use(providerRoutes)
 
 // Default route for 404 errors
 app.use((req, res) => {

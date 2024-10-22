@@ -1,23 +1,37 @@
 import { ProviderCard, ToastType } from 'components'
 import { useMutation } from 'react-query'
 import { togglePermissionAPI } from 'servers'
-import { PermissionStatus, Provider, useProviders } from 'stores'
-import { ProvidersListProps } from './ProvidersList.types'
+import { PermissionStatus, Provider, Providers, useProviders } from 'stores'
+import { ProvidersListProps, ProviderType } from './ProvidersList.types'
 import { router } from 'router'
 import { useToast } from 'contexts'
 
 const userId = process.env.REACT_APP_USER_ID ?? ''
+
+const getProviders = (providerType: ProviderType, providers: Providers) => {
+  switch (providerType) {
+    case ProviderType.ACTIVE:
+      return providers.active
+    case ProviderType.INACTIVE:
+      return providers.inactive
+    case ProviderType.BLOCKED:
+      return providers.blocked
+    default:
+      return []
+  }
+}
+
 const labelMap = {
   [PermissionStatus.Active]: 'activado',
   [PermissionStatus.Inactive]: 'desactivado',
   [PermissionStatus.Blocked]: 'bloqueado  ',
 }
-export const ProvidersList = ({ isActive }: ProvidersListProps) => {
+export const ProvidersList = ({ providerType }: ProvidersListProps) => {
   const { providers, togglePermission } = useProviders()
   const { showToast } = useToast()
 
   // Determine the providers to show based on the prop
-  const displayedProviders = isActive ? providers.active : providers.inactive
+  const displayedProviders = getProviders(providerType, providers)
 
   const { isLoading: isToggling, mutate: handleToggle } = useMutation(
     ({

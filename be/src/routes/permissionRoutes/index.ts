@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { insertPermissionLog } from '@routes/handlers';
+import { updatePermissionHandler } from '@routes/handlers';
 
 const router = Router();
 
-router.post('/permission', insertPermissionLog);
+router.post('/permission', updatePermissionHandler);
 
 export default router;

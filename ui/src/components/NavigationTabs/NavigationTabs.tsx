@@ -5,44 +5,38 @@ import { NavigationTabsProps } from './NavigationTabs.types'
 const tabs = [
   {
     id: 'active',
-    label: 'Activos',
+    label: 'Autorizados',
     icon: StarActiveIcon,
     path: '/active', // Added path for routing
   },
   {
     id: 'inactive',
-    label: 'Inactivos',
+    label: 'Pendientes',
     icon: StarAddIcon,
     path: '/inactive', // Added path for routing
   },
-  {
-    id: 'notifications',
-    label: 'Notificaciones',
-    icon: BellIcon,
-    path: '/notifications', // Added path for routing
-  },
 ]
 
-export const NavigationTabs = ({
-  activeTab,
-}: NavigationTabsProps) => {
+export const NavigationTabs = ({ activeTab }: NavigationTabsProps) => {
   const location = useLocation()
   const active = location.pathname ?? activeTab
-    
+
   return (
-    <div className='fixed bottom-0 w-full flex justify-center'>
-      <nav className='flex justify-center items-center gap-2 bg-primary p-4 rounded-md m-4 w-fit text-primary'>
+    <div className='w-full flex justify-center'>
+      <nav className='flex justify-center items-center gap-2  p-4 rounded-md w-fit text-primary '>
         {tabs.map(({ id, label, icon: Icon, path }) => (
           <Link
             to={path}
             key={id}
             className={`${
-              active === path ? 'bg-white' : 'bg-white'
-            } px-4 py-2 rounded-full transition duration-150 ease-in-out`}
+              active === path
+                ? 'bg-primary text-white shadow-white'
+                : 'bg-white'
+            } px-4 py-2 rounded-full transition duration-150 ease-in-out shadow-primary shadow-sm`}
           >
             <div className='flex justify-center text-sm items-center gap-1'>
               <Icon className='w-5 h-5' />
-              {active === path && label}
+              {label}
             </div>
           </Link>
         ))}

@@ -9,51 +9,28 @@ export const getUserPermissions = async (userId: string) => {
       throw new Error(`User not found.`);
     }
 
-    // Query to fetch providers with permissions, joined with user_permissions
+    // Query to fetch all permissions associated with providers
     const providersWithPermissions = await knex('providers')
       .select(
         'providers.id as provider_id',
         'providers.name as provider_name',
         'providers.description as provider_description',
+        'providers.status as provider_status',
         'permissions.id as permission_id',
         'permissions.name as permission_name',
         'permissions.points as permission_points',
         'permissions.description as permission_description',
         'permissions.image as permission_image',
         'permissions.pdf_path as permission_pdf_path',
-        'latest.created_at as permission_created_at',
-        knex.raw("COALESCE(latest.status, 'inactive') as status"),
-
-        knex.raw('latest.justification')
+        'up.updated_at as updated_at',
+        knex.raw("COALESCE(up.status, 'inactive') as status") // Default to 'inactive' if no entry found
       )
       .leftJoin('permissions', 'providers.id', 'permissions.provider_id')
-      .leftJoin(
-        knex('user_permissions as up')
-          .select(
-            'up.permission_id',
-            'up.status',
-            'up.justification',
-            'up.created_at'
-          )
-          .innerJoin(
-            knex('user_permissions')
-              .select('permission_id')
-              .where('user_id', userId)
-              .groupBy('permission_id')
-              .max('created_at as max_created_at')
-              .as('latest'),
-            function () {
-              this.on('up.permission_id', '=', 'latest.permission_id').andOn(
-                'up.created_at',
-                '=',
-                'latest.max_created_at'
-              );
-            }
-          )
-          .as('latest'),
-        'permissions.id',
-        'latest.permission_id'
-      )
+      .leftJoin('user_permissions as up', function () {
+        this.on('permissions.id', '=', 'up.permission_id');
+      })
+      .where('up.user_id', userId) // Move the user_id condition to the where clause
+      .orWhereNull('up.user_id') // Include permissions that don't have an entry in user_permissions
       .orderBy('providers.name', 'asc');
 
     // Structure the data by grouping permissions under each provider
@@ -67,6 +44,7 @@ export const getUserPermissions = async (userId: string) => {
           id: providerId,
           name: row.provider_name,
           description: row.provider_description,
+          status: row.provider_status,
           total: 0, // This will be calculated dynamically below
           permissions: [],
         };
@@ -80,9 +58,8 @@ export const getUserPermissions = async (userId: string) => {
         description: row.permission_description,
         image: row.permission_image,
         pdfPath: row.permission_pdf_path,
-        status: row.status, // Include latest status
-        justification: row.justification || null, // Include justification or null if not available
-        createdAt: row.permission_created_at, // Set to null if no matching entry in user_permissions
+        updatedAt: row.updated_at,
+        status: row.status, // Include status, defaults to 'inactive'
       });
 
       // Calculate the total points for the provider's enabled permissions
@@ -93,60 +70,27 @@ export const getUserPermissions = async (userId: string) => {
 
     // Convert providersMap to an array
     const providersArray = Object.values(providersMap);
-    // split inactive providers those with all permissions as 'inactive'
+
+    // Split inactive providers those with all permissions as 'inactive'
     const inactive = providersArray.filter((provider: any) =>
       provider.permissions.every(
         (permission: any) => permission.status === 'inactive'
       )
     );
-    const active = providersArray.filter((provider: any) =>
-      provider.permissions.some(
-        (permission: any) =>
-          permission.status === 'active' ||
-          permission.status === 'blocked' ||
-          permission.status === 'disabled'
-      )
+    const active = providersArray.filter(
+      (provider: any) =>
+        provider.permissions.some(
+          (permission: any) => permission.status === 'active'
+        ) && provider.status === 'enabled'
     );
 
-    return { active, inactive };
+    const blocked = providersArray.filter(
+      (provider: any) => provider.status === 'blocked'
+    );
+
+    return { active, inactive, blocked };
   } catch (error) {
     console.error('Error fetching permissions:', error);
-    throw error;
-  }
-};
-// get last 20 permissions log with permission name and provider name
-export const getUserPermissionsLog = async (userId: string) => {
-  try {
-    // Check if the user exists
-    const user = await knex('users').where('id', userId).first();
-
-    if (!user) {
-      throw new Error(`User not found.`);
-    }
-
-    // Query to fetch providers with permissions, joined with user_permissions
-    const permissionsLog = await knex('user_permissions')
-      .select(
-        'providers.name as provider_name',
-        'permissions.name as permission_name',
-        'permissions.points as permission_points',
-        'user_permissions.status as status',
-        'user_permissions.justification as justification',
-        'user_permissions.created_at as created_at'
-      )
-      .innerJoin(
-        'permissions',
-        'user_permissions.permission_id',
-        'permissions.id'
-      )
-      .innerJoin('providers', 'permissions.provider_id', 'providers.id')
-      .where('user_permissions.user_id', userId)
-      .orderBy('user_permissions.created_at', 'desc')
-      .limit(20);
-
-    return permissionsLog;
-  } catch (error) {
-    console.error('Error fetching permissions log:', error);
     throw error;
   }
 };

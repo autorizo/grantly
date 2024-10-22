@@ -1,3 +1,9 @@
 export type ProvidersListProps = {
-    isActive: boolean;
-};
+  providerType: ProviderType
+}
+
+export enum ProviderType {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  BLOCKED = 'blocked',
+}

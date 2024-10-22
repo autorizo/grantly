@@ -23,3 +23,31 @@ Actualizaciones nuevas son las que no he habilitido o he tenido relacion
  - Icono de usuario 👌
  - Boton de terminos y condiciones que muestre un PDF (pdf viewer) 👌 🤖
  - Historico de permisos (log de permisos) 🤖
+
+
+ Bloquear debe ser a nivel de proveedor
+ - Autorizados
+ - Pendientes
+ - Solo icono de perfil
+ - Hola {nombre} bienvenido a autorizo tienes un total de {puntos} puntos.
+ - Tabs en la parte superior
+ - Menu hamburguesa solo desplegarlo
+ - Modal dentro de la aplicacion PDF terminos y condiciones
+ - Slide para acciones de habilitar/deshabilitar
+
+ Pendiente  
+  - Bug de modal al bloquer/desbloquear
+  - PDF en modal
+  - Ambiente efimero.
+
+Por empezar
+
+Cuentas de usuario
+ - OAUT GMAL OUTLOOK META
+ - Creacion de Cuenta
+ - Recuperación de contraseña
+ - Datos de usuario 
+   Nombres y apellidos
+   Correo electronico
+   Celular.
+   Imagen de usuario.

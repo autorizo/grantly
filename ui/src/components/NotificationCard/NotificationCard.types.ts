@@ -1,4 +1,4 @@
-import { PermissionStatus } from "stores"
+import { NotificationAction } from "stores"
 
 export type NotificationCardProps = {
   provider_name: string
@@ -6,5 +6,5 @@ export type NotificationCardProps = {
   justification: string
   created_at: string
   permission_points: number
-  status: PermissionStatus
+  action: NotificationAction
 }

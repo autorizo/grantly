@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import { getUserPermissionsLog } from '@controllers/index';
+import { getUserNotifications } from '@controllers/index';
 import { AppError } from '@errors/index';
 import { errorResponseHandler } from '@errors/errorResponseHandler';
 import { responseHandler } from '@utils/index';
 
 // Implement the handler
-export const getLogHandler = async (req: Request, res: Response) => {
+export const getNotificationsHandler = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
   if (!userId) {
@@ -16,8 +16,8 @@ export const getLogHandler = async (req: Request, res: Response) => {
   }
 
   try {
-    const userPermissionsLog = await getUserPermissionsLog(userId);
-    responseHandler(res, 200, userPermissionsLog);
+    const userNotifications = await getUserNotifications(userId);
+    responseHandler(res, 200, userNotifications);
   } catch (error) {
     errorResponseHandler(res, error);
   }

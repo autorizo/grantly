@@ -13,7 +13,7 @@ export const Notifications = () => {
     <div className='p-1 flex flex-col gap-1'>
       {notifications.map(
         (
-          { provider_name, created_at, permission_name, justification, status, permission_points },
+          { provider_name, created_at, permission_name, justification, action, permission_points },
           index
         ) => (
           <NotificationCard
@@ -23,7 +23,7 @@ export const Notifications = () => {
             justification={justification}
             created_at={formatDate(created_at)}
             permission_points={permission_points}
-            status={status as PermissionStatus}
+            action={action}
           />
         )
       )}

@@ -1,5 +1,9 @@
 import { Set } from 'types/zustand'
-import { PermissionStatus, ProviderState } from './useProviders.types'
+import {
+  PermissionStatus,
+  ProviderState,
+  ProviderStatus,
+} from './useProviders.types'
 
 export const togglePermission =
   (set: Set<ProviderState>) =>
@@ -26,7 +30,7 @@ export const togglePermission =
           )
           if (permissionIndex !== -1) {
             provider.permissions[permissionIndex].status = status
-            provider.permissions[permissionIndex].createdAt =
+            provider.permissions[permissionIndex].updatedAt =
               new Date().toISOString()
 
             // Calculate total points for the provider
@@ -51,7 +55,7 @@ export const togglePermission =
           provider.permissions.forEach(permission => {
             if (permission.id === permissionId) {
               permission.status = status
-              permission.createdAt = new Date().toISOString()
+              permission.updatedAt = new Date().toISOString()
               provider.total = provider.permissions.reduce(
                 (total, permission) =>
                   total +
@@ -63,5 +67,63 @@ export const togglePermission =
             }
           })
         })
+      }
+    })
+
+export const toggleProvider =
+  (set: Set<ProviderState>) =>
+  (providerId: string, status: ProviderStatus): void =>
+    set((state: ProviderState) => {
+      // Check if the provider is in the active list
+      const activeProviderIndex = state.providers.active.findIndex(
+        provider => provider.id === providerId
+      )
+
+      // Check if the provider is in the inactive list
+      const inactiveProviderIndex = state.providers.inactive.findIndex(
+        provider => provider.id === providerId
+      )
+
+      // If the provider is active
+      if (activeProviderIndex !== -1) {
+        const provider = state.providers.active[activeProviderIndex]
+
+        // If the status is blocked, move to the blocked list
+        if (status === ProviderStatus.Blocked) {
+          state.providers.blocked.push({ ...provider, status })
+          state.providers.active.splice(activeProviderIndex, 1) // Remove from active
+        } else {
+          // Update the provider status to the new status (if not blocked)
+          provider.status = status
+        }
+      }
+      // If the provider is inactive
+      else if (inactiveProviderIndex !== -1) {
+        const provider = state.providers.inactive[inactiveProviderIndex]
+
+        // If the status is set to active, move to the active list
+        if (status === ProviderStatus.Enabled) {
+          provider.status = status // Update the status
+          state.providers.active.push({ ...provider })
+          state.providers.inactive.splice(inactiveProviderIndex, 1) // Remove from inactive
+        } else if (status === ProviderStatus.Blocked) {
+          // Move to blocked if status is blocked
+          state.providers.blocked.push({ ...provider })
+          state.providers.inactive.splice(inactiveProviderIndex, 1) // Remove from inactive
+          provider.status = status // Update the status
+        }
+      }
+      // If the provider is not in either list
+      else {
+        const blockedProviderIndex = state.providers.blocked.findIndex(
+          provider => provider.id === providerId
+        )
+        const provider = state.providers.blocked[blockedProviderIndex]
+        state.providers.blocked.splice(blockedProviderIndex, 1) // Remove from active
+        // If setting status to active, it should be handled as a new addition
+        if (status === ProviderStatus.Enabled) {
+          const newProvider = { ...provider, status }
+          state.providers.active.push(newProvider) // Add to active list
+        }
       }
     })

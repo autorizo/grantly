@@ -3,11 +3,17 @@ export type Provider = {
   name: string
   description: string
   total: number
+  status: ProviderStatus
   permissions: Permission[]
+}
+
+export enum ProviderStatus {
+  Enabled = 'enabled',
+  Blocked = 'blocked',
 }
 export enum PermissionStatus {
   Active = 'active',
-  Inactive = 'disabled',
+  Inactive = 'inactive',
   Blocked = 'blocked',
 }
 
@@ -19,19 +25,21 @@ export type Permission = {
   name: string
   points: number
   status: PermissionStatus
-  createdAt: string
+  updatedAt: string
   pdfPath: string
 }
-
+export type Providers = {
+  active: Provider[]
+  inactive: Provider[]
+  blocked: Provider[]
+}
 export type ProviderState = {
-  providers: {
-    active: Provider[]
-    inactive: Provider[]
-  }
+  providers: Providers
   togglePermission: (
     permissionId: string,
     status: PermissionStatus,
     isAnActiveProvider: boolean
   ) => void
   setProviders: (providers: Provider[]) => void
+  toggleProvider: (providerId: string, status: ProviderStatus) => void
 }

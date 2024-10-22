@@ -1,5 +1,5 @@
 // router.tsx (or router.js)
-import { RootLayout, ProvidersList, Notifications } from 'layouts'
+import { RootLayout, ProvidersList, Notifications, ProviderType } from 'layouts'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 export const router = createBrowserRouter([
@@ -9,11 +9,15 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'active',
-        element: <ProvidersList isActive={true} />, // Pass prop for active
+        element: <ProvidersList providerType={ProviderType.ACTIVE} />, // Pass prop for active
       },
       {
         path: 'inactive',
-        element: <ProvidersList isActive={false} />, // Pass prop for inactive
+        element: <ProvidersList providerType={ProviderType.INACTIVE} />, // Pass prop for inactive
+      },
+      {
+        path: 'blocked',
+        element: <ProvidersList providerType={ProviderType.BLOCKED} />, // Pass prop for inactive
       },
       {
         path: 'notifications',
@@ -21,13 +25,12 @@ export const router = createBrowserRouter([
       },
       {
         path: '/',
-        element: <Navigate to="/active" replace />, // Redirect to active providers
+        element: <Navigate to='/active' replace />, // Redirect to active providers
       },
       {
         path: '*',
-        element: <ProvidersList isActive={true} />, // Redirect to Active by default
+        element: <ProvidersList providerType={ProviderType.ACTIVE} />, // Pass prop for active
       },
     ],
-    
   },
 ])

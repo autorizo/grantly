@@ -9,9 +9,9 @@ export async function up(knex: Knex): Promise<void> {
       .references('id')
       .inTable('permissions')
       .onDelete('CASCADE');
-    table.enu('status', ['active', 'blocked', 'disabled']).defaultTo('active');
-    table.text('justification').nullable();
+    table.enu('status', ['active', 'inactive']).defaultTo('active');
     table.timestamp('created_at').defaultTo(knex.fn.now());
+    table.timestamp('updated_at').defaultTo(knex.fn.now());
   });
 }
 

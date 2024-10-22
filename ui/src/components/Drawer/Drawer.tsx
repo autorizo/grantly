@@ -2,7 +2,12 @@ import { useState, useEffect } from 'react'
 import { DrawerProps } from './Drawer.types'
 import { CloseIcon } from 'components'
 
-export const Drawer = ({ isOpen = false, onClose, children }: DrawerProps) => {
+export const Drawer = ({
+  isOpen = false,
+  onClose,
+  children,
+  position = 'bottom',
+}: DrawerProps) => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(isOpen)
 
   // Whenever the external state changes, update the drawer state
@@ -21,8 +26,10 @@ export const Drawer = ({ isOpen = false, onClose, children }: DrawerProps) => {
     <div className='relative z-20'>
       {/* Drawer */}
       <div
-        className={`z-30 fixed bottom-0 left-0 w-full h-5/6 bg-white shadow-lg transform transition-transform duration-300 ease-in-out overflow-scroll ${
-          drawerIsOpen ? 'translate-y-0' : 'translate-y-full'
+        className={`z-30 fixed w-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out overflow-scroll ${
+          position === 'bottom'
+            ? `${drawerIsOpen ? 'translate-y-0' : 'translate-y-full'} h-5/6 left-0 bottom-0`
+            : `${drawerIsOpen ? 'translate-x-0' : '-translate-x-full'} h-full left-0 top-0 w-10/12`
         }`}
       >
         <div className='p-4'>

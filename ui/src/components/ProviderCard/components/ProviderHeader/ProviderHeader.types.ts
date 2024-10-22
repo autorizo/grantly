@@ -1,5 +1,10 @@
+import { ProviderStatus } from 'stores'
+
 export type ProviderHeaderProps = {
-    name: string;
-    total: number;
-    description: string;
-};
+  id: string
+  name: string
+  total: number
+  description: string
+  status: ProviderStatus
+  isInDetail?: boolean
+}

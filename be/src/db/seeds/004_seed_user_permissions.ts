@@ -1,4 +1,5 @@
 import { Knex } from 'knex';
+import { v4 as uuidv4 } from 'uuid'; // Importing the uuid library
 
 export async function seed(knex: Knex): Promise<void> {
   // Deletes ALL existing entries
@@ -9,16 +10,11 @@ export async function seed(knex: Knex): Promise<void> {
     .where({ username: 'usuario1' })
     .select('id')
     .first();
-  const user2 = await knex('users')
-    .where({ username: 'usuario2' })
-    .select('id')
-    .first();
-
-  console.log(`Seeding for user: ${user1.id}`);
+  console.log({ user1 });
 
   // Ensure user IDs exist
-  if (!user1 || !user2) {
-    throw new Error('Users not found.');
+  if (!user1) {
+    throw new Error('User not found.');
   }
 
   const claroProvider = await knex('providers')
@@ -39,31 +35,19 @@ export async function seed(knex: Knex): Promise<void> {
     .where({ name: 'Contacto por Whatsapp', provider_id: claroProvider.id })
     .select('id')
     .first();
-  const tigoMessagePermission = await knex('permissions')
-    .where({ name: 'Contacto por Whatsapp', provider_id: tigoProvider.id })
-    .select('id')
-    .first();
 
   // Ensure permission IDs exist
-  if (!claroCallPermission || !tigoMessagePermission) {
+  if (!claroCallPermission) {
     throw new Error('Permissions not found.');
   }
 
   // Inserts seed entries for user permissions
-  return knex('user_permissions').insert([
+  await knex('user_permissions').insert([
     {
-      id: knex.raw('UUID()'),
+      id: uuidv4(), // Generate a UUID using the uuid library
       user_id: user1.id,
       permission_id: claroCallPermission.id,
       status: 'active',
-      justification: null,
-    },
-    {
-      id: knex.raw('UUID()'),
-      user_id: user2.id,
-      permission_id: tigoMessagePermission.id,
-      status: 'active',
-      justification: null,
     },
   ]);
 }
