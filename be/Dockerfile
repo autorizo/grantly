@@ -10,6 +10,9 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Ensure TypeScript compiler is executable
+RUN chmod +x ./node_modules/.bin/tsc
+
 # Copy TypeScript config and source files
 COPY tsconfig*.json ./
 COPY . .
