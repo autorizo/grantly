@@ -1,5 +1,5 @@
-# Start from the Node.js image
-FROM node:20-alpine
+# Start from a regular Node.js image (non-Alpine)
+FROM node:20
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -10,12 +10,8 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Copy TypeScript config and source files
-COPY tsconfig*.json ./
-COPY . .
-
-# Build the TypeScript code
-RUN npm run build
+# Build the TypeScript code using npx
+RUN npx tsc -p tsconfig.build.json
 
 # Copy the entrypoint script and make it executable
 COPY entrypoint.sh ./entrypoint.sh
@@ -27,5 +23,5 @@ EXPOSE 3000
 # Set environment to production
 ENV NODE_ENV=production
 
-# Start the app using the compiled JS, not TypeScript
-CMD ["node", "dist/index.js"]
+# Use the entrypoint script
+ENTRYPOINT ["./entrypoint.sh"]
