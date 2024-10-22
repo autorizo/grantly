@@ -14,8 +14,9 @@ RUN npm install
 COPY tsconfig*.json ./
 COPY . .
 
-# Ensure TypeScript compiler is executable
+# Ensure TypeScript compiler and Knex are executable
 RUN chmod +x ./node_modules/.bin/tsc
+RUN chmod +x ./node_modules/.bin/knex
 
 # Build the TypeScript code
 RUN npm run build
@@ -27,6 +28,6 @@ EXPOSE 3000
 ENV NODE_ENV=production
 
 # Run migrations and seeds, then start the app
-CMD npx knex migrate:latest --env production && \
-    npx knex seed:run --env production && \
+CMD ./node_modules/.bin/knex migrate:latest --env production && \
+    ./node_modules/.bin/knex seed:run --env production && \
     npm start
