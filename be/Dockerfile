@@ -30,6 +30,5 @@ ENV NODE_ENV=production
 # Run migrations and seeds, then start the app
 CMD ./node_modules/.bin/knex migrate:latest --env production && \
     ./node_modules/.bin/knex seed:run --env production && \
-    npm start
+    node dist/index.js
 
-    
