@@ -14,12 +14,12 @@ RUN npm install
 COPY tsconfig*.json ./
 COPY . .
 
-# Build the TypeScript code using npx
-RUN npx tsc 
+# Ensure TypeScript compiler and Knex are executable
+RUN chmod +x ./node_modules/.bin/tsc
+RUN chmod +x ./node_modules/.bin/knex
 
-# Copy the entrypoint script and make it executable
-COPY entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
+# Build the TypeScript code
+RUN npm run build
 
 # Expose the port the app runs on
 EXPOSE 3000
@@ -27,5 +27,8 @@ EXPOSE 3000
 # Set environment to production
 ENV NODE_ENV=production
 
-# Use the entrypoint script
-ENTRYPOINT ["./entrypoint.sh"]
+# Run migrations and seeds, then start the app
+CMD ./node_modules/.bin/knex migrate:latest --env production && \
+    ./node_modules/.bin/knex seed:run --env production && \
+    node dist/index.js
+
