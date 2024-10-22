@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
+import path from 'path';
 dotenv.config();
+
 
 const config = {
   development: {
@@ -18,7 +20,7 @@ const config = {
     },
   },
   production: {
-    client: 'mysql2', // Use 'mysql2' to keep consistency
+    client: 'mysql2',
     connection: {
       host: process.env.DB_HOST, // If DATABASE_URL doesn't work, switch to individual env variables
       user: process.env.DB_USER,
@@ -29,10 +31,10 @@ const config = {
       },
     },
     migrations: {
-      directory: './db/migrations', // Adjust for compiled JS path
+      directory: path.join(__dirname, 'dist/db/migrations'), // Use compiled JS paths
     },
     seeds: {
-      directory: './db/seeds', // Adjust for compiled JS path
+      directory: path.join(__dirname, 'dist/db/seeds'), // Use compiled JS paths
     },
     pool: {
       min: 2,
@@ -42,4 +44,4 @@ const config = {
   },
 };
 
-export default config;
+module.exports = config;
