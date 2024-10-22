@@ -23,8 +23,10 @@ RUN npm run build
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Start the app
-CMD ["npm", "start"]
+# Set environment to production
+ENV NODE_ENV=production
 
-# Ensure environment variables are passed to Docker
-ENV NODE_ENV production
+# Run migrations and seeds, then start the app
+CMD npx knex migrate:latest --env production && \
+    npx knex seed:run --env production && \
+    npm start
