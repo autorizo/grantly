@@ -17,6 +17,16 @@ const config = {
       directory: 'src/db/seeds',
     },
   },
+  production: {
+    client: 'mysql',
+    connection: process.env.DATABASE_URL, // Use DATABASE_URL in production
+    migrations: {
+      directory: './db/migrations',
+    },
+    seeds: {
+      directory: './db/seeds',
+    },
+  },
 };
 
 export default config;
