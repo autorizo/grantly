@@ -1,4 +1,4 @@
-// src/index.ts
+import 'module-alias/register';
 import express from 'express';
 import {
   notificationRoutes,

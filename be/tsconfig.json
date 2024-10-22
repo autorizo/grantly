@@ -8,13 +8,13 @@
     "skipLibCheck": true,
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@routes/*": ["routes/*"],
-      "@controllers/*": ["controllers/*"],
-      "@db/*": ["db/*"],
-      "@errors/*": ["errors/*"],
-      "@utils/*": ["utils/*"]
+      "@routes/*": ["src/routes/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@db/*": ["src/db/*"],
+      "@errors/*": ["src/errors/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "typeRoots": ["node_modules/@types", "env.d.ts"]
   },
