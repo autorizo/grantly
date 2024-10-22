@@ -1,0 +1,9 @@
+# UI folder REACT PROJECT
+ui/node_modules
+ui/build
+ui/.env
+
+# BE folder
+be/node_modules
+be/.env
+be/dist
