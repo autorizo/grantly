@@ -31,3 +31,5 @@ ENV NODE_ENV=production
 CMD ./node_modules/.bin/knex migrate:latest --env production && \
     ./node_modules/.bin/knex seed:run --env production && \
     npm start
+
+    

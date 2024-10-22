@@ -7,3 +7,4 @@ ui/.env
 be/node_modules
 be/.env
 be/dist
+be/.env.prod
