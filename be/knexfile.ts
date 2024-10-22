@@ -22,24 +22,22 @@ const config = {
   production: {
     client: 'mysql2',
     connection: {
-      host: process.env.DB_HOST, // If DATABASE_URL doesn't work, switch to individual env variables
+      host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      ssl: {
-        rejectUnauthorized: true, // Adjust this if Railway requires SSL; otherwise, remove
-      },
+      port: process.env.DB_PORT || 3306,
     },
     migrations: {
-      directory: path.join(__dirname, 'dist/db/migrations'), // Use compiled JS paths
+      directory: path.join(__dirname, 'dist/db/migrations'),
     },
     seeds: {
-      directory: path.join(__dirname, 'dist/db/seeds'), // Use compiled JS paths
+      directory: path.join(__dirname, 'dist/db/seeds'),
     },
     pool: {
       min: 2,
-      max: 10, // Ensure pool settings to prevent overloading MySQL connections
-      acquireTimeoutMillis: 60000, // Set timeout for acquiring a connection
+      max: 10,
+      acquireTimeoutMillis: 60000, // Increase timeout to avoid connection issues
     },
   },
 };
