@@ -1,6 +1,7 @@
 {
   "name": "be",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "cross-env NODE_PATH=./src nodemon --watch src --exec \"ts-node -r tsconfig-paths/register src/index.ts\"",
     "migrate": "ts-node src/db/migrate.ts",
