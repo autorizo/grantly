@@ -10,15 +10,12 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
-# Ensure TypeScript compiler is executable
-RUN chmod +x ./node_modules/.bin/tsc
-
 # Copy TypeScript config and source files
 COPY tsconfig*.json ./
 COPY . .
 
-# Build the TypeScript code
-RUN ./node_modules/.bin/tsc -p tsconfig.build.json
+# Build the TypeScript code using npx
+RUN npx tsc -p tsconfig.build.json
 
 # Copy the entrypoint script and make it executable
 COPY entrypoint.sh ./entrypoint.sh
