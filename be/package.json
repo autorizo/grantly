@@ -7,7 +7,7 @@
     "migrate": "ts-node src/db/migrate.ts",
     "rollback": "ts-node src/db/rollback.ts",
     "seed": "ts-node src/db/seed.ts",
-    "start": "NODE_PATH=./src node -r tsconfig-paths/register src/index.ts"
+    "start": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
