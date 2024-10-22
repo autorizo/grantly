@@ -15,7 +15,7 @@ COPY tsconfig*.json ./
 COPY . .
 
 # Build the TypeScript code using npx
-RUN npx tsc -p tsconfig.build.json
+RUN npx tsc 
 
 # Copy the entrypoint script and make it executable
 COPY entrypoint.sh ./entrypoint.sh
