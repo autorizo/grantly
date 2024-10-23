@@ -10,6 +10,10 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Ensure TypeScript compiler and Knex are executable
+RUN chmod +x ./node_modules/.bin/tsc
+RUN chmod +x ./node_modules/.bin/knex
+
 # Build the TypeScript code using npx
 RUN npx tsc -p tsconfig.build.json
 
