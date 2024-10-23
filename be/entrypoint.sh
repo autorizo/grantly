@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Print environment variables for debugging
-env
-
 # Run database migrations
 echo "Running migrations..."
 ./node_modules/.bin/knex migrate:latest --env production
