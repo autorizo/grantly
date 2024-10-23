@@ -4,29 +4,37 @@ FROM node:20-alpine AS build
 # Set the working directory inside the container
 WORKDIR /app
 
+# Accept build arguments for environment variables
+ARG REACT_APP_API_URL
+ARG REACT_APP_USER_ID
+
+# Set the environment variables in the build context
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ENV REACT_APP_USER_ID=$REACT_APP_USER_ID
+
 # Copy package.json and package-lock.json to install dependencies
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json ./ 
 
 # Install dependencies
-RUN npm install
+RUN npm install 
 
 # Copy the rest of the application code
-COPY . .
+COPY . . 
 
 # Build the React app
-RUN npm run build
+RUN npm run build 
 
 # Step 2: Serve the React app using Nginx
-FROM nginx:alpine
+FROM nginx:alpine 
 
 # Copy custom Nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf 
 
 # Copy the built files from the build step
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html 
 
 # Expose port 8080 instead of 80
-EXPOSE 8080
+EXPOSE 8080 
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
