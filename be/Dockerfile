@@ -1,5 +1,5 @@
-# Start from a regular Node.js image (non-Alpine)
-FROM node:20
+# Start from the Node.js image
+FROM node:20-alpine
 
 # Set the working directory
 WORKDIR /usr/src/app
@@ -9,6 +9,11 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install
+
+# Copy TypeScript config and source files
+COPY tsconfig*.json ./
+COPY . .
+
 # Ensure TypeScript compiler and Knex are executable
 RUN chmod +x ./node_modules/.bin/tsc
 RUN chmod +x ./node_modules/.bin/knex
@@ -26,5 +31,5 @@ EXPOSE 3000
 # Set environment to production
 ENV NODE_ENV=production
 
-# Use the entrypoint script
-ENTRYPOINT ["./entrypoint.sh"]
+# Start the app using the compiled JS, not TypeScript
+CMD ["node", "dist/index.js"]
