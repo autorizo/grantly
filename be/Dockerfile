@@ -31,5 +31,5 @@ EXPOSE 3000
 # Set environment to production
 ENV NODE_ENV=production
 
-# Start the app using the compiled JS, not TypeScript
-CMD ["node", "dist/index.js"]
+# Set the entrypoint to the script
+ENTRYPOINT ["./entrypoint.sh"]
