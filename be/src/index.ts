@@ -18,7 +18,7 @@ app.use(express.json());
 // CORS setup
 app.use(
   cors({
-    origin: '*', // Allow all origins
+    origin: process.env.ENV === 'production' ? 'https://autorizo-fe-production.up.railway.app': '*', // Allow all origins
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
