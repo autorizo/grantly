@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = process.env.REACT_APP_API_URL
+const API_URL = process.env.REACT_APP_BE_URL
 
 export const fetchProviders = async (userId: string) => {
   const { data } = await axios.get(`${API_URL}/users/${userId}/permissions`)
