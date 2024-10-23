@@ -25,8 +25,8 @@ FROM nginx:alpine
 # Copy the built files from the build step
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Expose the default port
-EXPOSE 80
+# Expose port 8080 instead of 80
+EXPOSE 8080
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
