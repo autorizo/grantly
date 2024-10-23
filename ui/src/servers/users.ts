@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const API_URL = process.env.REACT_APP_BE_URL
+const apiUrl = process.env.REACT_APP_BE_URL
 
 export const fetchProviders = async (userId: string) => {
-  const { data } = await axios.get(`${API_URL}/users/${userId}/permissions`)
+  const { data } = await axios.get(`${apiUrl}/users/${userId}/permissions`)
   return data
 }
 
@@ -15,7 +15,7 @@ export const togglePermissionAPI = async (
   justification?: string
 ) => {
   try {
-    const response = await axios.post(`${API_URL}/permission`, {
+    const response = await axios.post(`${apiUrl}/permission`, {
       userId,
       permissionId,
       state,
