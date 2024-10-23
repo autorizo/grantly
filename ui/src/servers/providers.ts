@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = process.env.REACT_APP_BE_URL
+const apiUrl = process.env.REACT_APP_BE_URL
 const userId = process.env.REACT_APP_USER_ID
 
 export const toggleProviderAPI = async (
@@ -8,7 +8,7 @@ export const toggleProviderAPI = async (
   justification: string
 ) => {
   try {
-    const response = await axios.post(`${API_URL}/provider/${providerId}`, {
+    const response = await axios.post(`${apiUrl}/provider/${providerId}`, {
       justification,
       userId,
     })
