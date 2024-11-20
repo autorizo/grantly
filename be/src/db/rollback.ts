@@ -6,7 +6,7 @@ const db = knex(config.development);
 // Example of running a migration rollback
 db.migrate.rollback()
   .then(() => {
-    console.log('Rollback completed');
+    console.info('Rollback completed');
     return db.destroy(); // Close the connection
   })
   .catch((err) => {

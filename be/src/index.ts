@@ -1,12 +1,13 @@
-import 'module-alias/register';
 import express from 'express';
+import cors from 'cors';
 import {
+  authRoutes,
   notificationRoutes,
   permissionRoutes,
   providerRoutes,
   userRoutes,
-} from '@routes/index';
-import cors from 'cors';
+} from '@routes/index'; // Make sure these paths are correct for your setup
+import { authHandler } from '@utils/authHandler'; // Make sure this path is correct too
 
 // Create an Express application
 const app = express();
@@ -18,22 +19,24 @@ app.use(express.json());
 // CORS setup
 app.use(
   cors({
-    origin: '*', // Allow all origins
+    origin: 'http://localhost:3000', // Allow all origins
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   })
 );
 
-// Register permission routes
+// Auth routes
+app.use(authRoutes);
+
+// Register custom auth handler routes
+app.use(authHandler);
+
+// Register other routes
 app.use(permissionRoutes);
-
-// Register user routes
+app.use(providerRoutes);
 app.use(userRoutes);
-
-// Register user routes
 app.use(notificationRoutes);
-
-app.use(providerRoutes)
 
 // Default route for 404 errors
 app.use((req, res) => {
@@ -42,5 +45,5 @@ app.use((req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.info(`Server running on port ${PORT}`);
 });

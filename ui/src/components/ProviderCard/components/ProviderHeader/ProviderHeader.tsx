@@ -22,13 +22,14 @@ export const ProviderHeader = ({
   description,
   status,
   isInDetail = false,
+  closeParentDrawer,
 }: ProviderHeaderProps) => {
   const { isOpen, closeModal, openModal } = useModal()
   const [isBlocking, setIsBlocking] = useState(true) // New state to track the action
   const [justification, setJustification] = useState('')
   const { toggleProvider } = useProviders()
   const navigate = useNavigate() // Hook to navigate programmatically
-
+  
   const { mutate: toggleProviderHandler } = useMutation(
     ({
       providerId,
@@ -49,6 +50,7 @@ export const ProviderHeader = ({
       setJustification('')
     }
     closeModal()
+    closeParentDrawer && closeParentDrawer()
   }
 
   const handleOpenModal = () => {

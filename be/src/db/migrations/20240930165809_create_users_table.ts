@@ -5,6 +5,10 @@ export async function up(knex: Knex): Promise<void> {
     table.uuid('id').primary().defaultTo(knex.raw('(UUID())'));
     table.string('username').notNullable();
     table.string('email').notNullable().unique();
+    table.string('password').nullable();
+    table.string('photo').nullable();
+    table.string('sub').nullable();
+    table.string('oauth_provider').nullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
   });
 }

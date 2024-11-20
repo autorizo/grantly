@@ -58,6 +58,7 @@ export const ProviderCard = ({
             description={description}
             status={status}
             isInDetail
+            closeParentDrawer={() => setIsOpen(false)}
           />
           <PermissionsDetails
             togglePermission={togglePermission}

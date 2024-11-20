@@ -1,4 +1,3 @@
-// router.tsx (or router.js)
 import { RootLayout, ProvidersList, Notifications, ProviderType } from 'layouts'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 

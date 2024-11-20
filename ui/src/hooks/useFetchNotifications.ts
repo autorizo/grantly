@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import { fetchNotifications } from 'servers'
-import { useNotification } from 'stores' // Your Zustand store
+import { useNotification } from 'stores'
 
 export const useFetchNotifications = (userId: string) => {
   const { setNotifications } = useNotification()

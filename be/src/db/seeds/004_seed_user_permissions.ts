@@ -10,7 +10,7 @@ export async function seed(knex: Knex): Promise<void> {
     .where({ username: 'usuario1' })
     .select('id')
     .first();
-  console.log({ user1 });
+  console.info({ user1 });
 
   // Ensure user IDs exist
   if (!user1) {

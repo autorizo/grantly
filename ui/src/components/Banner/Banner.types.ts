@@ -1,3 +1,1 @@
-export type BannerProps = {
-    totalPoints: number;
-};
+export type BannerProps = {}

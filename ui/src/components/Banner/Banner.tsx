@@ -7,10 +7,24 @@ import {
   HamburguerIcon,
   ProfileIcon,
 } from 'components'
-import { BannerProps } from './Banner.types'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from 'contexts'
+import { useFetchNotifications, useFetchProviders } from 'hooks'
+import { useProviders } from 'stores'
 
-export const Banner = ({ totalPoints }: BannerProps) => {
+export const Banner = () => {
+  const { session, signOut } = useAuth() ?? {}
+  const userId = session?.user?.id ?? ''
+
+  useFetchProviders(userId)
+  useFetchNotifications(userId)
+  const { providers } = useProviders()
+
+  const totalPoints = providers.active.reduce(
+    (total, provider) => total + provider.total,
+    0
+  )
+
   const [isDrawerOpen, setIsDrawerOpen] = useState(false) // State to manage drawer visibility
   const location = useLocation()
   const navigate = useNavigate() // Hook to navigate programmatically
@@ -21,7 +35,7 @@ export const Banner = ({ totalPoints }: BannerProps) => {
 
   // Determine if the current location is the notifications page
   const isNotificationsPage = location.pathname === '/notifications'
-  
+
   const handleClick = () => {
     navigate('/blocked') // Navigate to the blocked page
     toggleDrawer() // Close the drawer
@@ -83,6 +97,14 @@ export const Banner = ({ totalPoints }: BannerProps) => {
               <BlockIcon className='h-5 w-5' />
               <h2 className='text-md font-semibold'>Bloqueados</h2>
             </div>
+          </button>
+        </div>
+        <div className='absolute bottom-4 left-4 right-4'>
+          <button
+            onClick={signOut}
+            className='w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700'
+          >
+            Log out
           </button>
         </div>
       </Drawer>

@@ -36,10 +36,9 @@ Actualizaciones nuevas son las que no he habilitido o he tenido relacion
  - Slide para acciones de habilitar/deshabilitar
 
  Pendiente  
-  - Bug de modal al bloquer/desbloquear
-  - PDF en modal
-  - Ambiente efimero.
-
+  - Bug de modal al bloquer/desbloquear 👌
+  - Ambiente efimero. 👌
+  - PDF en modal 
 Por empezar
 
 Cuentas de usuario

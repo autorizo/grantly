@@ -1,8 +1,7 @@
 import cn from 'classnames'
-import { formatDate } from 'utils'
 import { PermissionCardProps } from './PermissionCard.types'
 import { IconPermission } from 'components'
-import { ButtonActions, PermissionState } from '..'
+import { PermissionState } from '..'
 import { useState } from 'react'
 import { useSwipe } from 'hooks'
 
