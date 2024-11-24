@@ -100,11 +100,11 @@ export const Banner = () => {
           </button>
         </div>
         <div className='absolute bottom-4 left-4 right-4'>
-          <button
-            onClick={signOut}
-            className='w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700'
-          >
-            Log out
+          <button className='w-full' onClick={signOut}>
+            <div className='flex items-center gap-2 border-t border-b py-4'>
+              <BlockIcon className='h-5 w-5' />
+              <h2 className='text-md font-semibold'>Cerrar sesión</h2>
+            </div>
           </button>
         </div>
       </Drawer>

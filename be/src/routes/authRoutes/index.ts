@@ -3,6 +3,7 @@ import { authHandler } from '@utils/authHandler';
 import googleAuthRoutes from './googleAuth';
 import facebookAuthRoutes from './facebookAuth';
 import microsoftAuthRoutes from './microsoftAuth';
+import credentialsAuth from './credentialsAuth';
 import passport from 'passport';
 import session from 'express-session';
 
@@ -17,6 +18,9 @@ router.use(session({ secret: secret, resave: false, saveUninitialized: true }));
 // Initialize Passport
 router.use(passport.initialize());
 router.use(passport.session());
+
+// Route for app credentials
+router.use(credentialsAuth);
 
 // Routes for social login
 router.use(googleAuthRoutes);

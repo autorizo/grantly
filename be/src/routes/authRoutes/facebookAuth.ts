@@ -15,16 +15,14 @@ passport.use(
       clientSecret: process.env.FACEBOOK_APP_SECRET as string,
       callbackURL: 'http://localhost:3001/facebook/callback',
       profileFields: ['id', 'emails', 'name'],
-      passReqToCallback: true,
     },
     (
-      req,
       accessToken: string,
       refreshToken: string,
       profile: FacebookProfile,
       done: VerifyCallback
     ) => {
-      return done(accessToken,);
+      return done(null, profile);
     }
   )
 );

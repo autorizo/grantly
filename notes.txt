@@ -42,11 +42,19 @@ Actualizaciones nuevas son las que no he habilitido o he tenido relacion
 Por empezar
 
 Cuentas de usuario
- - OAUT GMAL OUTLOOK META
+  Esta semana
+ - OAUT GMAL OUTLOOK META (En progreso)
+
+  Cuentas y Recuperación.
  - Creacion de Cuenta
  - Recuperación de contraseña
- - Datos de usuario 
+
+- Datos de usuario 
    Nombres y apellidos
    Correo electronico
    Celular.
    Imagen de usuario.
+
+
+Usuario: usuario1@ejemplo.com
+test1234

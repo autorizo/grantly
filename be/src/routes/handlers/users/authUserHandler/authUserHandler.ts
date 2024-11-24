@@ -26,8 +26,6 @@ export const authUserHandler = async (req: Request, res: Response) => {
       const userName =
         `${name?.givenName} ${name?.familyName}` || username || '';
 
-      console.log('userName', userName);
-
       user = await createUserByOauth(
         email.value,
         userName,
@@ -35,14 +33,12 @@ export const authUserHandler = async (req: Request, res: Response) => {
         photo?.value,
         provider
       );
-      console.log('user', user);
     }
 
     const session: Session = {
       id: user.id,
       email: user.email,
     };
-    console.log('session', session);
     const jwt = generateToken(session);
 
     res.cookie('jwt', jwt, {
@@ -51,7 +47,9 @@ export const authUserHandler = async (req: Request, res: Response) => {
       sameSite: 'strict',
     });
 
-    res.redirect('http://localhost:3000?jwt=' + jwt);
+    const redirectUrl = `${process.env.USER_INTERFACE_URL}/?jwt=${jwt}`;
+
+    res.redirect(redirectUrl);
   } catch (error) {
     errorResponseHandler(res, error);
   }

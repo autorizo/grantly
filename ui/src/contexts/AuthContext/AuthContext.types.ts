@@ -20,6 +20,7 @@ export type AuthContextType = {
   session: Session | null
   signIn: (provider: OauthProvider) => void
   signOut: () => void
+  initializeSession: (token?: string) => void
 }
 
 export type AuthProviderProps = {

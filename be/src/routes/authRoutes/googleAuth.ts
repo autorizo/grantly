@@ -36,7 +36,7 @@ googleAuthRoute.get(
 
 // Callback route for Google
 googleAuthRoute.get(
-  '/google/callback',
+  '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
   authUserHandler
 );

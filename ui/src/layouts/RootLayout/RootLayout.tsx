@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router-dom'
 import { Banner, NavigationTabs } from 'components'
 import { useAuth } from 'contexts'
-import { LoginLayout } from 'layouts'
+import { Navigate } from 'react-router-dom'
 
 export const RootLayout = () => {
   const { session } = useAuth() ?? {}
 
   if (!session) {
-    return <LoginLayout />
+    return <Navigate to='/login' replace />
   }
 
   return (

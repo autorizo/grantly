@@ -1,8 +1,8 @@
-import React from 'react'
 import { OauthProvider, useAuth } from 'contexts'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import { z } from 'zod'
-import { FacebookIcon, GoogleIcon } from 'components'
+import { FacebookIcon, GoogleIcon, MicrosoftIcon } from 'components'
+import { loginUser } from 'servers/auth'
 
 // Zod validation schema for email/password
 const loginSchema = z.object({
@@ -24,21 +24,22 @@ const providers = [
     name: 'Facebook',
     logo: <FacebookIcon className='text-4xl' />,
   },
-  // {
-  //   provider: OauthProvider.Microsoft,
-  //   name: 'Microsoft',
-  //   logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo_%282012%29.svg', // Correct Microsoft logo
-  // },
+  {
+    provider: OauthProvider.Microsoft,
+    name: 'Microsoft',
+    logo: <MicrosoftIcon className='text-4xl' />,
+  },
 ]
 
 export const LoginLayout = () => {
-  const { signIn } = useAuth() ?? {}
+  const { signIn, initializeSession } = useAuth() ?? {}
 
   // Handle form submission for email/password login
   const handleSubmit = async (values: { email: string; password: string }) => {
     // Here you would handle the logic for the form submission, e.g., calling an API or signIn
 
-    
+    const { token } = await loginUser(values.email, values.password)
+    initializeSession(token)
   }
 
   // Form validation using Zod
@@ -58,7 +59,7 @@ export const LoginLayout = () => {
   return (
     <div className='flex flex-col gap-6 items-center justify-center h-screen bg-gray-50 px-10'>
       <img className='h-1/6 object-cover' src='/images/icon-512.png' />
-      <h1 className='text-3xl font-semibold mb-6'>Inicio de sesión</h1>
+      <h1 className='text-2xl font-semibold mb-6'>Bienvenido - Autorizo</h1>
 
       {/* Formik Form for Email/Password Login */}
       <Formik
@@ -112,6 +113,13 @@ export const LoginLayout = () => {
             >
               {isSubmitting ? 'Logging in...' : 'Ingresar'}
             </button>
+
+            {/* recover password */}
+            <div className='mt-3'>
+              <a href='/recover-password' className='text-sm text-primary'>
+                Olvidé mi contraseña.
+              </a>
+            </div>
           </Form>
         )}
       </Formik>
@@ -129,6 +137,15 @@ export const LoginLayout = () => {
             {logo}
           </button>
         ))}
+      </div>
+
+      <div>
+        <p className='text-sm text-gray-600'>
+          ¿No tienes una cuenta?{' '}
+          <a href='/signup' className='text-primary'>
+            Regístrate
+          </a>
+        </p>
       </div>
     </div>
   )

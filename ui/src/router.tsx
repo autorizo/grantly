@@ -1,4 +1,11 @@
-import { RootLayout, ProvidersList, Notifications, ProviderType } from 'layouts'
+import {
+  RootLayout,
+  ProvidersList,
+  Notifications,
+  ProviderType,
+  LoginLayout,
+  RecoverPassword,
+} from 'layouts'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 export const router = createBrowserRouter([
@@ -31,5 +38,13 @@ export const router = createBrowserRouter([
         element: <ProvidersList providerType={ProviderType.ACTIVE} />, // Pass prop for active
       },
     ],
+  },
+  {
+    path: '/login',
+    element: <LoginLayout />,
+  },
+  {
+    path: '/recover-password',
+    element: <RecoverPassword />,
   },
 ])

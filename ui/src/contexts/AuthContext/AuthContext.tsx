@@ -23,18 +23,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   // Function to decode the token and set session from localStorage or URL
-  const initializeSession = () => {
+  const initializeSession = (token?: string) => {
     const savedSession = localStorage.getItem('session')
     if (savedSession) {
       const parsedSession: Session = JSON.parse(savedSession)
       setSession(parsedSession)
     } else {
       const queryParams = new URLSearchParams(window.location.search)
-      const token = queryParams.get('jwt')
+      const paramsToken = queryParams.get('jwt')
 
-      if (token) {
-        const userData = jwtDecode(token) as User
-        const newSession = { user: userData, accessToken: token }
+      if (paramsToken || token) {
+        const validToken = (paramsToken || token) as string
+        const userData = jwtDecode(validToken) as User
+        const newSession = { user: userData, accessToken: validToken }
         setSession(newSession)
         localStorage.setItem('session', JSON.stringify(newSession)) // Save session to localStorage
         window.history.replaceState(
@@ -42,11 +43,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           document.title,
           window.location.pathname
         ) // Clean up URL
+        window.opener?.postMessage('authComplete', 'http://localhost:3000') // Notify parent window
+        window.close() // Close popup
+        window.removeEventListener('message', handleMessage) // Clean up listener on component unmount
       }
     }
-    window.opener?.postMessage('authComplete', 'http://localhost:3000') // Notify parent window
-    window.close() // Close popup
-    window.removeEventListener('message', handleMessage) // Clean up listener on component unmount
   }
 
   // Run effect on initial mount
@@ -93,7 +94,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   return (
-    <AuthContext.Provider value={{ session, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ session, signIn, signOut, initializeSession }}
+    >
       {children}
     </AuthContext.Provider>
   )
