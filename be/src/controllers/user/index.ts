@@ -1,3 +1,6 @@
 export * from './getUserByEmail';
 export * from './createUserByOauth';
 export * from './verifyPassword';
+export * from './getUserByToken';
+export * from './updateUserPassword';
+export * from './setResetToken';

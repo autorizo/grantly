@@ -1,10 +1,10 @@
 # UI folder REACT PROJECT
-ui/node_modules
-ui/build
+ui/node_modules/
+ui/build/
 ui/.env
 
 # BE folder
-be/node_modules
+be/node_modules/
 be/.env
-be/dist
+be/dist/
 be/.env.prod

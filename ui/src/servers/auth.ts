@@ -7,3 +7,10 @@ export const loginUser = async (email: string, password: string) => {
   })
   return data
 }
+
+export const generateRecoveryToken = async (email: string) => {
+  const { data } = await server.post(`/generate-token`, {
+    email,
+  })
+  return data
+}

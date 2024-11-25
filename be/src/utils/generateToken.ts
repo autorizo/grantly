@@ -1,8 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { Session } from './types';
-const scretKey = process.env.SECRET_KEY as string;
 
-export const generateToken = (session: Session) =>
-  jwt.sign(session, scretKey, {
+export const generateToken = (user: any) =>
+  jwt.sign(user, user.email, {
     expiresIn: '1h',
   });

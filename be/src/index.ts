@@ -5,6 +5,7 @@ import {
   notificationRoutes,
   permissionRoutes,
   providerRoutes,
+  resetPassword,
   userRoutes,
 } from '@routes/index'; // Make sure these paths are correct for your setup
 import { authHandler } from '@utils/authHandler'; // Make sure this path is correct too
@@ -25,6 +26,9 @@ app.use(
     credentials: true,
   })
 );
+
+// Reset password route
+app.use(resetPassword);
 
 // Auth routes
 app.use(authRoutes);

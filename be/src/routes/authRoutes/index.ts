@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { authHandler } from '@utils/authHandler';
 import googleAuthRoutes from './googleAuth';
 import facebookAuthRoutes from './facebookAuth';
 import microsoftAuthRoutes from './microsoftAuth';
@@ -26,8 +25,5 @@ router.use(credentialsAuth);
 router.use(googleAuthRoutes);
 router.use(facebookAuthRoutes);
 router.use(microsoftAuthRoutes);
-
-// Catch-all route for unauthorized access
-router.all('*', authHandler);
 
 export default router;

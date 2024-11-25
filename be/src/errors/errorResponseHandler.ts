@@ -8,14 +8,18 @@ export const errorResponseHandler = (res: ServerResponse, error: unknown) => {
   if (error instanceof AppError) {
     appError = error;
   } else {
-    const message = error instanceof Error ? error.message : 'An unknown error occurred';
+    const message =
+      error instanceof Error ? error.message : 'An unknown error occurred';
     appError = new AppError(500, message);
   }
 
   res.writeHead(appError.statusCode, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({
-    message: appError.message,
-    errors: appError.errors,
-    warnings: appError.warnings,
-  }));
+
+  res.end(
+    JSON.stringify({
+      message: appError.message,
+      errors: appError.errors,
+      warnings: appError.warnings,
+    })
+  );
 };
