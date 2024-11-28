@@ -1,7 +1,7 @@
 // errorUtils.ts
 import { ServerResponse } from 'http';
 import { AppError } from '@errors/index'; // Adjust the import as necessary
-
+// get trace from error and console log
 export const errorResponseHandler = (res: ServerResponse, error: unknown) => {
   let appError: AppError;
 

@@ -25,7 +25,7 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
       );
     }
     // verify the token
-    const isTokenValid = await verifyRestoreToken(token, user.email);
+    const isTokenValid = await verifyRestoreToken(token);
 
     if (!isTokenValid) {
       return errorResponseHandler(

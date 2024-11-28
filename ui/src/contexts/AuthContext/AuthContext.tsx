@@ -12,6 +12,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [session, setSession] = useState<Session | null>(null)
+  const [loading, setLoading] = useState(true) // Add loading state
 
   // Set up message listener to close popup and update session when authentication is done
   const handleMessage = (event: MessageEvent) => {
@@ -35,24 +36,37 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (paramsToken || token) {
         const validToken = (paramsToken || token) as string
         const userData = jwtDecode(validToken) as User
+
         const newSession = { user: userData, accessToken: validToken }
+        localStorage.setItem('session', JSON.stringify(newSession))
         setSession(newSession)
-        localStorage.setItem('session', JSON.stringify(newSession)) // Save session to localStorage
-        window.history.replaceState(
-          {},
-          document.title,
-          window.location.pathname
-        ) // Clean up URL
-        window.opener?.postMessage('authComplete', 'http://localhost:3000') // Notify parent window
-        window.close() // Close popup
-        window.removeEventListener('message', handleMessage) // Clean up listener on component unmount
+
+        // If there is a popup window, close it and notify the parent window to reload
+        const popup = window.open('', '_self') // Get a reference to the popup window
+        if (popup) {
+          popup.close() // Close the popup
+          window.opener?.postMessage('reload', '*') // Notify parent to reload
+        }
       }
     }
+    setLoading(false) // Mark loading as done
   }
 
   // Run effect on initial mount
   useEffect(() => {
     initializeSession()
+
+    const handleReloadMessage = (event: MessageEvent) => {
+      if (event.data === 'reload') {
+        window.location.reload() // Trigger a reload when the message is received
+      }
+    }
+
+    window.addEventListener('message', handleReloadMessage)
+
+    return () => {
+      window.removeEventListener('message', handleReloadMessage)
+    }
   }, [])
 
   // Handle sign-in by opening the popup for the given provider
@@ -95,7 +109,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider
-      value={{ session, signIn, signOut, initializeSession }}
+      value={{ session, signIn, signOut, initializeSession, loading }} // Add loading to context
     >
       {children}
     </AuthContext.Provider>

@@ -8,6 +8,7 @@ import { Session } from '@utils/types';
 
 // Implement the handler
 export const authUserHandler = async (req: Request, res: Response) => {
+  console.log('req.user', req.user);
   const { emails, id, name, username, photos, provider } = req.user as Profile;
   const [email] = emails || [];
   const [photo] = photos || [];
@@ -38,6 +39,7 @@ export const authUserHandler = async (req: Request, res: Response) => {
     const session: Session = {
       id: user.id,
       email: user.email,
+      name: user.name,
     };
     const jwt = generateToken(session);
 

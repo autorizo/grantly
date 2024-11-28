@@ -3,6 +3,7 @@ import { ReactNode } from 'react'
 export type User = {
   id: string
   email: string
+  name: string
 }
 
 export enum OauthProvider {
@@ -10,6 +11,7 @@ export enum OauthProvider {
   Facebook = 'facebook',
   Microsoft = 'microsoft',
 }
+
 
 export type Session = {
   user: User | null
@@ -21,6 +23,7 @@ export type AuthContextType = {
   signIn: (provider: OauthProvider) => void
   signOut: () => void
   initializeSession: (token?: string) => void
+  loading: boolean
 }
 
 export type AuthProviderProps = {

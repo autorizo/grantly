@@ -26,12 +26,12 @@ export const generateTokenHandler = async (req: Request, res: Response) => {
         new AppError(404, 'User not found', ['Invalid email'])
       );
     }
-
+    const { id } = user;
     // Generate token
-    const token = generateToken(user);
+    const token = generateToken({ id });
 
-    setResetToken(user.email, token);
-    
+    setResetToken(user.id, token);
+
     // Send the token to the user (e.g., via email)
     await sendPasswordResetEmail(user.email, token);
     // Respond with success

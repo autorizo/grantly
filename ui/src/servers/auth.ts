@@ -9,8 +9,16 @@ export const loginUser = async (email: string, password: string) => {
 }
 
 export const generateRecoveryToken = async (email: string) => {
-  const { data } = await server.post(`/generate-token`, {
+  return await server.post(`/generate-token`, {
     email,
   })
-  return data
+}
+
+export const resetPassword = async (payload: {
+  password: string
+  token: string
+}) => {
+  return await server.post(`/reset-password`, {
+    ...payload,
+  })
 }

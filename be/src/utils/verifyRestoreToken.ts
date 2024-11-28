@@ -1,12 +1,15 @@
 import jwt from 'jsonwebtoken';
 import { Session } from './types';
+import { AppError } from '@errors/index';
 
-export const verifyRestoreToken = (token: string, email: string): Promise<Session | null> => {
+const secret = process.env.SECRET_KEY as string;
+export const verifyRestoreToken = (token: string): Promise<Session | null> => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, email, (err, decoded) => {
+    jwt.verify(token, secret, (err, decoded) => {
       if (err) {
-        // Token verification failed
-        return reject(null);
+        throw new AppError(500, 'Internal Server Error', [
+          'Token verification failed or expired',
+        ]);
       }
       // Token is valid, return the decoded payload
       resolve(decoded as Session);

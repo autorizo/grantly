@@ -1,5 +1,5 @@
 // RecoverPassword.tsx
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import { z } from 'zod'
 import { ZodError } from 'zod'
@@ -13,11 +13,11 @@ interface RecoverPasswordValues {
 const emailValidationSchema = z.object({
   email: z
     .string()
-    .email('Invalid email address')
-    .nonempty('Email is required'),
+    .email('El correo no es valido.')
+    .min(1, { message: 'Correo  requerido.' }),
 })
 
-export const RecoverPassword: React.FC = () => {
+export const RecoverPassword = () => {
   const [message, setMessage] = useState<{
     message: string
     type: 'error' | 'success'
@@ -65,19 +65,11 @@ export const RecoverPassword: React.FC = () => {
   }
 
   return (
-    <div className='flex flex-col items-center max-w-md mx-auto p-6 bg-white rounded-lg shadow-md'>
-      <h2 className='text-2xl font-semibold text-gray-800'>Recover Password</h2>
-
-      {message && (
-        <div
-          className={`mt-4 p-2 text-sm text-white ${
-            message.type === 'success' ? 'bg-green-500' : 'bg-red-500'
-          }`}
-        >
-          {message.message}
-        </div>
-      )}
-
+    <div className='flex flex-col items-center max-w-md mx-auto p-6 bg-white rounded-lg h-svh justify-center gap-5'>
+      <img className='h-56 object-cover' src='/images/icon-512.png' />
+      <h2 className='text-2xl font-semibold text-gray-800'>
+        Recuperar contraseña
+      </h2>
       <Formik
         initialValues={initialValues}
         validate={validate}
@@ -89,13 +81,14 @@ export const RecoverPassword: React.FC = () => {
               htmlFor='email'
               className='block text-sm font-medium text-gray-700'
             >
-              Email Address
+              Ingresa tu correo electrónico para recuperar tu contraseña,
+              recibirás un correo con las instrucciones.
             </label>
             <Field
               type='email'
               id='email'
               name='email'
-              placeholder='Enter your email'
+              placeholder='Ingrese su correo electrónico'
               className='mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
             />
             <ErrorMessage
@@ -105,12 +98,27 @@ export const RecoverPassword: React.FC = () => {
             />
           </div>
 
+          {message && (
+            <div
+              className={`rounded-md mt-4 p-2 text-sm text-white ${
+                message.type === 'success' ? 'bg-green-400' : 'bg-red-400'
+              }`}
+            >
+              {message.message}.
+            </div>
+          )}
+
           <button
             type='submit'
             className='w-full mt-4 py-2 px-4 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50'
           >
-            Submit
+            Recuperar
           </button>
+          <div className='mt-3'>
+            <a href='/login' className='text-sm text-primary'>
+              Regresar al inicio de sesión
+            </a>
+          </div>
         </Form>
       </Formik>
     </div>

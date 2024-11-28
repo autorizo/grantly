@@ -1,3 +1,5 @@
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+
 import {
   RootLayout,
   ProvidersList,
@@ -5,8 +7,9 @@ import {
   ProviderType,
   LoginLayout,
   RecoverPassword,
+  ResetPassword,
+  Profile,
 } from 'layouts'
-import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +33,10 @@ export const router = createBrowserRouter([
         element: <Notifications />, // Your existing Notifications component
       },
       {
+        path: '/profile',
+        element: <Profile />,
+      },
+      {
         path: '/',
         element: <Navigate to='/active' replace />, // Redirect to active providers
       },
@@ -46,5 +53,9 @@ export const router = createBrowserRouter([
   {
     path: '/recover-password',
     element: <RecoverPassword />,
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPassword />,
   },
 ])

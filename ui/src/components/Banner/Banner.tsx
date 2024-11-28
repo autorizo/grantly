@@ -5,14 +5,16 @@ import {
   BlockIcon,
   Drawer,
   HamburguerIcon,
+  LogOutIcon,
   ProfileIcon,
 } from 'components'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from 'contexts'
 import { useFetchNotifications, useFetchProviders } from 'hooks'
 import { useProviders } from 'stores'
+import { BannerProps } from './Banner.types'
 
-export const Banner = () => {
+export const Banner = ({ name }: BannerProps) => {
   const { session, signOut } = useAuth() ?? {}
   const userId = session?.user?.id ?? ''
 
@@ -40,6 +42,10 @@ export const Banner = () => {
     navigate('/blocked') // Navigate to the blocked page
     toggleDrawer() // Close the drawer
   }
+  const openProfile = () => {
+    navigate('/profile') // Navigate to the profile page
+    toggleDrawer() // Close the drawer
+  }
 
   return (
     <div className='flex bg-primary justify-between p-4 pb-4 mb-2'>
@@ -54,7 +60,7 @@ export const Banner = () => {
 
       <div className='flex justify-center flex-col'>
         <h1 className='text-sm sm:text-xs text-white'>
-          <span className='font-semibold'>Jorge</span>, bienvenido a
+          <span className='font-semibold'>{name}</span>, bienvenido a
           <span className='font-semibold'> Autorizo</span>
         </h1>
         <p className='text-xs sm:text-md text-white'>
@@ -98,11 +104,17 @@ export const Banner = () => {
               <h2 className='text-md font-semibold'>Bloqueados</h2>
             </div>
           </button>
+          <button className='w-full' onClick={openProfile}>
+            <div className='flex items-center gap-2 border-b py-4'>
+              <ProfileIcon className='h-5 w-5' />
+              <h2 className='text-md font-semibold'>Perfil</h2>
+            </div>
+          </button>
         </div>
         <div className='absolute bottom-4 left-4 right-4'>
           <button className='w-full' onClick={signOut}>
             <div className='flex items-center gap-2 border-t border-b py-4'>
-              <BlockIcon className='h-5 w-5' />
+              <LogOutIcon className='h-5 w-5' />
               <h2 className='text-md font-semibold'>Cerrar sesión</h2>
             </div>
           </button>

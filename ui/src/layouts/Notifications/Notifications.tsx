@@ -1,11 +1,12 @@
 import { NotificationCard } from 'components'
+import { useAuth } from 'contexts'
 import { useFetchNotifications } from 'hooks'
-import { PermissionStatus, useNotification } from 'stores'
+import { useNotification } from 'stores'
 import { formatDate } from 'utils'
 
-const userId = process.env.REACT_APP_USER_ID ?? ''
-
 export const Notifications = () => {
+  const { session } = useAuth() ?? {}
+  const userId = session?.user?.id ?? ''
   useFetchNotifications(userId)
   const { notifications } = useNotification()
 
@@ -13,7 +14,14 @@ export const Notifications = () => {
     <div className='p-1 flex flex-col gap-1'>
       {notifications.map(
         (
-          { provider_name, created_at, permission_name, justification, action, permission_points },
+          {
+            provider_name,
+            created_at,
+            permission_name,
+            justification,
+            action,
+            permission_points,
+          },
           index
         ) => (
           <NotificationCard
@@ -26,6 +34,11 @@ export const Notifications = () => {
             action={action}
           />
         )
+      )}
+      {notifications.length === 0 && (
+        <div className='text-center text-gray-500'>
+          No tienes notificaciones
+        </div>
       )}
     </div>
   )

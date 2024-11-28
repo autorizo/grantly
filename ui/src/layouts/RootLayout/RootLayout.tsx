@@ -4,15 +4,21 @@ import { useAuth } from 'contexts'
 import { Navigate } from 'react-router-dom'
 
 export const RootLayout = () => {
-  const { session } = useAuth() ?? {}
+  const { session, loading } = useAuth() ?? {}
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   if (!session) {
     return <Navigate to='/login' replace />
   }
+  const { user } = session
+  const { name } = user ?? {}
 
   return (
     <div className='bg-gray-100 h-screen overflow-auto pb-2'>
-      <Banner />
+      <Banner name={name} />
 
       {/* Navigation Tabs */}
       <NavigationTabs activeTab='/active' />

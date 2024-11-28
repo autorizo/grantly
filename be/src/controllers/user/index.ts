@@ -4,3 +4,4 @@ export * from './verifyPassword';
 export * from './getUserByToken';
 export * from './updateUserPassword';
 export * from './setResetToken';
+export * from './getUserById';

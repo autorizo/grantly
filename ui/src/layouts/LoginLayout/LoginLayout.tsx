@@ -3,6 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik'
 import { z } from 'zod'
 import { FacebookIcon, GoogleIcon, MicrosoftIcon } from 'components'
 import { loginUser } from 'servers/auth'
+import { Navigate } from 'react-router-dom'
 
 // Zod validation schema for email/password
 const loginSchema = z.object({
@@ -32,7 +33,11 @@ const providers = [
 ]
 
 export const LoginLayout = () => {
-  const { signIn, initializeSession } = useAuth() ?? {}
+  const { signIn, initializeSession, session } = useAuth() ?? {}
+
+  if (session) {
+    return <Navigate to='/active' replace />
+  }
 
   // Handle form submission for email/password login
   const handleSubmit = async (values: { email: string; password: string }) => {

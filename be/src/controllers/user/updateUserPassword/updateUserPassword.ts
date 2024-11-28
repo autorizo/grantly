@@ -1,4 +1,4 @@
-import knex from 'knex';
+import knex from '@db/index';
 import bcrypt from 'bcryptjs';
 
 // encrypt password and update user password

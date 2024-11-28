@@ -10,6 +10,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('sub').nullable();
     table.string('oauth_provider').nullable();
     table.text('reset_password_token').nullable();
+    table.timestamp('updated_at').defaultTo(knex.fn.now());
     table.timestamp('created_at').defaultTo(knex.fn.now());
   });
 }

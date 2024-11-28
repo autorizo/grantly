@@ -87,7 +87,6 @@ export const getUserPermissions = async (userId: string) => {
     const blocked = providersArray.filter(
       (provider: any) => provider.status === 'blocked'
     );
-
     return { active, inactive, blocked };
   } catch (error) {
     console.error('Error fetching permissions:', error);

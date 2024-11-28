@@ -27,3 +27,8 @@ export const togglePermissionAPI = async (
     throw error // Throw error to handle it in the frontend
   }
 }
+
+export const retrieveUser = async (userId: string) => {
+  const { data } = await server.get(`/users/${userId}`)
+  return data
+}

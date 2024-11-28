@@ -18,7 +18,7 @@ export const loginUserHandler = async (req: Request, res: Response) => {
   try {
     // Check if user exists with the given email
     const user = await getUserByEmail(email);
-    
+
     if (!user) {
       return errorResponseHandler(
         res,
@@ -28,7 +28,7 @@ export const loginUserHandler = async (req: Request, res: Response) => {
 
     // Verify the password (assuming you have a function for that)
     const isPasswordValid = await verifyPassword(password, user.password);
-    
+
     if (!isPasswordValid) {
       return errorResponseHandler(
         res,
@@ -40,6 +40,7 @@ export const loginUserHandler = async (req: Request, res: Response) => {
     const session: Session = {
       id: user.id,
       email: user.email,
+      name: user.username,
     };
 
     // Generate JWT token
