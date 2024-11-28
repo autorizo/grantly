@@ -1,5 +1,7 @@
+import React, { useState } from 'react'
 import cn from 'classnames'
-import { useState } from 'react'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
+import { useAuth } from 'contexts'
 import {
   BellIcon,
   BlockIcon,
@@ -8,14 +10,12 @@ import {
   LogOutIcon,
   ProfileIcon,
 } from 'components'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useAuth } from 'contexts'
 import { useFetchNotifications, useFetchProviders } from 'hooks'
 import { useProviders } from 'stores'
 import { BannerProps } from './Banner.types'
 
-export const Banner = ({ name }: BannerProps) => {
-  const { session, signOut } = useAuth() ?? {}
+export const Banner = ({ userName }: BannerProps) => {
+  const { session, signOut, profilePhoto } = useAuth() // Get profilePhoto from context
   const userId = session?.user?.id ?? ''
 
   useFetchProviders(userId)
@@ -27,24 +27,24 @@ export const Banner = ({ name }: BannerProps) => {
     0
   )
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false) // State to manage drawer visibility
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const location = useLocation()
-  const navigate = useNavigate() // Hook to navigate programmatically
+  const navigate = useNavigate()
 
   const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen) // Toggle the drawer state
+    setIsDrawerOpen(!isDrawerOpen)
   }
 
-  // Determine if the current location is the notifications page
   const isNotificationsPage = location.pathname === '/notifications'
 
   const handleClick = () => {
-    navigate('/blocked') // Navigate to the blocked page
-    toggleDrawer() // Close the drawer
+    navigate('/blocked')
+    toggleDrawer()
   }
+
   const openProfile = () => {
-    navigate('/profile') // Navigate to the profile page
-    toggleDrawer() // Close the drawer
+    navigate('/profile')
+    toggleDrawer()
   }
 
   return (
@@ -52,7 +52,6 @@ export const Banner = ({ name }: BannerProps) => {
       <div className='flex items-center justify-center'>
         <div className='flex items-center justify-center gap-1 focus:outline-none rounded-full transition-colors p-2'>
           <button onClick={toggleDrawer}>
-            {/* Toggle the drawer on button click */}
             <HamburguerIcon className='w-7 h-7 text-white' />
           </button>
         </div>
@@ -60,7 +59,7 @@ export const Banner = ({ name }: BannerProps) => {
 
       <div className='flex justify-center flex-col'>
         <h1 className='text-sm sm:text-xs text-white'>
-          <span className='font-semibold'>{name}</span>, bienvenido a
+          <span className='font-semibold'>{userName}</span>, bienvenido a
           <span className='font-semibold'> Autorizo</span>
         </h1>
         <p className='text-xs sm:text-md text-white'>
@@ -73,9 +72,7 @@ export const Banner = ({ name }: BannerProps) => {
         <div
           className={cn(
             'flex items-center justify-center gap-1 focus:outline-none rounded-full transition-colors p-[1px]',
-            {
-              'bg-white': isNotificationsPage,
-            }
+            { 'bg-white': isNotificationsPage }
           )}
         >
           <Link to='/notifications'>
@@ -88,15 +85,25 @@ export const Banner = ({ name }: BannerProps) => {
           </Link>
         </div>
       </div>
+
       <div className='flex items-center justify-center'>
-        <div className='flex items-center justify-center gap-1 focus:outline-none rounded-full transition-colors bg-white p-2'>
-          <ProfileIcon className='w-7 h-7 text-primary' />
+        <div
+          className={`flex items-center justify-center gap-1 focus:outline-none transition-colors 
+      ${profilePhoto ? '' : 'p-2 bg-white rounded-full'}`}
+        >
+          {profilePhoto ? (
+            <img
+              src={profilePhoto}
+              alt='Profile'
+              className='w-9 h-9 rounded-full object-cover'
+            />
+          ) : (
+            <ProfileIcon className='w-7 h-7 text-primary' />
+          )}
         </div>
       </div>
 
-      {/* Include the Drawer component */}
       <Drawer isOpen={isDrawerOpen} onClose={toggleDrawer} position='left'>
-        {/* You can put the content for your drawer here */}
         <div className='p-4'>
           <button className='w-full' onClick={handleClick}>
             <div className='flex items-center gap-2 border-t border-b py-4'>

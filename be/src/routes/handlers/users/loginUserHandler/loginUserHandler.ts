@@ -40,7 +40,7 @@ export const loginUserHandler = async (req: Request, res: Response) => {
     const session: Session = {
       id: user.id,
       email: user.email,
-      name: user.username,
+      userName: user.username,
     };
 
     // Generate JWT token

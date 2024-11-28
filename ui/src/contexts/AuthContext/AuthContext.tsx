@@ -13,6 +13,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true) // Add loading state
+  const [profilePhoto, setProfilePhoto] = useState<string | null>(null)
 
   // Set up message listener to close popup and update session when authentication is done
   const handleMessage = (event: MessageEvent) => {
@@ -29,6 +30,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (savedSession) {
       const parsedSession: Session = JSON.parse(savedSession)
       setSession(parsedSession)
+
+      // Check if a cached profile photo exists
+      const cachedPhoto = localStorage.getItem('profilePhoto')
+      if (cachedPhoto) {
+        validatePhotoUrl(cachedPhoto) // Validate the cached photo
+      } else if (parsedSession.user && parsedSession.user.photo) {
+        validatePhotoUrl(parsedSession.user.photo) // Validate the user's photo
+      }
     } else {
       const queryParams = new URLSearchParams(window.location.search)
       const paramsToken = queryParams.get('jwt')
@@ -41,6 +50,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem('session', JSON.stringify(newSession))
         setSession(newSession)
 
+        // Cache and validate profile photo if available
+        if (userData.photo) {
+          validatePhotoUrl(userData.photo)
+        } else {
+          setProfilePhoto(null) // Ensure no photo is set if invalid
+        }
+
         // If there is a popup window, close it and notify the parent window to reload
         const popup = window.open('', '_self') // Get a reference to the popup window
         if (popup) {
@@ -50,6 +66,30 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     }
     setLoading(false) // Mark loading as done
+  }
+
+  // Function to validate the image URL by making a fetch request
+  const validatePhotoUrl = async (url: string) => {
+    try {
+      const response = await fetch(url, { method: 'HEAD' }) // Use HEAD request to check if the resource exists
+      if (response.ok) {
+        // If the photo is valid, set it
+        setProfilePhoto(url)
+        localStorage.setItem('profilePhoto', url)
+      } else if (response.status === 404) {
+        // If not found, reset the photo
+        setProfilePhoto(null)
+      } else if (response.status === 429) {
+        // Handle too many requests, fallback to null or you could implement retry logic
+        setProfilePhoto(null)
+      } else {
+        // Handle other errors or invalid statuses
+        setProfilePhoto(null)
+      }
+    } catch (error) {
+      console.error('Error validating photo URL:', error)
+      setProfilePhoto(null) // Fallback in case of an error
+    }
   }
 
   // Run effect on initial mount
@@ -105,11 +145,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     })
     setSession(null)
     localStorage.removeItem('session')
+    localStorage.removeItem('profilePhoto')
   }
 
   return (
     <AuthContext.Provider
-      value={{ session, signIn, signOut, initializeSession, loading }} // Add loading to context
+      value={{
+        session,
+        signIn,
+        signOut,
+        initializeSession,
+        loading,
+        profilePhoto, // Provide profilePhoto in the context
+      }}
     >
       {children}
     </AuthContext.Provider>

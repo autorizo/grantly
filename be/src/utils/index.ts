@@ -3,3 +3,4 @@ export * from './authHandler';
 export * from './generateToken';
 export * from './verifyToken';
 export * from './verifyRestoreToken';
+export * from './getInfoByProvider';

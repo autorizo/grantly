@@ -1,1 +1,1 @@
-export type BannerProps = { name?: string }
+export type BannerProps = { userName?: string }

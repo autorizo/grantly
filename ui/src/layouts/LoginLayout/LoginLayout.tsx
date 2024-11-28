@@ -84,6 +84,7 @@ export const LoginLayout = () => {
                 name='email'
                 type='email'
                 className='p-3 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
+                autoComplete='email'
               />
               <ErrorMessage
                 name='email'
@@ -102,6 +103,7 @@ export const LoginLayout = () => {
                 name='password'
                 type='password'
                 className='p-3 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
+                autoComplete='current-password'
               />
               <ErrorMessage
                 name='password'

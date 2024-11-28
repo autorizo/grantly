@@ -3,7 +3,8 @@ import { ReactNode } from 'react'
 export type User = {
   id: string
   email: string
-  name: string
+  userName: string
+  photo: string
 }
 
 export enum OauthProvider {
@@ -24,6 +25,7 @@ export type AuthContextType = {
   signOut: () => void
   initializeSession: (token?: string) => void
   loading: boolean
+  profilePhoto: string | null
 }
 
 export type AuthProviderProps = {

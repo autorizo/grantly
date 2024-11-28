@@ -14,11 +14,11 @@ export const RootLayout = () => {
     return <Navigate to='/login' replace />
   }
   const { user } = session
-  const { name } = user ?? {}
+  const { userName } = user ?? {}
 
   return (
     <div className='bg-gray-100 h-screen overflow-auto pb-2'>
-      <Banner name={name} />
+      <Banner userName={userName} />
 
       {/* Navigation Tabs */}
       <NavigationTabs activeTab='/active' />

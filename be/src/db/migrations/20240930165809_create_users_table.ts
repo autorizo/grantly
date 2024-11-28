@@ -7,6 +7,10 @@ export async function up(knex: Knex): Promise<void> {
     table.string('email').notNullable().unique();
     table.string('password').nullable();
     table.string('photo').nullable();
+    table.string('phone').nullable();
+    table.string('phone_country_code').nullable();
+    table.string('first_name').nullable();
+    table.string('last_name').nullable();
     table.string('sub').nullable();
     table.string('oauth_provider').nullable();
     table.text('reset_password_token').nullable();
