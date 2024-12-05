@@ -55,6 +55,8 @@ Cuentas de usuario
    Celular.
    Imagen de usuario.
 
-
-Usuario: usuario1@ejemplo.com
-test1234
+------- Pendientes -------
+ - Publicación  
+ - Terminar atualizacion de Datos
+ - Resgristro de usuario
+ - Ver temas de bugs que se han 

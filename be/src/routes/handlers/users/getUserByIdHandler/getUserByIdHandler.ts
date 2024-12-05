@@ -14,7 +14,6 @@ export const getUserByIdHandler = async (req: Request, res: Response) => {
   }
 
   try {
-    // Get user by id (assuming you have a function for that)
     const user = await getUserById(userId);
 
     if (!user) {

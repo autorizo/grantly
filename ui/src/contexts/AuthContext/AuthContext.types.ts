@@ -25,7 +25,7 @@ export type AuthContextType = {
   signOut: () => void
   initializeSession: (token?: string) => void
   loading: boolean
-  profilePhoto: string | null
+  profilePhoto?: string
 }
 
 export type AuthProviderProps = {

@@ -32,3 +32,23 @@ export const retrieveUser = async (userId: string) => {
   const { data } = await server.get(`/users/${userId}`)
   return data
 }
+
+export const updateUser = async (userId: string, updatedDetails: any) => {
+  try {
+    await server.put(`/users/${userId}`, updatedDetails)
+  } catch (error) {
+    console.error('Error updating user:', error)
+    throw error
+  }
+}
+
+export const updateUserImage = async (userId: string, image: File) => {
+  try {
+    const formData = new FormData()
+    formData.append('image', image)
+    await server.put(`/users/${userId}/image`, formData)
+  } catch (error) {
+    console.error('Error updating user image:', error)
+    throw error
+  }
+}

@@ -13,7 +13,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true) // Add loading state
-  const [profilePhoto, setProfilePhoto] = useState<string | null>(null)
+  const [profilePhoto, setProfilePhoto] = useState<string | undefined>(undefined)
 
   // Set up message listener to close popup and update session when authentication is done
   const handleMessage = (event: MessageEvent) => {
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (userData.photo) {
           validatePhotoUrl(userData.photo)
         } else {
-          setProfilePhoto(null) // Ensure no photo is set if invalid
+          setProfilePhoto(undefined) // Ensure no photo is set if invalid
         }
 
         // If there is a popup window, close it and notify the parent window to reload
@@ -78,17 +78,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem('profilePhoto', url)
       } else if (response.status === 404) {
         // If not found, reset the photo
-        setProfilePhoto(null)
+        setProfilePhoto(undefined)
       } else if (response.status === 429) {
-        // Handle too many requests, fallback to null or you could implement retry logic
-        setProfilePhoto(null)
+        // Handle too many requests, fallback to undefined or you could implement retry logic
+        setProfilePhoto(undefined)
       } else {
         // Handle other errors or invalid statuses
-        setProfilePhoto(null)
+        setProfilePhoto(undefined)
       }
     } catch (error) {
       console.error('Error validating photo URL:', error)
-      setProfilePhoto(null) // Fallback in case of an error
+      setProfilePhoto(undefined) // Fallback in case of an error
     }
   }
 
