@@ -66,7 +66,11 @@ export const RecoverPassword = () => {
 
   return (
     <div className='flex flex-col items-center max-w-md mx-auto p-6 bg-white rounded-lg h-svh justify-center gap-5'>
-      <img className='h-56 object-cover' src='/images/icon-512.png' />
+      <img
+        className='h-56 object-cover'
+        alt='autorizo'
+        src='/images/icon-512.png'
+      />
       <h2 className='text-2xl font-semibold text-gray-800'>
         Recuperar contraseña
       </h2>

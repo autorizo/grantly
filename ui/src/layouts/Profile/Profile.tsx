@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState, useEffect } from 'react'
 import { useAuth } from 'contexts'
 import { retrieveUser, updateUser, updateUserImage } from 'servers'
 import { ProfileForm, ProfileImage, User } from 'components'
@@ -13,10 +12,8 @@ export const Profile = () => {
     phone: '',
     phone_country_code: '',
     email: '',
-    image: '',
   })
 
-  const [imageFile, setImageFile] = useState<File | null>(null)
   const userId = session?.user?.id ?? ''
 
   useEffect(() => {
@@ -30,11 +27,6 @@ export const Profile = () => {
 
   const handleSubmit = async (values: User) => {
     try {
-      const formData = new FormData()
-      if (imageFile) {
-        formData.append('image', imageFile)
-      }
-
       const updatedDetails = {
         username: values.username,
         first_name: values.first_name,
@@ -46,11 +38,7 @@ export const Profile = () => {
 
       await updateUser(userId, updatedDetails)
 
-      if (imageFile) {
-        await updateUserImage(userId, imageFile)
-      }
-
-      setUser({ ...values, image: user.image })
+      setUser({ ...values })
       alert('Perfil actualizado exitosamente')
     } catch (error) {
       console.error('Error al actualizar el perfil:', error)
@@ -58,11 +46,16 @@ export const Profile = () => {
     }
   }
 
+  const handleUploadImage = async (imageFile: File) => {
+    await updateUserImage(userId, imageFile)
+  }
+
   return (
     <div className='profile-container max-w-lg mx-auto p-6'>
       <ProfileImage
-        image={user.image || '/default-avatar.png'} // Asegúrate de que el valor de image no sea undefined
+        image={user.image}
         profilePhoto={profilePhoto}
+        handleUploadImage={handleUploadImage}
       />
 
       <ProfileForm user={user} onSubmit={handleSubmit} />

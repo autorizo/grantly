@@ -63,7 +63,11 @@ export const LoginLayout = () => {
 
   return (
     <div className='flex flex-col gap-6 items-center justify-center h-screen bg-gray-50 px-10'>
-      <img className='h-1/6 object-cover' src='/images/icon-512.png' />
+      <img
+        className='h-1/6 object-cover'
+        alt='autorizo'
+        src='/images/icon-512.png'
+      />
       <h1 className='text-2xl font-semibold mb-6'>Bienvenido - Autorizo</h1>
 
       {/* Formik Form for Email/Password Login */}

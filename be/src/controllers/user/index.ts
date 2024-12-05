@@ -5,3 +5,4 @@ export * from './getUserByToken';
 export * from './updateUserPassword';
 export * from './setResetToken';
 export * from './getUserById';
+export * from './updateUserData';

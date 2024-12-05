@@ -1,4 +1,4 @@
-import { ProviderCard, ToastType } from 'components'
+import { NavigationTabs, ProviderCard, ToastType } from 'components'
 import { useMutation } from 'react-query'
 import { togglePermissionAPI } from 'servers'
 import { PermissionStatus, Provider, Providers, useProviders } from 'stores'
@@ -132,6 +132,9 @@ export const ProvidersList = ({ providerType }: ProvidersListProps) => {
   }
   return (
     <div className='flex justify-center items-center gap-2 flex-col'>
+      {/* Navigation Tabs */}
+        <NavigationTabs activeTab='/active' />
+
       {displayedProviders.map((provider, index) => (
         <ProviderCard
           togglePermission={(permissionId, justification) =>
