@@ -7,13 +7,15 @@ import {
 } from 'passport-google-oauth20';
 import { authUserHandler } from '@routes/handlers';
 
+const apiUrl = process.env.API_URL;
+
 // Google OAuth strategy
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      callbackURL: 'http://localhost:3001/auth/google/callback',
+      callbackURL: `${apiUrl}/auth/google/callback`,
     },
     (
       accessToken: string,

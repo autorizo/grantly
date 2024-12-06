@@ -10,6 +10,8 @@ import { jwtDecode } from 'jwt-decode'
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 
+const beUrl = process.env.REACT_APP_BE_URL
+
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true) // Add loading state
@@ -19,7 +21,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Set up message listener to close popup and update session when authentication is done
   const handleMessage = (event: MessageEvent) => {
-    if (event.origin !== 'http://localhost:3001') return // Check the message origin
+    if (event.origin !== beUrl) return // Check the message origin
 
     if (event.data === 'authComplete') {
       initializeSession()
@@ -107,9 +109,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Handle sign-in by opening the popup for the given provider
   const signIn = async (provider: OauthProvider) => {
     const authUrls = {
-      google: 'http://localhost:3001/auth/google',
-      facebook: 'http://localhost:3001/auth/facebook',
-      microsoft: 'http://localhost:3001/auth/microsoft',
+      google: `${beUrl}/auth/google`,
+      facebook: `${beUrl}/auth/facebook`,
+      microsoft: `${beUrl}/auth/microsoft`,
     }
 
     const popup = window.open(
@@ -135,7 +137,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Handle sign-out and remove session
   const signOut = async () => {
-    await fetch('http://localhost:3001/logout', {
+    await fetch(`${beUrl}/logout`, {
       method: 'POST',
     })
     setSession(null)

@@ -7,13 +7,15 @@ import {
 import { authUserHandler } from '@routes/handlers';
 import { VerifyCallback } from 'passport-oauth2';
 
+const apiUrl = process.env.API_URL;
+
 // Facebook OAuth strategy
 passport.use(
   new FacebookStrategy(
     {
       clientID: process.env.FACEBOOK_APP_ID as string,
       clientSecret: process.env.FACEBOOK_APP_SECRET as string,
-      callbackURL: 'http://localhost:3001/facebook/callback',
+      callbackURL: `${apiUrl}/facebook/callback`,
       profileFields: ['id', 'emails', 'name'],
     },
     (

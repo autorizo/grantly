@@ -13,6 +13,8 @@ interface User {
 
 const router = Router();
 
+const apiUrl = process.env.API_URL;
+
 // Microsoft OAuth strategy (passport-microsoft)
 passport.use(
   'microsoft',
@@ -20,7 +22,7 @@ passport.use(
     {
       clientID: process.env.OUTLOOK_CLIENT_ID as string,
       clientSecret: process.env.OUTLOOK_CLIENT_SECRET as string,
-      callbackURL: 'http://localhost:3001/auth/azure/callback',
+      callbackURL: `${apiUrl}/auth/azure/callback`,
       scope: ['user.read', 'openid', 'profile', 'email'],
     },
     (
