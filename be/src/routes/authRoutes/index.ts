@@ -5,6 +5,7 @@ import microsoftAuthRoutes from './microsoftAuth';
 import credentialsAuth from './credentialsAuth';
 import passport from 'passport';
 import session from 'express-session';
+import { responseHandler } from '@utils/index';
 
 const router = Router();
 const secret = process.env.PASSPORT_SECRET as string;
@@ -25,5 +26,14 @@ router.use(credentialsAuth);
 router.use(googleAuthRoutes);
 router.use(facebookAuthRoutes);
 router.use(microsoftAuthRoutes);
+
+router.post('/logout', (req, res, next) => {
+  req.logout((err: any) => {
+    if (err) {
+      return next(err);
+    }
+    responseHandler(res, 200, null);
+  });
+});
 
 export default router;

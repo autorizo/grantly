@@ -7,6 +7,7 @@ export const ProfileImage = ({
   profilePhoto,
   onImageChange,
   handleUploadImage,
+  autoChange = false,
 }: ProfileImageProps) => {
   const [currentImage, setCurrentImage] = useState<string | undefined>(
     image || profilePhoto
@@ -37,7 +38,7 @@ export const ProfileImage = ({
       // Actualizamos el estado local de la imagen
       setCurrentImage(imageUrl)
       setHasUploadedImage(true) // Marca como que el usuario subió una nueva imagen
-
+      if (autoChange) handleUploadImage(file)
       // Llamamos a la función para cambiar la imagen si es necesario
       onImageChange?.(imageUrl)
     }
@@ -60,9 +61,9 @@ export const ProfileImage = ({
             onClick={handleImageClick} // Abre el cuadro de selección de archivo
           />
           {/* Enlace para cambiar la foto, solo se muestra si el usuario sube una nueva imagen */}
-          {hasUploadedImage && (
+          {hasUploadedImage && !autoChange && (
             <span className='text-sm text-primary' onClick={handleChangeImage}>
-              Cambiar foto
+              Listo, cambiar foto.
             </span>
           )}
         </div>

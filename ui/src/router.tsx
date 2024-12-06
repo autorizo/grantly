@@ -9,6 +9,7 @@ import {
   RecoverPassword,
   ResetPassword,
   Profile,
+  SignUp,
 } from 'layouts'
 
 export const router = createBrowserRouter([
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginLayout />,
+  },
+  {
+    path: '/signup',
+    element: <SignUp />,
   },
   {
     path: '/recover-password',

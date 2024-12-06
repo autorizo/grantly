@@ -1,24 +1,13 @@
 import { AppError, errorResponseHandler } from '@errors/index';
 import { Request, Response } from 'express';
 import multer from 'multer';
-import sharp from 'sharp';
-import path from 'path';
-import { Storage } from '@google-cloud/storage';
 import { updateUserAvatarUrl } from '@controllers/user';
-
-// Set up Google Cloud Storage
-const storage = new Storage({
-  keyFilename: path.join(
-    process.cwd(),
-    './secrets/autorizo-441221-543456ed3158.json'
-  ), // Root path
-});
-
-const bucket = storage.bucket('autorizo-avatar'); // Replace with your bucket name
+import { optimizeProfileImage } from '@utils/optimizeProfileImage';
+import { uploadImageToStorage } from '@utils/uploadImageToStorage';
 
 // Set up multer for handling file upload
 const multerStorage = multer.memoryStorage();
-const upload = multer({ storage: multerStorage }).single('image'); // 'avatar' is the field name in your form
+const upload = multer({ storage: multerStorage }).single('image'); // 'image' is the field name in your form
 
 export const updateUserImageHandler = async (req: Request, res: Response) => {
   const userId = req.params.userId;
@@ -44,47 +33,27 @@ export const updateUserImageHandler = async (req: Request, res: Response) => {
     }
 
     try {
-      // Optimize the image with sharp
-      const optimizedImageBuffer = await sharp(req.file.buffer)
-        .resize(500, 500, { fit: 'inside' }) // Resize the image (adjust if needed)
-        .toFormat('jpeg')
-        .jpeg({ quality: 80 }) // Set image quality (adjust as needed)
-        .toBuffer();
+      // Step 1: Optimize the image using the utility function
+      const optimizedImageBuffer = await optimizeProfileImage(req.file.buffer);
 
-      // Upload the optimized image to Google Cloud Storage
-      const fileName = `${userId}-${Date.now()}.jpeg`; // Unique file name to avoid collisions
-      const file = bucket.file(fileName);
-      const blobStream = file.createWriteStream({
-        resumable: false,
-        contentType: 'image/jpeg',
+      // Step 2: Upload the image to Google Cloud Storage
+      const { fileName, imageUrl } = await uploadImageToStorage(
+        userId,
+        optimizedImageBuffer
+      );
+
+      // Step 3: Update the user's avatar URL in the database
+      await updateUserAvatarUrl(userId, fileName);
+
+      // Respond with the uploaded image URL
+      res.status(200).json({
+        message: 'User image updated successfully',
+        imageUrl, // Return the URL of the uploaded image
       });
-
-      blobStream.on('finish', async () => {
-        // Save the image URL in your database (this is a placeholder)
-        await updateUserAvatarUrl(userId, fileName);
-        const imageUrl = await file.getSignedUrl({
-          action: 'read',
-          expires: Date.now() + 1000 * 60 * 60, // 1 hour
-        });
-        res.status(200).json({
-          message: 'User image updated successfully',
-          imageUrl, // Return the URL of the uploaded image
-        });
-      });
-
-      blobStream.on('error', (err) => {
-        console.error(err);
-        return errorResponseHandler(
-          res,
-          new AppError(500, 'Storage error', [err.message])
-        );
-      });
-
-      blobStream.end(optimizedImageBuffer);
     } catch (error: any) {
       return errorResponseHandler(
         res,
-        new AppError(500, 'Image optimization error', [error.message])
+        new AppError(500, 'Image update error', [error.message])
       );
     }
   });

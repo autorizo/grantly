@@ -8,9 +8,14 @@ export type User = TypeOf<typeof ProfileSchema>
 interface ProfileFormProps {
   user: User
   onSubmit: (values: User) => void
+  emailDisabled?: boolean
 }
 
-export const ProfileForm: React.FC<ProfileFormProps> = ({ user, onSubmit }) => {
+export const ProfileForm: React.FC<ProfileFormProps> = ({
+  user,
+  onSubmit,
+  emailDisabled = true,
+}) => {
   const [initialValues, setInitialValues] = useState<User | null>(null)
 
   // Asignar los valores de usuario una vez estén disponibles
@@ -153,7 +158,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, onSubmit }) => {
               type='text'
               className='p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 w-full'
               placeholder='Ingresa tu primer nombre'
-              disabled
+              disabled={emailDisabled}
             />
             <ErrorMessage
               name='email'

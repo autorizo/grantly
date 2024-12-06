@@ -5,3 +5,5 @@ export * from './verifyToken';
 export * from './verifyRestoreToken';
 export * from './getInfoByProvider';
 export * from './getSignedUrl';
+export * from './uploadImageToStorage';
+export * from './optimizeProfileImage';

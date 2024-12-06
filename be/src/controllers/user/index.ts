@@ -7,3 +7,4 @@ export * from './setResetToken';
 export * from './getUserById';
 export * from './updateUserData';
 export * from './updateUserAvatarUrl';
+export * from './createUser';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import cn from 'classnames'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from 'contexts'
@@ -87,20 +87,22 @@ export const Banner = ({ userName }: BannerProps) => {
       </div>
 
       <div className='flex items-center justify-center'>
-        <div
-          className={`flex items-center justify-center gap-1 focus:outline-none transition-colors 
+        <Link to='/profile'>
+          <div
+            className={`flex items-center justify-center gap-1 focus:outline-none transition-colors 
       ${profilePhoto ? '' : 'p-2 bg-white rounded-full'}`}
-        >
-          {profilePhoto ? (
-            <img
-              src={profilePhoto}
-              alt='Profile'
-              className='w-9 h-9 rounded-full object-cover'
-            />
-          ) : (
-            <ProfileIcon className='w-7 h-7 text-primary' />
-          )}
-        </div>
+          >
+            {profilePhoto ? (
+              <img
+                src={profilePhoto}
+                alt='Profile'
+                className='w-9 h-9 rounded-full object-cover'
+              />
+            ) : (
+              <ProfileIcon className='w-7 h-7 text-primary' />
+            )}
+          </div>
+        </Link>
       </div>
 
       <Drawer isOpen={isDrawerOpen} onClose={toggleDrawer} position='left'>

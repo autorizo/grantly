@@ -6,6 +6,7 @@ import {
   permissionRoutes,
   providerRoutes,
   resetPassword,
+  signupRoutes,
   userRoutes,
 } from '@routes/index'; // Make sure these paths are correct for your setup
 import { authHandler } from '@utils/authHandler'; // Make sure this path is correct too
@@ -32,6 +33,9 @@ app.use(resetPassword);
 
 // Auth routes
 app.use(authRoutes);
+
+// Register signup routes
+app.use(signupRoutes);
 
 // Register custom auth handler routes
 app.use(authHandler);

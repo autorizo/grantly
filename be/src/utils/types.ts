@@ -33,11 +33,11 @@ interface FacebookUser {
 interface MicrosoftUser {
   provider: 'microsoft';
   photos?: { value: string }[];
-  phone?: string | null;
+  mobilePhone?: string | null;
   phoneCountryCode?: string | null;
   name: { givenName: string; familyName: string };
   emails?: { value: string }[];
-  username?: string;
+  displayName?: string;
   id: string;
 }
 

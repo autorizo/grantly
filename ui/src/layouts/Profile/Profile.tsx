@@ -41,10 +41,10 @@ export const Profile = () => {
       await updateUser(userId, updatedDetails)
 
       setUser({ ...values })
-      alert('Perfil actualizado exitosamente')
+      showToast('Perfil actualizado correctamente.', ToastType.SUCCESS)
     } catch (error) {
       console.error('Error al actualizar el perfil:', error)
-      alert('No se pudo actualizar el perfil.')
+      showToast('Algo sucedio, intentalo más tarde.', ToastType.ERROR)
     }
   }
 

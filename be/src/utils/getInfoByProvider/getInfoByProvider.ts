@@ -1,5 +1,5 @@
-import { ProviderUser } from "@utils/types";
-import { Profile } from "passport";
+import { ProviderUser } from '@utils/types';
+import { Profile } from 'passport';
 
 export const getInfoByProvider = async (provider: Profile | Express.User) => {
   // Cast `provider` to `ProviderUser`
@@ -45,11 +45,11 @@ export const getInfoByProvider = async (provider: Profile | Express.User) => {
       provider: providerUser.provider, // Microsoft provider
       sub: providerUser.id, // Microsoft user ID
       photo: providerUser.photos ? providerUser.photos[0].value : undefined,
-      phone: providerUser.phone || undefined,
+      phone: providerUser.mobilePhone || undefined,
       phone_country_code: providerUser.phoneCountryCode || undefined,
       first_name: providerUser.name.givenName || undefined,
       last_name: providerUser.name.familyName || undefined,
-      username: providerUser.username || providerUser.name.givenName,
+      username: providerUser.displayName || providerUser.name.givenName,
     };
   }
 
@@ -65,4 +65,4 @@ export const getInfoByProvider = async (provider: Profile | Express.User) => {
     last_name: undefined,
     username: undefined,
   };
-}
+};

@@ -42,6 +42,16 @@ export const updateUser = async (userId: string, updatedDetails: any) => {
   }
 }
 
+export const createUser = async (newUser: any) => {
+  try {
+    const { data } = await server.post(`/users`, newUser)
+    return data
+  } catch (error) {
+    console.error('Error creating user:', error)
+    throw error
+  }
+}
+
 export const updateUserImage = async (userId: string, image: File) => {
   try {
     const formData = new FormData()

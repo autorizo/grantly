@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { AppError } from '@errors/index';
 import { errorResponseHandler } from '@errors/errorResponseHandler';
-import { Profile } from 'passport';
 import { createUserByOauth, getUserByEmail } from '@controllers/user';
 import { generateToken, getInfoByProvider, getSignedUrl } from '@utils/index';
 import { Session } from '@utils/types';
@@ -59,7 +58,7 @@ export const authUserHandler = async (req: Request, res: Response) => {
       );
     }
 
-    const signedPhoto = await getSignedUrl(user.photo);
+    const signedPhoto = user.photo && (await getSignedUrl(user.photo));
 
     const session: Session = {
       id: user.id,

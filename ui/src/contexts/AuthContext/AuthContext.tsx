@@ -135,7 +135,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Handle sign-out and remove session
   const signOut = async () => {
-    await fetch('http://localhost:3001/api/auth/signout', {
+    await fetch('http://localhost:3001/logout', {
       method: 'POST',
     })
     setSession(null)
