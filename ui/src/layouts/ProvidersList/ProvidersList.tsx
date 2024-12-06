@@ -5,8 +5,7 @@ import { PermissionStatus, Provider, Providers, useProviders } from 'stores'
 import { ProvidersListProps, ProviderType } from './ProvidersList.types'
 import { router } from 'router'
 import { useToast } from 'contexts'
-
-const userId = process.env.REACT_APP_USER_ID ?? ''
+import { useAuth } from 'contexts'
 
 const getProviders = (providerType: ProviderType, providers: Providers) => {
   switch (providerType) {
@@ -29,6 +28,8 @@ const labelMap = {
 export const ProvidersList = ({ providerType }: ProvidersListProps) => {
   const { providers, togglePermission } = useProviders()
   const { showToast } = useToast()
+  const { session } = useAuth() // Get profilePhoto from context
+  const userId = session?.user?.id ?? ''
 
   // Determine the providers to show based on the prop
   const displayedProviders = getProviders(providerType, providers)
@@ -133,7 +134,7 @@ export const ProvidersList = ({ providerType }: ProvidersListProps) => {
   return (
     <div className='flex justify-center items-center gap-2 flex-col'>
       {/* Navigation Tabs */}
-        <NavigationTabs activeTab='/active' />
+      <NavigationTabs activeTab='/active' />
 
       {displayedProviders.map((provider, index) => (
         <ProviderCard
@@ -145,10 +146,8 @@ export const ProvidersList = ({ providerType }: ProvidersListProps) => {
         />
       ))}
       {displayedProviders.length === 0 && (
-        <div className='flex justify-center items-center gap-2 flex-col'>
-          <h2 className='text-2xl font-semibold text-gray-600'>
-            No hay proveedores nuevos
-          </h2>
+        <div className='text-center text-gray-500'>
+          Sin Proveedores para mostrar
         </div>
       )}
     </div>

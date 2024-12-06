@@ -9,6 +9,7 @@ import {
   HamburguerIcon,
   LogOutIcon,
   ProfileIcon,
+  StarIcon,
 } from 'components'
 import { useFetchNotifications, useFetchProviders } from 'hooks'
 import { useProviders } from 'stores'
@@ -37,13 +38,8 @@ export const Banner = ({ userName }: BannerProps) => {
 
   const isNotificationsPage = location.pathname === '/notifications'
 
-  const handleClick = () => {
-    navigate('/blocked')
-    toggleDrawer()
-  }
-
-  const openProfile = () => {
-    navigate('/profile')
+  const handleClick = (link: string) => {
+    navigate(link)
     toggleDrawer()
   }
 
@@ -107,13 +103,19 @@ export const Banner = ({ userName }: BannerProps) => {
 
       <Drawer isOpen={isDrawerOpen} onClose={toggleDrawer} position='left'>
         <div className='p-4'>
-          <button className='w-full' onClick={handleClick}>
+          <button className='w-full' onClick={() => handleClick('/active')}>
+            <div className='flex items-center gap-2 border-t border-b py-4'>
+              <StarIcon className='h-5 w-5' />
+              <h2 className='text-md font-semibold'>Activos</h2>
+            </div>
+          </button>
+          <button className='w-full' onClick={() => handleClick('/blocked')}>
             <div className='flex items-center gap-2 border-t border-b py-4'>
               <BlockIcon className='h-5 w-5' />
               <h2 className='text-md font-semibold'>Bloqueados</h2>
             </div>
           </button>
-          <button className='w-full' onClick={openProfile}>
+          <button className='w-full' onClick={() => handleClick('/profile')}>
             <div className='flex items-center gap-2 border-b py-4'>
               <ProfileIcon className='h-5 w-5' />
               <h2 className='text-md font-semibold'>Perfil</h2>

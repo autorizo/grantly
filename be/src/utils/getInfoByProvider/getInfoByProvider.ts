@@ -19,7 +19,8 @@ export const getInfoByProvider = async (provider: Profile | Express.User) => {
       phone_country_code: providerUser.phoneCountryCode || undefined,
       first_name: providerUser.name.givenName || undefined,
       last_name: providerUser.name.familyName || undefined,
-      username: providerUser.username || providerUser.name.givenName,
+      username:
+        providerUser.username && providerUser.username.trim() !== '' ? providerUser.username : providerUser.name.givenName || 'Usuario',
     };
   }
 
@@ -34,7 +35,8 @@ export const getInfoByProvider = async (provider: Profile | Express.User) => {
       phone_country_code: providerUser.phoneCountryCode || undefined,
       first_name: providerUser.first_name || undefined,
       last_name: providerUser.last_name || undefined,
-      username: providerUser.username || providerUser.first_name,
+      username:
+        providerUser.username && providerUser.username.trim() !== '' ? providerUser.username : providerUser.first_name || 'Usuario',
     };
   }
 
@@ -49,7 +51,7 @@ export const getInfoByProvider = async (provider: Profile | Express.User) => {
       phone_country_code: providerUser.phoneCountryCode || undefined,
       first_name: providerUser.name.givenName || undefined,
       last_name: providerUser.name.familyName || undefined,
-      username: providerUser.displayName || providerUser.name.givenName,
+      username: providerUser.displayName && providerUser.displayName.trim() !== '' ? providerUser.displayName : 'Usuario',
     };
   }
 
@@ -63,6 +65,6 @@ export const getInfoByProvider = async (provider: Profile | Express.User) => {
     phone_country_code: undefined,
     first_name: undefined,
     last_name: undefined,
-    username: undefined,
+    username: 'Usuario',
   };
 };

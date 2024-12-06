@@ -38,7 +38,7 @@ export const authUserHandler = async (req: Request, res: Response) => {
   }
 
   // Use extracted `userName` or fall back to `first_name`
-  const userName = username ?? first_name ?? 'Autorizo';
+  const userName = username;
 
   let user = await getUserByEmail(email);
 

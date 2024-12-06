@@ -170,7 +170,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           {/* Botón de enviar */}
           <button
             type='submit'
-            className='bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none'
+            className='w-full py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition duration-200'
           >
             Guardar cambios
           </button>

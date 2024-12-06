@@ -24,6 +24,7 @@ export const signUpHandler = async (req: Request, res: Response) => {
         new AppError(400, 'Validation Error', ['User data is required'])
       );
     }
+    console.log(userData);
     const newUserPayload = {
       email: userData.email,
       username: userData.username,
@@ -31,8 +32,8 @@ export const signUpHandler = async (req: Request, res: Response) => {
       photo: userData.photo,
       phone: userData.phone,
       phoneCountryCode: userData.phoneCountryCode,
-      first_name: userData.firstName,
-      last_name: userData.lastName,
+      first_name: userData.first_name,
+      last_name: userData.last_name,
     };
 
     const user = await createUser(newUserPayload);

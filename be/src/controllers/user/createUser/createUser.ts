@@ -6,16 +6,16 @@ export const createUser = async ({
   photo,
   phone,
   phoneCountryCode,
-  firstName,
-  lastName,
+  first_name,
+  last_name,
 }: {
   email: string;
   username: string;
   photo?: string;
   phone?: string;
   phoneCountryCode?: string;
-  firstName?: string;
-  lastName?: string;
+  first_name?: string;
+  last_name?: string;
 }) => {
   try {
     // Insert user into the database with all relevant fields
@@ -25,8 +25,8 @@ export const createUser = async ({
       photo,
       phone,
       phone_country_code: phoneCountryCode,
-      first_name: firstName,
-      last_name: lastName,
+      first_name: first_name,
+      last_name: last_name,
     });
 
     // Retrieve the user from the database
