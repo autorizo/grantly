@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from 'contexts'
 import { retrieveUser, updateUser, updateUserImage } from 'servers'
-import { ProfileForm, ProfileImage, User } from 'components'
+import { ProfileForm, ProfileImage, ToastType, User } from 'components'
+import { useToast } from 'contexts'
 
 export const Profile = () => {
-  const { session, profilePhoto } = useAuth() // Obtener profilePhoto desde el contexto
+  const { session, profilePhoto, uploadSessionProfilePhoto } = useAuth() // Obtener profilePhoto desde el contexto
+  const { showToast } = useToast()
   const [user, setUser] = useState<User>({
     username: '',
     first_name: '',
@@ -47,7 +49,12 @@ export const Profile = () => {
   }
 
   const handleUploadImage = async (imageFile: File) => {
-    await updateUserImage(userId, imageFile)
+    const response = await updateUserImage(userId, imageFile)
+    if (response.status === 200) {
+      showToast('Imagen de perfil actualizada', ToastType.SUCCESS)
+      //Update photo in session
+      uploadSessionProfilePhoto(response.data.imageUrl)
+    }
   }
 
   return (

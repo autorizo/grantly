@@ -4,3 +4,4 @@ export * from './resetPasswordHandler';
 export * from './generateTokenHandler';
 export * from './getUserByIdHandler';
 export * from './updateUserHandler';
+export * from './updateUserImageHandler';

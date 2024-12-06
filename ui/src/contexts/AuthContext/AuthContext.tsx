@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect, useCallback } from 'react'
 import {
   AuthContextType,
   AuthProviderProps,
@@ -13,7 +13,9 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType)
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true) // Add loading state
-  const [profilePhoto, setProfilePhoto] = useState<string | undefined>(undefined)
+  const [profilePhoto, setProfilePhoto] = useState<string | undefined>(
+    undefined
+  )
 
   // Set up message listener to close popup and update session when authentication is done
   const handleMessage = (event: MessageEvent) => {
@@ -25,7 +27,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   // Function to decode the token and set session from localStorage or URL
-  const initializeSession = (token?: string) => {
+  const initializeSession = useCallback((token?: string) => {
     const savedSession = localStorage.getItem('session')
     if (savedSession) {
       const parsedSession: Session = JSON.parse(savedSession)
@@ -66,7 +68,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     }
     setLoading(false) // Mark loading as done
-  }
+  }, [])
 
   // Function to validate the image URL by making a fetch request
   const validatePhotoUrl = async (url: string) => {
@@ -76,14 +78,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         // If the photo is valid, set it
         setProfilePhoto(url)
         localStorage.setItem('profilePhoto', url)
-      } else if (response.status === 404) {
-        // If not found, reset the photo
-        setProfilePhoto(undefined)
-      } else if (response.status === 429) {
-        // Handle too many requests, fallback to undefined or you could implement retry logic
-        setProfilePhoto(undefined)
       } else {
-        // Handle other errors or invalid statuses
         setProfilePhoto(undefined)
       }
     } catch (error) {
@@ -107,7 +102,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return () => {
       window.removeEventListener('message', handleReloadMessage)
     }
-  }, [])
+  }, [initializeSession])
 
   // Handle sign-in by opening the popup for the given provider
   const signIn = async (provider: OauthProvider) => {
@@ -148,6 +143,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.removeItem('profilePhoto')
   }
 
+  const uploadSessionProfilePhoto = (imageFile: string) => {
+    setProfilePhoto(imageFile)
+    localStorage.setItem('profilePhoto', imageFile)
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -156,7 +156,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         signOut,
         initializeSession,
         loading,
-        profilePhoto, // Provide profilePhoto in the context
+        profilePhoto,
+        uploadSessionProfilePhoto,
       }}
     >
       {children}

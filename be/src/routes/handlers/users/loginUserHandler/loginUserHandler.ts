@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { AppError } from '@errors/index';
 import { errorResponseHandler } from '@errors/errorResponseHandler';
 import { getUserByEmail, verifyPassword } from '@controllers/user'; // Assuming you have a function for verifying the password
-import { generateToken } from '@utils/index';
+import { generateToken, getSignedUrl } from '@utils/index';
 import { Session } from '@utils/types';
 
 export const loginUserHandler = async (req: Request, res: Response) => {
@@ -18,6 +18,7 @@ export const loginUserHandler = async (req: Request, res: Response) => {
   try {
     // Check if user exists with the given email
     const user = await getUserByEmail(email);
+    const photo = await getSignedUrl(user.photo);
 
     if (!user) {
       return errorResponseHandler(
@@ -41,6 +42,7 @@ export const loginUserHandler = async (req: Request, res: Response) => {
       id: user.id,
       email: user.email,
       userName: user.username,
+      photo,
     };
 
     // Generate JWT token

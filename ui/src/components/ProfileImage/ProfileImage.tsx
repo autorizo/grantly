@@ -52,7 +52,7 @@ export const ProfileImage = ({
   return (
     <div className='flex justify-center mb-6'>
       {currentImage ? (
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-2 items-center'>
           <img
             src={currentImage}
             alt='Perfil'
@@ -61,13 +61,9 @@ export const ProfileImage = ({
           />
           {/* Enlace para cambiar la foto, solo se muestra si el usuario sube una nueva imagen */}
           {hasUploadedImage && (
-            <a
-              href='#'
-              className='text-sm text-primary'
-              onClick={handleChangeImage}
-            >
+            <span className='text-sm text-primary' onClick={handleChangeImage}>
               Cambiar foto
-            </a>
+            </span>
           )}
         </div>
       ) : (

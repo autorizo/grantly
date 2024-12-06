@@ -26,6 +26,7 @@ export type AuthContextType = {
   initializeSession: (token?: string) => void
   loading: boolean
   profilePhoto?: string
+  uploadSessionProfilePhoto: (imageFile: string) => void
 }
 
 export type AuthProviderProps = {

@@ -46,7 +46,11 @@ export const updateUserImage = async (userId: string, image: File) => {
   try {
     const formData = new FormData()
     formData.append('image', image)
-    await server.put(`/users/${userId}/image`, formData)
+    return await server.put(`/users/${userId}/image`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
   } catch (error) {
     console.error('Error updating user image:', error)
     throw error

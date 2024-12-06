@@ -3,7 +3,7 @@ import { AppError } from '@errors/index';
 import { errorResponseHandler } from '@errors/errorResponseHandler';
 import { Profile } from 'passport';
 import { createUserByOauth, getUserByEmail } from '@controllers/user';
-import { generateToken, getInfoByProvider } from '@utils/index';
+import { generateToken, getInfoByProvider, getSignedUrl } from '@utils/index';
 import { Session } from '@utils/types';
 
 // Implement the handler
@@ -59,11 +59,13 @@ export const authUserHandler = async (req: Request, res: Response) => {
       );
     }
 
+    const signedPhoto = await getSignedUrl(user.photo);
+
     const session: Session = {
       id: user.id,
       email: user.email,
       userName: user.username,
-      photo: user.photo,
+      photo: signedPhoto,
     };
 
     const jwt = generateToken(session);

@@ -13,7 +13,6 @@ import { ProviderStatus, useProviders } from 'stores'
 import { useState } from 'react'
 import { useMutation } from 'react-query'
 import { toggleProviderAPI } from 'servers'
-import { useNavigate } from 'react-router-dom'
 
 export const ProviderHeader = ({
   id,
@@ -28,7 +27,6 @@ export const ProviderHeader = ({
   const [isBlocking, setIsBlocking] = useState(true) // New state to track the action
   const [justification, setJustification] = useState('')
   const { toggleProvider } = useProviders()
-  const navigate = useNavigate() // Hook to navigate programmatically
   
   const { mutate: toggleProviderHandler } = useMutation(
     ({
