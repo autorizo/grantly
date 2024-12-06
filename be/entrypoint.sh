@@ -21,3 +21,7 @@ fi
 # Start the application
 echo "Starting the application..."
 node dist/index.js
+
+echo "NODE_ENV: $NODE_ENV"
+echo "Content of the dist directory:"
+ls -l /usr/src/app/dist
