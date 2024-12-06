@@ -7,4 +7,5 @@ export type ProviderHeaderProps = {
   description: string
   status: ProviderStatus
   isInDetail?: boolean
+  closeParentDrawer?: () => void
 }

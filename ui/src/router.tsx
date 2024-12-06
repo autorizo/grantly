@@ -1,6 +1,16 @@
-// router.tsx (or router.js)
-import { RootLayout, ProvidersList, Notifications, ProviderType } from 'layouts'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
+
+import {
+  RootLayout,
+  ProvidersList,
+  Notifications,
+  ProviderType,
+  LoginLayout,
+  RecoverPassword,
+  ResetPassword,
+  Profile,
+  SignUp,
+} from 'layouts'
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +34,10 @@ export const router = createBrowserRouter([
         element: <Notifications />, // Your existing Notifications component
       },
       {
+        path: '/profile',
+        element: <Profile />,
+      },
+      {
         path: '/',
         element: <Navigate to='/active' replace />, // Redirect to active providers
       },
@@ -32,5 +46,21 @@ export const router = createBrowserRouter([
         element: <ProvidersList providerType={ProviderType.ACTIVE} />, // Pass prop for active
       },
     ],
+  },
+  {
+    path: '/login',
+    element: <LoginLayout />,
+  },
+  {
+    path: '/signup',
+    element: <SignUp />,
+  },
+  {
+    path: '/recover-password',
+    element: <RecoverPassword />,
+  },
+  {
+    path: '/reset-password',
+    element: <ResetPassword />,
   },
 ])

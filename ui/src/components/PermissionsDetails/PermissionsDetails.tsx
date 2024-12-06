@@ -1,19 +1,9 @@
-import React, { Fragment, useState } from 'react'
-import cn from 'classnames'
 import {
-  BlockIcon,
-  Button,
-  CheckIcon,
   IconMapTypes,
-  IconPermission,
 } from 'components'
-import { ButtonActions, PermissionCard, PermissionState } from './components'
+import { PermissionCard } from './components'
 import { PermissionsDetailsProps } from './PermissionsDetails.types'
 import { formatDate } from 'utils'
-import { Modal } from 'components'
-import { useModal } from 'components'
-import { PermissionStatus } from 'stores'
-import { useSwipe } from 'hooks'
 
 export const PermissionsDetails = ({
   permissions,

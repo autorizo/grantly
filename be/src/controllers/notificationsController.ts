@@ -52,14 +52,29 @@ export const getUserNotifications = async (userId: string) => {
         'notifications.created_at',
         'providers.name as provider_name',
         'permissions.name as permission_name',
-        'permissions.points as permission_points'
+        'permissions.points as permission_points',
+        'pn.name as permission_provider_name'
       )
       .leftJoin('providers', 'notifications.provider_id', 'providers.id')
       .leftJoin('permissions', 'notifications.permission_id', 'permissions.id')
-      .where('notifications.user_id', userId) // Use the user_id to filter notifications
+      .leftJoin('providers as pn', 'permissions.provider_id', 'pn.id')
+      .where('notifications.user_id', userId)
       .orderBy('notifications.created_at', 'desc');
 
-    return userNotifications;
+    const notifications = userNotifications.map((notification) => ({
+      notification_id: notification.notification_id,
+      provider_id: notification.provider_id,
+      permission_id: notification.permission_id,
+      justification: notification.justification,
+      action: notification.action,
+      created_at: notification.created_at,
+      provider_name:
+        notification.provider_name || notification.permission_provider_name,
+      permission_name: notification.permission_name,
+      permission_points: notification.permission_points,
+    }));
+
+    return notifications;
   } catch (error) {
     console.error('Error fetching user notifications:', error);
     throw new AppError(500, 'Internal Server Error'); // Custom error handling

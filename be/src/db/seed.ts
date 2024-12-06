@@ -9,7 +9,7 @@ const db = knex(config.development);
 const runSeeds = async () => {
   try {
     await db.seed.run(); // Run all seeds
-    console.log('Seeding completed successfully');
+    console.info('Seeding completed successfully');
   } catch (error) {
     console.error('Error running seeds:', error);
   } finally {

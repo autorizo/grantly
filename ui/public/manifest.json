@@ -1,15 +1,20 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Autorizo",
+  "name": "Autorizo",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "icons": [
+        { "src": "/favicon.ico", "type": "image/x-icon", "sizes": "16x16 32x32" },
+        { "src": "public/icon-192.png", "type": "image/png", "sizes": "192x192" },
+        { "src": "public/icon-192.png", "type": "image/png", "sizes": "512x512" },
+        { "src": "public/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "maskable" },
+        { "src": "public/icon-192.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+      ]
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#3d2453",
   "background_color": "#ffffff"
 }
+

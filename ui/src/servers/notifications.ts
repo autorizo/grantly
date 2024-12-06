@@ -1,8 +1,6 @@
-import axios from 'axios'
-
-const apiUrl = process.env.REACT_APP_BE_URL
+import server from './server'
 
 export const fetchNotifications = async (userId: string) => {
-  const { data } = await axios.get(`${apiUrl}/notifications/${userId}`)
+  const { data } = await server.get(`/notifications/${userId}`)
   return data
 }
