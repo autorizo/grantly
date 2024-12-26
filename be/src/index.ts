@@ -8,8 +8,8 @@ import {
   resetPassword,
   signupRoutes,
   userRoutes,
-} from '@routes/index'; // Make sure these paths are correct for your setup
-import { authHandler } from '@utils/authHandler'; // Make sure this path is correct too
+} from '@routes/index';
+import { authHandler } from '@utils/authHandler';
 
 // Create an Express application
 const app = express();

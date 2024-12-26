@@ -57,6 +57,7 @@
     "typescript": "^5.6.3"
   },
   "_moduleAliases": {
+    "@services": "dist/services",
     "@routes": "dist/routes",
     "@controllers": "dist/controllers",
     "@db": "dist/db",

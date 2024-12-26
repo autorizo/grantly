@@ -3,7 +3,7 @@ import { AppError } from '@errors/index';
 import { errorResponseHandler } from '@errors/errorResponseHandler';
 import { getUserByEmail, setResetToken } from '@controllers/user'; // Assuming you have a function for verifying the password
 import { generateToken } from '@utils/generateToken';
-import { sendPasswordResetEmail } from 'src/services/emailService';
+import { sendPasswordResetEmail } from '@services/index';
 
 //generate a token and send it as email to the user
 export const generateTokenHandler = async (req: Request, res: Response) => {

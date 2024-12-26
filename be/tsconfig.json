@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "outDir": "./dist",
     "rootDir": "./src",
@@ -14,7 +15,8 @@
       "@controllers/*": ["src/controllers/*"],
       "@db/*": ["src/db/*"],
       "@errors/*": ["src/errors/*"],
-      "@utils/*": ["src/utils/*"]
+      "@utils/*": ["src/utils/*"],
+      "@services/*": ["src/services/*"]
     },
     "typeRoots": ["node_modules/@types", "env.d.ts"]
   },
