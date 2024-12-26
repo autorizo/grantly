@@ -7,7 +7,7 @@
     "rollback": "ts-node src/db/rollback.ts",
     "seed": "ts-node src/db/seed.ts",
     "build": "tsc -p tsconfig.build.json",
-    "start": "node -r tsconfig-paths/register dist/index.js"
+    "start": "node -r tsconfig-paths/register --trace-warnings dist/index.js"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.14.0",
