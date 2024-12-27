@@ -22,6 +22,11 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Decode the secret files
+echo "Decoding secrets..."
+RUN echo "$STORAGE_SECRET" | base64 -d > /usr/src/app/dist/secrets/autorizo-441221-543456ed3158.json
+RUN echo "$CORS_SECRET" | base64 -d > /usr/src/app/dist/secrets/cors.json
+
 # Start the application
 echo "Starting the application..."
 node dist/index.js
