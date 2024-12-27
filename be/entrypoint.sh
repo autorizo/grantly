@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Temporal rollback migrations
+echo "Rollback migrations..."
+./node_modules/.bin/knex migrate:rollback --env production
+
 # Run database migrations
 echo "Running migrations..."
 ./node_modules/.bin/knex migrate:latest --env production
