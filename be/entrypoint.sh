@@ -26,15 +26,24 @@ fi
 echo "Decoding secrets..."
 # Create the secrets directory if it doesn't exist
 echo "Creating /secrets directory..."
-mkdir -p /secrets || {
-    echo "Failed to create directory /secrets"
+mkdir -p /usr/src/app/secrets || {
+    echo "Failed to create directory /usr/src/app/secrets"
     exit 1
 }
-echo "$STORAGE_SECRET" | base64 -d > /secrets/autorizo-441221-543456ed3158.json || {
-    echo "Failed to decode or write secret file"
+
+echo "$STORAGE_SECRET" | base64 -d > /usr/src/app/secrets/autorizo-441221-543456ed3158.json || {
+    echo "Failed to decode or write the secret file"
     exit 1
 }
-echo "$CORS_SECRET" | base64 -d > /secrets/cors.json || {
+# Verify the file was created
+if [ -f /usr/src/app/secrets/autorizo-441221-543456ed3158.json ]; then
+    echo "Secret file successfully created."
+else
+    echo "Secret file was not created."
+    exit 1
+fi
+
+echo "$CORS_SECRET" | base64 -d > /usr/src/app/secrets/cors.json || {
     echo "Failed to decode or write secret file"
     exit 1
 }
