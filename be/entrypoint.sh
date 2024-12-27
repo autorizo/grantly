@@ -25,16 +25,16 @@ fi
 # Decode the secret files
 echo "Decoding secrets..."
 # Create the secrets directory if it doesn't exist
-echo "Creating /usr/src/app/dist/secrets directory..."
-mkdir -p /usr/src/app/dist/secrets || {
-    echo "Failed to create directory /usr/src/app/dist/secrets"
+echo "Creating /dist/secrets directory..."
+mkdir -p /dist/secrets || {
+    echo "Failed to create directory /dist/secrets"
     exit 1
 }
-echo "$STORAGE_SECRET" | base64 -d > /usr/src/app/dist/secrets/autorizo-441221-543456ed3158.json || {
+echo "$STORAGE_SECRET" | base64 -d > /dist/secrets/autorizo-441221-543456ed3158.json || {
     echo "Failed to decode or write secret file"
     exit 1
 }
-echo "$CORS_SECRET" | base64 -d > /usr/src/app/dist/secrets/cors.json || {
+echo "$CORS_SECRET" | base64 -d > /dist/secrets/cors.json || {
     echo "Failed to decode or write secret file"
     exit 1
 }
