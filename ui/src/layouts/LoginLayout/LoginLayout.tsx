@@ -62,7 +62,7 @@ export const LoginLayout = () => {
   }
 
   return (
-    <div className='flex flex-col gap-6 items-center justify-center h-screen bg-gray-50 px-10'>
+    <div className='flex flex-col gap-6 items-center justify-center h-svh bg-gray-50 px-10'>
       <img
         className='h-1/6 object-cover'
         alt='autorizo'
