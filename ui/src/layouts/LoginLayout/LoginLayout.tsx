@@ -68,7 +68,7 @@ export const LoginLayout = () => {
         alt='autorizo'
         src='/images/icon-512.png'
       />
-      <h1 className='text-2xl font-semibold mb-6'>Bienvenido - Autorizo</h1>
+      <h1 className='text-2xl font-semibold mb-2'>Bienvenido - Autorizo</h1>
 
       {/* Formik Form for Email/Password Login */}
       <Formik
@@ -87,7 +87,7 @@ export const LoginLayout = () => {
                 id='email'
                 name='email'
                 type='email'
-                className='p-3 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
+                className='h-10 p-3 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
                 autoComplete='email'
               />
               <ErrorMessage
@@ -106,7 +106,7 @@ export const LoginLayout = () => {
                 id='password'
                 name='password'
                 type='password'
-                className='p-3 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
+                className='h-10 p-3 border rounded-md border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary'
                 autoComplete='current-password'
               />
               <ErrorMessage
@@ -135,7 +135,7 @@ export const LoginLayout = () => {
         )}
       </Formik>
 
-      <div className='text-center mt-6'>Ingresa con:</div>
+      <div className='text-center mt-2'>Ingresa con:</div>
 
       <div className=' flex justify-center items-center w-full gap-2'>
         {/* OAuth Buttons with Logos */}
