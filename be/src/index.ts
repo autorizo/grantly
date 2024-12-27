@@ -22,7 +22,7 @@ app.use(express.json());
 // CORS setup
 app.use(
   cors({
-    origin: process.env.USER_INTERFACE_URL as string, // Allow all origins
+    origin: '*', // Allow all origins
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
