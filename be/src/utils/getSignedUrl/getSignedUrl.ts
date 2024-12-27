@@ -8,21 +8,9 @@ const storage = new Storage({
   ), // Root path
 });
 
-async function configureBucketCors() {
-  await storage.bucket('autorizo-avatar').setCorsConfiguration([
-    {
-      maxAgeSeconds: 3600,
-      method: ['GET'],
-      origin: ['*'],
-      responseHeader: ['*'],
-    },
-  ]);
-}
-
 const bucket = storage.bucket('autorizo-avatar');
 
 export const getSignedUrl = async (unsignedUrl: string) => {
-  await configureBucketCors();
   const file = bucket.file(unsignedUrl);
 
   const [signedUrl] = await file.getSignedUrl({
