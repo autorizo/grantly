@@ -1,9 +1,10 @@
 import { OauthProvider, useAuth } from 'contexts'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import { z } from 'zod'
-import { FacebookIcon, GoogleIcon, MicrosoftIcon } from 'components'
+import { FacebookIcon, GoogleIcon, MicrosoftIcon, ToastType } from 'components'
 import { loginUser } from 'servers/auth'
 import { Navigate } from 'react-router-dom'
+import { useToast } from 'contexts'
 
 // Zod validation schema for email/password
 const loginSchema = z.object({
@@ -34,6 +35,7 @@ const providers = [
 
 export const LoginLayout = () => {
   const { signIn, initializeSession, session } = useAuth() ?? {}
+  const { showToast } = useToast()
 
   if (session) {
     return <Navigate to='/active' replace />
@@ -43,7 +45,12 @@ export const LoginLayout = () => {
   const handleSubmit = async (values: { email: string; password: string }) => {
     // Here you would handle the logic for the form submission, e.g., calling an API or signIn
 
-    const { token } = await loginUser(values.email, values.password)
+    const { token, errors } = await loginUser(values.email, values.password)
+
+    if (errors) {
+      showToast('Usuario no encontrado.', ToastType.ERROR)
+      return
+    }
     initializeSession(token)
   }
 
@@ -122,7 +129,7 @@ export const LoginLayout = () => {
               disabled={isSubmitting}
               className='w-full py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition duration-200'
             >
-              {isSubmitting ? 'Logging in...' : 'Ingresar'}
+              {isSubmitting ? 'Ingresando...' : 'Ingresar'}
             </button>
 
             {/* recover password */}

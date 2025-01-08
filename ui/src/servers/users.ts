@@ -19,8 +19,7 @@ export const togglePermissionAPI = async (
       state,
       justification,
     })
-    // await a few seconds to avoid multiple requests
-    await new Promise(resolve => setTimeout(resolve, 200))
+
     return { ...response.data, isAnActiveProvider } // Return the updated permission
   } catch (error) {
     console.error('Error toggling permission:', error)

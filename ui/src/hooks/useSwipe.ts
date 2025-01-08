@@ -11,6 +11,7 @@ interface SwipeOutput {
   onTouchMove: (e: TouchEvent) => void
   onTouchEnd: () => void
   swipeDirection: 'left' | 'right' | null // New property to indicate swipe direction
+  autoLeftSwipe: () => void
   resetSwipeDirection: () => void
 }
 
@@ -64,8 +65,14 @@ export const useSwipe = (input: SwipeInput): SwipeOutput => {
     setTouchStart(0)
     setTouchEnd(0)
   }
+
   const resetSwipeDirection = () => {
     setSwipeDirection(null)
+  }
+
+  const autoLeftSwipe = () => {
+    input.onSwipedLeft() // Trigger left swipe callback if not already triggered
+    setSwipeDirection('left') // Set swipe direction
   }
 
   return {
@@ -73,6 +80,7 @@ export const useSwipe = (input: SwipeInput): SwipeOutput => {
     onTouchMove,
     onTouchEnd,
     swipeDirection,
-    resetSwipeDirection
+    autoLeftSwipe,
+    resetSwipeDirection,
   }
 }

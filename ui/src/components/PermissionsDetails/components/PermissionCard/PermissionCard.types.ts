@@ -11,6 +11,5 @@ export type PermissionCardProps = {
     updatedAt: string
     pdfPath: string
     togglePermission: (id: string) => void
-    handleClick: (pdfPath: string) => () => void
     providerStatus: ProviderStatus
 };

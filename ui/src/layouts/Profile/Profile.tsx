@@ -8,7 +8,6 @@ export const Profile = () => {
   const { session, profilePhoto, uploadSessionProfilePhoto } = useAuth() // Obtener profilePhoto desde el contexto
   const { showToast } = useToast()
   const [user, setUser] = useState<User>({
-    username: '',
     first_name: '',
     last_name: '',
     phone: '',
@@ -30,7 +29,6 @@ export const Profile = () => {
   const handleSubmit = async (values: User) => {
     try {
       const updatedDetails = {
-        username: values.username,
         first_name: values.first_name,
         last_name: values.last_name,
         phone: values.phone,

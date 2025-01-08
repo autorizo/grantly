@@ -1,4 +1,4 @@
-import 'module-alias/register';
+// import 'module-alias/register';
 import express from 'express';
 import cors from 'cors';
 import {
@@ -11,6 +11,7 @@ import {
   userRoutes,
 } from '@routes/index';
 import { authHandler } from '@utils/authHandler';
+import axios from 'axios';
 
 // Create an Express application
 const app = express();
@@ -28,6 +29,19 @@ app.use(
     credentials: true,
   })
 );
+
+app.use('/proxy-pdf', async (req, res) => {
+  const pdfPath = req.query.pdfPath as string;
+  try {
+    const response = await axios.get(pdfPath, {
+      responseType: 'arraybuffer',
+    });
+    res.setHeader('Content-Type', 'application/pdf');
+    res.send(response.data);
+  } catch (error) {
+    res.status(500).send('Failed to fetch PDF');
+  }
+});
 
 // Reset password route
 app.use(resetPassword);
@@ -51,7 +65,6 @@ app.use(notificationRoutes);
 app.use((req, res) => {
   res.status(404).json({ message: 'Not Found' });
 });
-
 // Start the server
 app.listen(PORT, () => {
   console.info(`Server running on port ${PORT}`);

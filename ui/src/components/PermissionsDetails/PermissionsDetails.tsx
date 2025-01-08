@@ -10,11 +10,6 @@ export const PermissionsDetails = ({
   togglePermission,
   providerStatus
 }: PermissionsDetailsProps) => {
-  const handleClick = (pdfPath: string) => () => {
-    console.log('hi')
-    
-    window.open(pdfPath, '_blank')
-  }
   return (
     <div className='flex flex-col gap-4 border-t-2 pt-4 pb-4'>
       {permissions.map(
@@ -36,7 +31,6 @@ export const PermissionsDetails = ({
             updatedAt={formatDate(updatedAt)}
             status={status}
             points={points}
-            handleClick={handleClick}
             id={id}
             pdfPath={pdfPath}
             togglePermission={togglePermission}

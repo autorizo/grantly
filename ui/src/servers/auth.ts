@@ -1,11 +1,15 @@
 import server from './server'
 
 export const loginUser = async (email: string, password: string) => {
-  const { data } = await server.post(`/login`, {
-    email,
-    password,
-  })
-  return data
+  try {
+    const { data } = await server.post(`/login`, {
+      email,
+      password,
+    })
+    return data
+  } catch (error: any) {
+    return error.response.data
+  }
 }
 
 export const generateRecoveryToken = async (email: string) => {

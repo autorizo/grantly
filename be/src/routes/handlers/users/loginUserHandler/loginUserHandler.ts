@@ -18,7 +18,6 @@ export const loginUserHandler = async (req: Request, res: Response) => {
   try {
     // Check if user exists with the given email
     const user = await getUserByEmail(email);
-    const photo = await getSignedUrl(user.photo);
 
     if (!user) {
       return errorResponseHandler(
@@ -26,6 +25,7 @@ export const loginUserHandler = async (req: Request, res: Response) => {
         new AppError(404, 'User not found', ['Invalid email or password'])
       );
     }
+    const photo = await getSignedUrl(user.photo);
 
     // Verify the password (assuming you have a function for that)
     const isPasswordValid = await verifyPassword(password, user.password);
@@ -41,7 +41,7 @@ export const loginUserHandler = async (req: Request, res: Response) => {
     const session: Session = {
       id: user.id,
       email: user.email,
-      userName: user.username,
+      userName: user.first_name ?? user.username ?? user.email,
       photo,
     };
 

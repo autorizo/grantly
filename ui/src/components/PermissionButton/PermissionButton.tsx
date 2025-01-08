@@ -10,8 +10,10 @@ export const PermissionButton = ({
   togglePermission,
 }: PermissionButtonProps) => {
   const className = cn(
-    'focus:outline-none rounded-full transition-colors bg-green-500 p-2',
-    status === PermissionStatus.Active ? 'bg-opacity-80' : 'bg-opacity-0'
+    'focus:outline-none rounded-full transition-colors bg-green-500 p-2 shadow-md',
+    status === PermissionStatus.Active
+      ? 'bg-opacity-80'
+      : 'bg-opacity-20 bg-primary shadow-sm'
   )
 
   const hidePermissionButton = status === PermissionStatus.Blocked

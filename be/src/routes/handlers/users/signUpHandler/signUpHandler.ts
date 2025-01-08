@@ -27,7 +27,7 @@ export const signUpHandler = async (req: Request, res: Response) => {
     console.log(userData);
     const newUserPayload = {
       email: userData.email,
-      username: userData.username,
+      username: userData.email,
       sub: userData.sub,
       photo: userData.photo,
       phone: userData.phone,
@@ -66,7 +66,7 @@ export const signUpHandler = async (req: Request, res: Response) => {
       const session: Session = {
         id: user.id,
         email: user.email,
-        userName: user.username,
+        userName: user.first_name ?? user.username ?? user.email,
         photo: photo ?? undefined,
       };
 

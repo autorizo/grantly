@@ -1,9 +1,11 @@
 import cn from 'classnames'
 import { PermissionCardProps } from './PermissionCard.types'
-import { IconPermission } from 'components'
+import { IconPermission, LeftArrowIcon, Modal, useModal } from 'components'
 import { PermissionState } from '..'
 import { useState } from 'react'
 import { useSwipe } from 'hooks'
+import { Worker, Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core'
+import '@react-pdf-viewer/core/lib/styles/index.css'
 
 export const PermissionCard = ({
   description,
@@ -15,29 +17,30 @@ export const PermissionCard = ({
   updatedAt,
   pdfPath,
   togglePermission,
-  handleClick,
   providerStatus, // Receive providerStatus prop
 }: PermissionCardProps) => {
   const [isSwiped, setIsSwiped] = useState(false)
+  const { isOpen, closeModal, openModal } = useModal()
 
   // Check if the provider status is blocked
   const isProviderBlocked = providerStatus === 'blocked'
 
-  const { swipeDirection, resetSwipeDirection, ...props } = useSwipe({
-    onSwipedLeft: () => {
-      if (!isProviderBlocked) {
-        // Only allow swipe left if provider is not blocked
-        setIsSwiped(true)
-      }
-    },
-    onSwipedRight: () => {
-      if (!isProviderBlocked) {
-        // Only allow swipe right if provider is not blocked
-        resetSwipeDirection()
-        setIsSwiped(false)
-      }
-    },
-  })
+  const { swipeDirection, resetSwipeDirection, autoLeftSwipe, ...props } =
+    useSwipe({
+      onSwipedLeft: () => {
+        if (!isProviderBlocked) {
+          // Only allow swipe left if provider is not blocked
+          setIsSwiped(true)
+        }
+      },
+      onSwipedRight: () => {
+        if (!isProviderBlocked) {
+          // Only allow swipe right if provider is not blocked
+          resetSwipeDirection()
+          setIsSwiped(false)
+        }
+      },
+    })
 
   const showButton = !(swipeDirection === null || swipeDirection === 'right')
 
@@ -45,6 +48,15 @@ export const PermissionCard = ({
     togglePermission(id)
     resetSwipeDirection() // Reset swipe state
     setIsSwiped(false) // Ensure isSwiped state is also reset
+  }
+
+  const handleOpenRight = () => {
+    if (isSwiped) {
+      resetSwipeDirection()
+      setIsSwiped(false)
+    } else {
+      autoLeftSwipe()
+    }
   }
 
   return (
@@ -59,8 +71,10 @@ export const PermissionCard = ({
           }
         )}
       >
-        <div className='flex gap-2'>
-          <IconPermission image={image} />
+        <div className='grid grid-cols-[3rem_1fr_3rem] gap-2 w-full'>
+          <div className='justify-self-center'>
+            <IconPermission size='lg' image={image} />
+          </div>
           <div className='flex flex-col'>
             <h3 className='text-md font-semibold'>{name}</h3>
             {!isProviderBlocked && (
@@ -71,14 +85,15 @@ export const PermissionCard = ({
               <p className='text-xs text-gray-500'>Modificado {updatedAt}</p>
             )}
             <button
-              onClick={() => {
-                handleClick(pdfPath)
-              }}
+              onClick={() => openModal()} // Open the modal
               className='text-xs underline font-semibold text-left text-primary'
               aria-label='View Terms and Conditions'
             >
               Términos y Condiciones
             </button>
+          </div>
+          <div className='self-center text-6xl' onClick={handleOpenRight}>
+            <LeftArrowIcon className='text-slate-700' size='md' />
           </div>
         </div>
       </div>
@@ -86,7 +101,7 @@ export const PermissionCard = ({
         <button
           onClick={handleToggle}
           className={cn(
-            'text-xs font-semibold text-white rounded-lg p-2 duration-500 absolute h-full top-0 right-0 transition-all opacity-0 w-20',
+            'text-xs font-semibold text-white rounded-lg p-2 duration-500 absolute h-full top-0 right-0 transition-opacity ease-in-out opacity-0 w-20',
             {
               'bg-red-500 hover:bg-red-600': status === 'active',
               'bg-green-500 hover:bg-green-600': status === 'inactive',
@@ -102,6 +117,18 @@ export const PermissionCard = ({
           {status === 'active' ? 'Desactivar' : 'Activar'}
         </button>
       )}
+      <Modal isOpen={isOpen} onClose={closeModal} fullScreen>
+        <div className='flex overflow-y-auto'>
+          <Worker
+            workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}
+          >
+            <Viewer
+              defaultScale={SpecialZoomLevel.PageWidth}
+              fileUrl={`${process.env.REACT_APP_BE_URL}/proxy-pdf?pdfPath=${pdfPath}`}
+            />
+          </Worker>
+        </div>
+      </Modal>
     </div>
   )
 }

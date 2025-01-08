@@ -2,7 +2,6 @@ import knex from '@db/index';
 
 export const createUser = async ({
   email,
-  username,
   photo,
   phone,
   phoneCountryCode,
@@ -10,7 +9,6 @@ export const createUser = async ({
   last_name,
 }: {
   email: string;
-  username: string;
   photo?: string;
   phone?: string;
   phoneCountryCode?: string;
@@ -21,7 +19,7 @@ export const createUser = async ({
     // Insert user into the database with all relevant fields
     await knex('users').insert({
       email,
-      username,
+      username: email,
       photo,
       phone,
       phone_country_code: phoneCountryCode,

@@ -4,7 +4,7 @@ import {
   Button,
   CheckIcon,
   Modal,
-  StarIcon,
+  StarActiveIcon,
   useModal,
 } from 'components'
 import { ProviderHeaderProps } from './ProviderHeader.types'
@@ -27,7 +27,7 @@ export const ProviderHeader = ({
   const [isBlocking, setIsBlocking] = useState(true) // New state to track the action
   const [justification, setJustification] = useState('')
   const { toggleProvider } = useProviders()
-  
+
   const { mutate: toggleProviderHandler } = useMutation(
     ({
       providerId,
@@ -75,8 +75,8 @@ export const ProviderHeader = ({
           <h2 className='text-xl font-semibold'>{name}</h2>
         </div>
         <div className='flex items-center gap-2 border-primary border-2 px-1.5 py-0.5 rounded-full'>
-          <StarIcon className='h-6 w-6 text-yellow-500' />
-          <p className='text-xs'>
+          <StarActiveIcon className='h-7 w-7 text-yellow-500' />
+          <p className='text-md font-semibold text-primary'>
             {total}
             <span className='hidden sm:contents'> Puntos</span>
           </p>

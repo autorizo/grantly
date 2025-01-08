@@ -22,7 +22,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
   useEffect(() => {
     if (user) {
       setInitialValues({
-        username: user.username || '',
         first_name: user.first_name || '',
         last_name: user.last_name || '',
         phone: user.phone || '',
@@ -62,28 +61,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
     >
       {formik => (
         <Form>
-          {/* Campo de nombre de usuario */}
-          <div className='mb-4'>
-            <label
-              className='block text-sm text-gray-600 mb-1'
-              htmlFor='username'
-            >
-              Nombre de usuario:
-            </label>
-            <Field
-              id='username'
-              name='username'
-              type='text'
-              className='p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 w-full'
-              placeholder='Ingresa tu nombre de usuario'
-            />
-            <ErrorMessage
-              name='username'
-              component='p'
-              className='text-xs text-red-500 mt-1'
-            />
-          </div>
-
           {/* Campo de primer nombre */}
           <div className='mb-4'>
             <label

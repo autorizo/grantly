@@ -19,5 +19,6 @@ export const IconMap = {
   
 
 export type IconPermissionProps = {
-    image: IconMapTypes
+    image: IconMapTypes,
+    size?: string,
 };

@@ -10,7 +10,6 @@ export const SignUp = () => {
   const { initializeSession, uploadSessionProfilePhoto } = useAuth()
   const [user, setUser] = useState<User>({
     id: '',
-    username: '',
     first_name: '',
     last_name: '',
     phone: '',
@@ -25,7 +24,6 @@ export const SignUp = () => {
   const handleSubmit = async (values: User) => {
     try {
       const newUser = new FormData()
-      newUser.append('username', values.username)
       newUser.append('first_name', values.first_name)
       newUser.append('last_name', values.last_name)
       newUser.append('phone', values.phone)
