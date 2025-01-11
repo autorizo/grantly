@@ -1,6 +1,13 @@
 import cn from 'classnames'
 import { PermissionCardProps } from './PermissionCard.types'
-import { IconPermission, LeftArrowIcon, Modal, useModal } from 'components'
+import {
+  IconPermission,
+  LeftArrowIcon,
+  Modal,
+  StarActiveIcon,
+  StarIcon,
+  useModal,
+} from 'components'
 import { PermissionState } from '..'
 import { useState } from 'react'
 import { useSwipe } from 'hooks'
@@ -19,54 +26,20 @@ export const PermissionCard = ({
   togglePermission,
   providerStatus, // Receive providerStatus prop
 }: PermissionCardProps) => {
-  const [isSwiped, setIsSwiped] = useState(false)
   const { isOpen, closeModal, openModal } = useModal()
 
   // Check if the provider status is blocked
   const isProviderBlocked = providerStatus === 'blocked'
 
-  const { swipeDirection, resetSwipeDirection, autoLeftSwipe, ...props } =
-    useSwipe({
-      onSwipedLeft: () => {
-        if (!isProviderBlocked) {
-          setIsSwiped(true)
-        }
-      },
-      onSwipedRight: () => {
-        if (!isProviderBlocked) {
-          resetSwipeDirection()
-          setIsSwiped(false)
-        }
-      },
-    })
-
-  const showButton = !(swipeDirection === null || swipeDirection === 'right')
-
   const handleToggle = () => {
     togglePermission(id)
-    resetSwipeDirection()
-    setIsSwiped(false)
-  }
-
-  const handleOpenRight = () => {
-    if (isSwiped) {
-      setIsSwiped(false)
-      resetSwipeDirection()
-    } else {
-      autoLeftSwipe()
-    }
   }
 
   return (
     <div className='flex relative'>
       <div
-        {...props}
         className={cn(
-          'flex justify-between gap-2 rounded-lg shadow-lg p-4 transition-width duration-300 w-full',
-          {
-            '-translate-x-1/4': isSwiped && swipeDirection === 'left',
-            'translate-x-0': !isSwiped,
-          }
+          'flex justify-between gap-2 rounded-lg shadow-lg p-4 transition-width duration-300 w-full'
         )}
       >
         <div className='grid grid-cols-[3rem_1fr_3rem] gap-2 w-full'>
@@ -90,31 +63,37 @@ export const PermissionCard = ({
               Términos y Condiciones
             </button>
           </div>
-          <div className='self-center text-6xl' onClick={handleOpenRight}>
-            <LeftArrowIcon className='text-slate-700' size='md' />
-          </div>
+          {!isProviderBlocked && (
+            <button
+              onClick={handleToggle}
+              className={cn(
+                'flex items-center justify-center absolute right-4 top-4 focus:outline-none bg-opacity-30 rounded-full transition-all duration-200 ease-in-out shadow-md text-white shadow-slate-400',
+                {
+                  'bg-red-500 bg-opacity-90': status === 'active',
+                  'bg-green-500 shadow-slate-300 bg-opacity-90 border-none':
+                    status === 'inactive',
+                }
+              )}
+              aria-label={
+                status === 'active'
+                  ? 'Deactivate permission'
+                  : 'Activate permission'
+              }
+            >
+              {status === 'active' ? (
+                <div className='flex items-center gap-1 p-2'>
+                  <StarIcon /> -{points}
+                </div>
+              ) : (
+                <div className='flex items-center gap-1 p-2'>
+                  <StarActiveIcon /> +{points}
+                </div>
+              )}
+            </button>
+          )}
         </div>
       </div>
-      {!isProviderBlocked && showButton && (
-        <button
-          onClick={handleToggle}
-          className={cn(
-            'shadow-xl border-2 border-white text-xs font-semibold text-white rounded-lg p-2 duration-500 absolute h-full top-0 right-0 transition-opacity ease-in-out opacity-0 w-20',
-            {
-              'bg-red-500 bg-opacity-90': status === 'active',
-              'bg-green-500 bg-opacity-90': status === 'inactive',
-              'opacity-100': showButton,
-            }
-          )}
-          aria-label={
-            status === 'active'
-              ? 'Deactivate permission'
-              : 'Activate permission'
-          }
-        >
-          {status === 'active' ? 'Desactivar' : 'Activar'}
-        </button>
-      )}
+
       <Modal isOpen={isOpen} onClose={closeModal} fullScreen>
         <div className='flex overflow-y-auto'>
           <Worker
