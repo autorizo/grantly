@@ -6,6 +6,7 @@ import { ProvidersListProps, ProviderType } from './ProvidersList.types'
 import { router } from 'router'
 import { useToast } from 'contexts'
 import { useAuth } from 'contexts'
+import { Link } from 'react-router-dom'
 
 const getProviders = (providerType: ProviderType, providers: Providers) => {
   switch (providerType) {
@@ -146,8 +147,55 @@ export const ProvidersList = ({ providerType }: ProvidersListProps) => {
         />
       ))}
       {displayedProviders.length === 0 && (
-        <div className='text-center text-gray-500'>
-          Sin Proveedores para mostrar
+        <div className='flex flex-col items-center justify-center text-gray-600 space-y-4 px-8'>
+          <h1 className='text-xl font-semibold text-center'>
+            No hay proveedores para mostrar
+          </h1>
+          {providerType === ProviderType.ACTIVE && (
+            <div className='text-center space-y-4'>
+              <span>¡Activa proveedores para comenzar a ganar puntos!</span>
+              <p>
+                <Link
+                  to='/inactive'
+                  className='text-blue-500 hover:text-blue-700 underline transition-colors duration-300'
+                >
+                  Ver más proveedores
+                </Link>
+              </p>
+            </div>
+          )}
+
+          {providerType === ProviderType.INACTIVE && (
+            <div className='text-center space-y-4'>
+              <p>¡Felicidades, haz ganado puntos con todos los proveedores!</p>
+              <p>
+                <Link
+                  to='/active'
+                  className='text-blue-500 hover:text-blue-700 underline transition-colors duration-300'
+                >
+                  Ver proveedores activos
+                </Link>
+              </p>
+              <p className='text-xs'>
+                Si no encuentras algún proveedor, busca en la sección de
+                bloqueados.
+              </p>
+            </div>
+          )}
+
+          {providerType === ProviderType.BLOCKED && (
+            <div className='text-center space-y-4'>
+              <span>¡Aún no haz bloqueado ningún proveedor!</span>
+              <p>
+                <Link
+                  to='/active'
+                  className='text-blue-500 hover:text-blue-700 underline transition-colors duration-300'
+                >
+                  Proveedores activos
+                </Link>
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>

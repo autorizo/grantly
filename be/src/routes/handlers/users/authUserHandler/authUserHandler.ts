@@ -1,8 +1,17 @@
 import { Request, Response } from 'express';
 import { AppError } from '@errors/index';
 import { errorResponseHandler } from '@errors/errorResponseHandler';
-import { createUserByOauth, getUserByEmail } from '@controllers/user';
-import { generateToken, getInfoByProvider, getSignedUrl } from '@utils/index';
+import {
+  createUserByOauth,
+  getUserByEmail,
+  updateUserAvatarUrl,
+} from '@controllers/user';
+import {
+  generateToken,
+  getInfoByProvider,
+  getSignedUrl,
+  uploadImageToStorage,
+} from '@utils/index';
 import { Session } from '@utils/types';
 
 // Implement the handler
@@ -41,10 +50,10 @@ export const authUserHandler = async (req: Request, res: Response) => {
   const userName = username;
 
   let user = await getUserByEmail(email);
+  let signedPhoto = undefined;
 
   try {
     if (!user) {
-      // Create new user by OAuth info
       user = await createUserByOauth(
         email,
         userName,
@@ -56,9 +65,19 @@ export const authUserHandler = async (req: Request, res: Response) => {
         first_name,
         last_name
       );
-    }
+      if (photo) {
+        const response = await fetch(photo);
+        const arrayBuffer = await response.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+        const { fileName, imageUrl } = await uploadImageToStorage(
+          user.id,
+          buffer
+        );
 
-    const signedPhoto = user.photo && (await getSignedUrl(user.photo));
+        await updateUserAvatarUrl(user.id, fileName);
+        signedPhoto = user.photo && (await getSignedUrl(fileName));
+      }
+    }
 
     const session: Session = {
       id: user.id,

@@ -5,6 +5,7 @@ import {
   CheckIcon,
   Modal,
   StarActiveIcon,
+  ToastType,
   useModal,
 } from 'components'
 import { ProviderHeaderProps } from './ProviderHeader.types'
@@ -13,6 +14,7 @@ import { ProviderStatus, useProviders } from 'stores'
 import { useState } from 'react'
 import { useMutation } from 'react-query'
 import { toggleProviderAPI } from 'servers'
+import { useToast } from 'contexts'
 
 export const ProviderHeader = ({
   id,
@@ -27,6 +29,7 @@ export const ProviderHeader = ({
   const [isBlocking, setIsBlocking] = useState(true) // New state to track the action
   const [justification, setJustification] = useState('')
   const { toggleProvider } = useProviders()
+  const { showToast } = useToast()
 
   const { mutate: toggleProviderHandler } = useMutation(
     ({
@@ -46,6 +49,10 @@ export const ProviderHeader = ({
     if (id && justification) {
       toggleProviderHandler({ providerId: id, justification })
       setJustification('')
+      showToast(
+        `El proveedor ha sido ${isBlocking ? 'bloqueado' : 'desbloqueado'}`,
+        ToastType.INFO
+      )
     }
     closeModal()
     closeParentDrawer && closeParentDrawer()

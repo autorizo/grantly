@@ -115,6 +115,7 @@ export const toggleProvider =
       }
       // If the provider is not in either list
       else {
+        console.log('Provider not found in active or inactive list')
         const blockedProviderIndex = state.providers.blocked.findIndex(
           provider => provider.id === providerId
         )

@@ -11,27 +11,27 @@ export const getUserPermissions = async (userId: string) => {
 
     // Query to fetch all permissions associated with providers
     const providersWithPermissions = await knex('providers')
-      .select(
-        'providers.id as provider_id',
-        'providers.name as provider_name',
-        'providers.description as provider_description',
-        'providers.status as provider_status',
-        'permissions.id as permission_id',
-        'permissions.name as permission_name',
-        'permissions.points as permission_points',
-        'permissions.description as permission_description',
-        'permissions.image as permission_image',
-        'permissions.pdf_path as permission_pdf_path',
-        'up.updated_at as updated_at',
-        knex.raw("COALESCE(up.status, 'inactive') as status") // Default to 'inactive' if no entry found
-      )
-      .leftJoin('permissions', 'providers.id', 'permissions.provider_id')
-      .leftJoin('user_permissions as up', function () {
-        this.on('permissions.id', '=', 'up.permission_id');
-      })
-      .where('up.user_id', userId) // Move the user_id condition to the where clause
-      .orWhereNull('up.user_id') // Include permissions that don't have an entry in user_permissions
-      .orderBy('providers.name', 'asc');
+    .select(
+      'providers.id as provider_id',
+      'providers.name as provider_name',
+      'providers.description as provider_description',
+      'providers.status as provider_status',
+      'permissions.id as permission_id',
+      'permissions.name as permission_name',
+      'permissions.points as permission_points',
+      'permissions.description as permission_description',
+      'permissions.image as permission_image',
+      'permissions.pdf_path as permission_pdf_path',
+      'up.updated_at as updated_at',
+      knex.raw("COALESCE(up.status, 'inactive') as status") // Default to 'inactive' if no entry found
+    )
+    .leftJoin('permissions', 'providers.id', 'permissions.provider_id')
+    .leftJoin('user_permissions as up', function () {
+      this.on('permissions.id', '=', 'up.permission_id')
+        .andOn('up.user_id', '=', knex.raw('?', [userId])); // Explicitly filter by the current user
+    })
+    .orderBy('providers.name', 'asc');
+  
 
     // Structure the data by grouping permissions under each provider
     const providersMap: { [key: string]: any } = {};

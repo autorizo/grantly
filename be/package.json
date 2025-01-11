@@ -7,7 +7,7 @@
     "rollback": "ts-node src/db/rollback.ts",
     "seed": "ts-node src/db/seed.ts",
     "build": "tsc -p tsconfig.build.json",
-    "start": "node -r tsconfig-paths/register --trace-warnings dist/index.js"
+    "start": "cross-env NODE_ENV=production node -r tsconfig-paths/register --trace-warnings dist/index.js"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.14.0",
@@ -55,13 +55,5 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.6.3"
-  },
-  "_moduleAliases": {
-    "@services": "dist/services",
-    "@routes": "dist/routes",
-    "@controllers": "dist/controllers",
-    "@db": "dist/db",
-    "@errors": "dist/errors",
-    "@utils": "dist/utils"
   }
 }

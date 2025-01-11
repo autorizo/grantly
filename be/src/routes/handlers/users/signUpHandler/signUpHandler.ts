@@ -24,7 +24,7 @@ export const signUpHandler = async (req: Request, res: Response) => {
         new AppError(400, 'Validation Error', ['User data is required'])
       );
     }
-    console.log(userData);
+
     const newUserPayload = {
       email: userData.email,
       username: userData.email,

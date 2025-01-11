@@ -29,13 +29,11 @@ export const PermissionCard = ({
     useSwipe({
       onSwipedLeft: () => {
         if (!isProviderBlocked) {
-          // Only allow swipe left if provider is not blocked
           setIsSwiped(true)
         }
       },
       onSwipedRight: () => {
         if (!isProviderBlocked) {
-          // Only allow swipe right if provider is not blocked
           resetSwipeDirection()
           setIsSwiped(false)
         }
@@ -46,14 +44,14 @@ export const PermissionCard = ({
 
   const handleToggle = () => {
     togglePermission(id)
-    resetSwipeDirection() // Reset swipe state
-    setIsSwiped(false) // Ensure isSwiped state is also reset
+    resetSwipeDirection()
+    setIsSwiped(false)
   }
 
   const handleOpenRight = () => {
     if (isSwiped) {
-      resetSwipeDirection()
       setIsSwiped(false)
+      resetSwipeDirection()
     } else {
       autoLeftSwipe()
     }
@@ -101,10 +99,10 @@ export const PermissionCard = ({
         <button
           onClick={handleToggle}
           className={cn(
-            'text-xs font-semibold text-white rounded-lg p-2 duration-500 absolute h-full top-0 right-0 transition-opacity ease-in-out opacity-0 w-20',
+            'shadow-xl border-2 border-white text-xs font-semibold text-white rounded-lg p-2 duration-500 absolute h-full top-0 right-0 transition-opacity ease-in-out opacity-0 w-20',
             {
-              'bg-red-500 hover:bg-red-600': status === 'active',
-              'bg-green-500 hover:bg-green-600': status === 'inactive',
+              'bg-red-500 bg-opacity-90': status === 'active',
+              'bg-green-500 bg-opacity-90': status === 'inactive',
               'opacity-100': showButton,
             }
           )}

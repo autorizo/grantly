@@ -1,4 +1,15 @@
-import 'module-alias/register';
+if (process.env.NODE_ENV === 'production') {
+  const moduleAlias = require('module-alias');
+  moduleAlias.addAliases({
+    '@services': `${__dirname}/services`,
+    '@routes': `${__dirname}/routes`,
+    '@controllers': `${__dirname}/controllers`,
+    '@db': `${__dirname}/db`,
+    '@errors': `${__dirname}/errors`,
+    '@utils': `${__dirname}/utils`,
+  });
+}
+
 import express from 'express';
 import cors from 'cors';
 import {
