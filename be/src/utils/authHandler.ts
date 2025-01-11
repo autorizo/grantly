@@ -42,7 +42,7 @@ export const authHandler = async (
     }
 
     // Attach the user information to the request object
-    req.body.token = bearerToken; // Or attach user info if you have verified it
+    req.body.user = user; // Or attach user info if you have verified it
 
     // Continue to the next middleware or route handler
     next();

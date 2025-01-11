@@ -1,6 +1,4 @@
-import server from "./server"
-
-const userId = process.env.REACT_APP_USER_ID
+import server from './server'
 
 export const toggleProviderAPI = async (
   providerId: string,
@@ -9,7 +7,6 @@ export const toggleProviderAPI = async (
   try {
     const response = await server.post(`/provider/${providerId}`, {
       justification,
-      userId,
     })
     // await a few seconds to avoid multiple requests
     await new Promise(resolve => setTimeout(resolve, 200))

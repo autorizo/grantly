@@ -6,11 +6,10 @@ WORKDIR /app
 
 # Accept build arguments for environment variables
 ARG REACT_APP_BE_URL
-ARG REACT_APP_USER_ID
+
 
 # Set the environment variables in the build context
 ENV REACT_APP_BE_URL=$REACT_APP_BE_URL
-ENV REACT_APP_USER_ID=$REACT_APP_USER_ID
 
 # Copy package.json and package-lock.json to install dependencies
 COPY package.json package-lock.json ./ 

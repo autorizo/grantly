@@ -58,7 +58,6 @@ export const ProvidersList = ({ providerType }: ProvidersListProps) => {
       ),
     {
       onSuccess: ({ permissionId, status, isAnActiveProvider }) => {
-        togglePermission(permissionId, status, isAnActiveProvider)
         if (!isAnActiveProvider) router.navigate('/active')
         // generate label for bloqued, activated, deactivated
         const label = labelMap[status as PermissionStatus]
@@ -123,6 +122,7 @@ export const ProvidersList = ({ providerType }: ProvidersListProps) => {
           ? PermissionStatus.Active
           : PermissionStatus.Blocked
     }
+    togglePermission(permissionId, newStatus, isAnActiveProvider)
 
     handleToggle({
       userId,

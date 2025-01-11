@@ -9,7 +9,8 @@ export const changeProviderStatusHandler = async (
   res: Response
 ) => {
   const { providerId } = req.params;
-  const { justification, userId } = req.body;
+  const { justification } = req.body;
+  const { id } = req.body.user;
 
   if (!providerId) {
     return errorResponseHandler(
@@ -25,13 +26,7 @@ export const changeProviderStatusHandler = async (
         ? 'unblock_provider'
         : 'block_provider';
 
-    await insertNotification(
-      providerId,
-      null,
-      userId,
-      newAction,
-      justification
-    );
+    await insertNotification(providerId, null, id, newAction, justification);
     responseHandler(res, 200, userPermissions);
   } catch (error) {
     errorResponseHandler(res, error);
