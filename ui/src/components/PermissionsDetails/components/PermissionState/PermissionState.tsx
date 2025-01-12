@@ -6,8 +6,8 @@ const permissionStateLabel = ({ blocked, enabled, points }: States) =>
   blocked
     ? 'Bloqueado'
     : enabled
-    ? `Tienes ${points} puntos`
-    : `Hay ${points} puntos disponibles`
+    ? `${points} puntos obtenidos`
+    : `Puedes obtener ${points} puntos`
 
 export const PermissionState = ({ status, points }: PermissionStateProps) => {
   const blocked = status === PermissionStatus.Blocked

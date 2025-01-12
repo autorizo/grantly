@@ -64,14 +64,14 @@ export const ProviderHeader = ({
     openModal()
   }
   const buttonClass = cn(
-    'text-xs  font-semibold flex items-center gap-1 border-[1.35px] rounded-md p-1',
+    'text-xs  font-semibold flex items-center gap-1 border-[1.35px] rounded-md p-1 shadow-md',
     {
       'text-red-500 border-red-500': status !== ProviderStatus.Blocked,
       'text-green-500 border-green-500': status === ProviderStatus.Blocked,
     }
   )
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='flex flex-col gap-2 border-b pb-2'>
       <div className='flex gap-4 items-center justify-between'>
         <div className='flex items-center gap-2'>
           <img

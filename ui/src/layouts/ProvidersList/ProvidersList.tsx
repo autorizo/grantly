@@ -121,7 +121,7 @@ export const ProvidersList = ({ providerType }: ProvidersListProps) => {
           ? PermissionStatus.Active
           : PermissionStatus.Blocked
     }
-    if (!isAnActiveProvider) router.navigate('/active')
+
     togglePermission(permissionId, newStatus, isAnActiveProvider)
 
     handleToggle({

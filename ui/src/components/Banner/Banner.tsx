@@ -18,6 +18,7 @@ import { BannerProps } from './Banner.types'
 export const Banner = ({ userName }: BannerProps) => {
   const { session, signOut, profilePhoto } = useAuth() // Get profilePhoto from context
   const userId = session?.user?.id ?? ''
+  const isActiveRoute = (path: string) => location.pathname === path
 
   useFetchProviders(userId)
   useFetchNotifications(userId)
@@ -35,8 +36,6 @@ export const Banner = ({ userName }: BannerProps) => {
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen)
   }
-
-  const isNotificationsPage = location.pathname === '/notifications'
 
   const handleClick = (link: string) => {
     navigate(link)
@@ -68,14 +67,16 @@ export const Banner = ({ userName }: BannerProps) => {
         <div
           className={cn(
             'flex items-center justify-center gap-1 focus:outline-none rounded-full transition-colors p-[1px]',
-            { 'bg-white': isNotificationsPage }
+            { 'bg-white': isActiveRoute('/notifications') }
           )}
         >
-          <Link to='/notifications'>
+          <Link
+            to={isActiveRoute('/notifications') ? '/active' : '/notifications'}
+          >
             <BellIcon
               className={cn('w-6 h-6', {
-                'text-primary': isNotificationsPage,
-                'text-white': !isNotificationsPage,
+                'text-primary': isActiveRoute('/notifications'),
+                'text-white': !isActiveRoute('/notifications'),
               })}
             />
           </Link>
@@ -104,21 +105,37 @@ export const Banner = ({ userName }: BannerProps) => {
       <Drawer isOpen={isDrawerOpen} onClose={toggleDrawer} position='left'>
         <div className='p-4'>
           <button className='w-full' onClick={() => handleClick('/active')}>
-            <div className='flex items-center gap-2 border-t border-b py-4'>
+            <div
+              className={cn('flex items-center gap-2 border-t border-b py-4', {
+                'border-primary font-bold': isActiveRoute('/active'),
+              })}
+            >
               <StarIcon className='h-5 w-5' />
-              <h2 className='text-md font-semibold'>Activos</h2>
+              <h2 className='text-md'>Activos</h2>
             </div>
           </button>
           <button className='w-full' onClick={() => handleClick('/blocked')}>
-            <div className='flex items-center gap-2 border-t border-b py-4'>
+            <div
+              className={cn('flex items-center gap-2 border-t border-b py-4', {
+                'border-primary font-bold': isActiveRoute('/blocked'),
+              })}
+            >
               <BlockIcon className='h-5 w-5' />
-              <h2 className='text-md font-semibold'>Bloqueados</h2>
+              <h2 className='text-md'>Bloqueados</h2>
             </div>
           </button>
           <button className='w-full' onClick={() => handleClick('/profile')}>
-            <div className='flex items-center gap-2 border-b py-4'>
-              <ProfileIcon className='h-5 w-5' />
-              <h2 className='text-md font-semibold'>Perfil</h2>
+            <div
+              className={cn('flex items-center gap-2 border-t border-b py-4', {
+                'border-primary font-bold': isActiveRoute('/profile'),
+              })}
+            >
+              <ProfileIcon
+                className={cn('h-5 w-5', {
+                  '': isActiveRoute('/profile'),
+                })}
+              />
+              <h2 className='text-md'>Perfil</h2>
             </div>
           </button>
         </div>

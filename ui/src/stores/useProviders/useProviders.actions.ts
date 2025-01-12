@@ -42,11 +42,6 @@ export const togglePermission =
                   : 0),
               0
             )
-
-            // Move the provider to the active list
-            // Instead of returning a new value, modify the draft
-            state.providers.active.push({ ...provider })
-            state.providers.inactive.splice(providerIndex, 1) // Remove from inactive
           }
         }
       } else {
