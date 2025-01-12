@@ -119,8 +119,6 @@ export const ProviderHeader = ({
           className={cn(
             'flex items-center gap-2 border-primary border-2 px-1.5 py-0.5 rounded-full',
             {
-              'animate-scale-fade':
-                status === ProviderStatus.Enabled && isAnimating,
               grayscale: status === ProviderStatus.Blocked,
             }
           )}

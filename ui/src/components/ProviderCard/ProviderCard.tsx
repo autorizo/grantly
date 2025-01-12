@@ -8,7 +8,6 @@ import {
 } from 'components'
 import { ProviderHeader } from './components'
 import { ProviderStatus } from 'stores'
-import cn from 'classnames'
 
 export const ProviderCard = ({
   provider,
