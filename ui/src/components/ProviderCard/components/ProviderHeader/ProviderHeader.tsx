@@ -28,9 +28,8 @@ export const ProviderHeader = ({
   const { isOpen, closeModal, openModal } = useModal()
   const [isBlocking, setIsBlocking] = useState(true)
   const [justification, setJustification] = useState('')
-  const [error, setError] = useState('') // Error message state
+  const [error, setError] = useState('')
   const [displayedTotal, setDisplayedTotal] = useState(total)
-  const [isAnimating, setIsAnimating] = useState(false)
   const [isFirstRender, setIsFirstRender] = useState(true)
   const { toggleProvider } = useProviders()
   const { showToast } = useToast()
@@ -52,7 +51,7 @@ export const ProviderHeader = ({
     }
 
     let currentValue = displayedTotal
-    setIsAnimating(true)
+
     const interval = setInterval(() => {
       if (currentValue === total) {
         clearInterval(interval)
@@ -63,10 +62,8 @@ export const ProviderHeader = ({
       }
     }, 50)
 
-    const timeout = setTimeout(() => setIsAnimating(false), 600)
     return () => {
       clearInterval(interval)
-      clearTimeout(timeout)
     }
   }, [total])
 
@@ -76,7 +73,7 @@ export const ProviderHeader = ({
       return
     }
 
-    setError('') // Clear error if validation passes
+    setError('')
     if (id) {
       toggleProviderHandler({ providerId: id, justification })
       setJustification('')
