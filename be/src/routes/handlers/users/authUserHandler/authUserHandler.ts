@@ -69,15 +69,14 @@ export const authUserHandler = async (req: Request, res: Response) => {
         const response = await fetch(photo);
         const arrayBuffer = await response.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        const { fileName, imageUrl } = await uploadImageToStorage(
-          user.id,
-          buffer
-        );
+        const { fileName } = await uploadImageToStorage(user.id, buffer);
 
         await updateUserAvatarUrl(user.id, fileName);
         signedPhoto = user.photo && (await getSignedUrl(fileName));
       }
     }
+
+    signedPhoto = user.photo && (await getSignedUrl(user.photo));
 
     const session: Session = {
       id: user.id,

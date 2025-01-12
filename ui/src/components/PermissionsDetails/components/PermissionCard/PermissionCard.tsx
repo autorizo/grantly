@@ -2,15 +2,12 @@ import cn from 'classnames'
 import { PermissionCardProps } from './PermissionCard.types'
 import {
   IconPermission,
-  LeftArrowIcon,
   Modal,
   StarActiveIcon,
   StarIcon,
   useModal,
 } from 'components'
 import { PermissionState } from '..'
-import { useState } from 'react'
-import { useSwipe } from 'hooks'
 import { Worker, Viewer, SpecialZoomLevel } from '@react-pdf-viewer/core'
 import '@react-pdf-viewer/core/lib/styles/index.css'
 
@@ -24,11 +21,10 @@ export const PermissionCard = ({
   updatedAt,
   pdfPath,
   togglePermission,
-  providerStatus, // Receive providerStatus prop
+  providerStatus,
 }: PermissionCardProps) => {
   const { isOpen, closeModal, openModal } = useModal()
 
-  // Check if the provider status is blocked
   const isProviderBlocked = providerStatus === 'blocked'
 
   const handleToggle = () => {
@@ -36,61 +32,79 @@ export const PermissionCard = ({
   }
 
   return (
-    <div className='flex relative'>
+    <div className={cn('flex relative',{
+      'grayscale': isProviderBlocked
+    })}>
       <div
         className={cn(
-          'flex justify-between gap-2 rounded-lg shadow-lg p-4 transition-width duration-300 w-full'
+          'flex justify-between gap-2 rounded-lg shadow-lg p-4 transition-width duration-300 w-full bg-gradient-to-r',
+          {
+            'from-green-50': status === 'active',
+            'from-gray-50': status === 'inactive',
+          }
         )}
       >
-        <div className='grid grid-cols-[3rem_1fr_3rem] gap-2 w-full'>
-          <div className='justify-self-center'>
-            <IconPermission size='lg' image={image} />
-          </div>
-          <div className='flex flex-col'>
-            <h3 className='text-md font-semibold'>{name}</h3>
+        <div className='flex flex-col w-full'>
+          <div className='flex flex-col gap-1'>
+            <div className='flex items-center justify-between'>
+              <div className='justify-self-center relative'>
+                <div
+                  className={cn(
+                    'absolute top-0 left-0 w-6 h-6 rounded-full bg-green-300 z-0 transition-transform duration-300',
+                    {
+                      'bg-red-300': status === 'inactive',
+                    }
+                  )}
+                ></div>
+                <IconPermission
+                  className='relative z-10'
+                  size='lg'
+                  image={image}
+                />
+              </div>
+              {!isProviderBlocked && (
+                <button
+                  onClick={handleToggle}
+                  className={cn(
+                    'flex items-center gap-2 border-2 px-2 py-1 rounded-full w-17 shadow-sm transition-all duration-200 transform',
+                    {
+                      'border-gray-400 text-gray-400 shadow-gray-400': status === 'active',
+                      'border-green-400 text-green-400 shadow-green-400': status === 'inactive',
+                    }
+                  )}
+                >
+                  <StarActiveIcon
+                    className={cn('h-4 w-4', {
+                      'text-green-400': status === 'inactive',
+                      'text-gray-400': status === 'active',
+                    })}
+                  />
+                  <span className='text-xs font-semibold'>
+                    {status === 'active' ? 'Perder' : 'Ganar'} {points} Puntos
+                  </span>
+                </button>
+              )}
+            </div>
+            <h3 className='text-sm font-semibold'>{name}</h3>
             {!isProviderBlocked && (
               <PermissionState status={status} points={points} />
             )}
             <p className='text-xs text-gray-800'>{description}</p>
-            {!isProviderBlocked && updatedAt && (
-              <p className='text-xs text-gray-500'>Modificado {updatedAt}</p>
-            )}
-            <button
-              onClick={() => openModal()} // Open the modal
-              className='text-xs underline font-semibold text-left text-primary'
-              aria-label='View Terms and Conditions'
-            >
-              Términos y Condiciones
-            </button>
+            <div className='flex gap-2 items-center justify-between'>
+              <button
+                onClick={openModal}
+                className='text-xs underline font-semibold text-left text-primary transition-colors duration-200'
+              >
+                Términos y Condiciones
+              </button>
+
+              {!isProviderBlocked && updatedAt && (
+                <p className='text-[0.6rem] text-gray-500'>
+                  Modificado {updatedAt}
+                </p>
+              )}
+            </div>
           </div>
-          {!isProviderBlocked && (
-            <button
-              onClick={handleToggle}
-              className={cn(
-                'flex items-center justify-center absolute right-4 top-4 focus:outline-none bg-opacity-30 rounded-full transition-all duration-200 ease-in-out shadow-md text-white shadow-slate-400',
-                {
-                  'bg-red-500 bg-opacity-90': status === 'active',
-                  'bg-green-500 shadow-slate-300 bg-opacity-90 border-none':
-                    status === 'inactive',
-                }
-              )}
-              aria-label={
-                status === 'active'
-                  ? 'Deactivate permission'
-                  : 'Activate permission'
-              }
-            >
-              {status === 'active' ? (
-                <div className='flex items-center gap-1 p-2'>
-                  <StarIcon /> -{points}
-                </div>
-              ) : (
-                <div className='flex items-center gap-1 p-2'>
-                  <StarActiveIcon /> +{points}
-                </div>
-              )}
-            </button>
-          )}
         </div>
       </div>
 

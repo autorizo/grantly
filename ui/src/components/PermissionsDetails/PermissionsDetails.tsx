@@ -11,7 +11,7 @@ export const PermissionsDetails = ({
   providerStatus
 }: PermissionsDetailsProps) => {
   return (
-    <div className='flex flex-col gap-4 border-t-2 pt-4 pb-4'>
+    <div className='flex flex-col gap-4 pt-4 pb-4'>
       {permissions.map(
         ({
           name,

@@ -55,7 +55,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
       initialValues={initialValues} // Usar los valores iniciales después de ser asignados
       validate={validate} // Usar la validación personalizada
       onSubmit={values => {
-        console.log('values:', values)
         onSubmit(values)
       }} // Pasar la función onSubmit
     >

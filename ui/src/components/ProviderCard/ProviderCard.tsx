@@ -60,6 +60,7 @@ export const ProviderCard = ({
             isInDetail
             closeParentDrawer={() => setIsOpen(false)}
           />
+          <p>Obten puntos habilitando permisos</p>
           <PermissionsDetails
             togglePermission={togglePermission}
             permissions={permissions}

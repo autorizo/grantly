@@ -32,7 +32,6 @@ export const togglePermission =
             provider.permissions[permissionIndex].status = status
             provider.permissions[permissionIndex].updatedAt =
               new Date().toISOString()
-
             // Calculate total points for the provider
             provider.total = provider.permissions.reduce(
               (total, permission) =>
@@ -42,11 +41,6 @@ export const togglePermission =
                   : 0),
               0
             )
-
-            // Move the provider to the active list
-            // Instead of returning a new value, modify the draft
-            state.providers.active.push({ ...provider })
-            state.providers.inactive.splice(providerIndex, 1) // Remove from inactive
           }
         }
       } else {
@@ -115,7 +109,6 @@ export const toggleProvider =
       }
       // If the provider is not in either list
       else {
-        console.log('Provider not found in active or inactive list')
         const blockedProviderIndex = state.providers.blocked.findIndex(
           provider => provider.id === providerId
         )

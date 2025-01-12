@@ -5,8 +5,8 @@
 # ./node_modules/.bin/knex migrate:rollback --env production
 
 # Run database migrations
-# echo "Running migrations..."
-# ./node_modules/.bin/knex migrate:latest --env production
+echo "Running migrations..."
+./node_modules/.bin/knex migrate:latest --env production
 
 if [ $? -ne 0 ]; then
     echo "Migrations failed. Exiting..."
@@ -14,13 +14,13 @@ if [ $? -ne 0 ]; then
 fi
 
 # Run database seeds
-echo "Running seeds..."
-./node_modules/.bin/knex seed:run --env production
+# echo "Running seeds..."
+# ./node_modules/.bin/knex seed:run --env production
 
-if [ $? -ne 0 ]; then
-    echo "Seeding failed. Exiting..."
-    exit 1
-fi
+# if [ $? -ne 0 ]; then
+#     echo "Seeding failed. Exiting..."
+#     exit 1
+# fi
 
 # Decode the secret files
 echo "Decoding secrets..."
