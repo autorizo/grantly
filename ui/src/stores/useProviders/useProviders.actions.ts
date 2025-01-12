@@ -32,7 +32,7 @@ export const togglePermission =
             provider.permissions[permissionIndex].status = status
             provider.permissions[permissionIndex].updatedAt =
               new Date().toISOString()
-
+            console.log('Permission updated:', provider.permissions[permissionIndex])
             // Calculate total points for the provider
             provider.total = provider.permissions.reduce(
               (total, permission) =>

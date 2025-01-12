@@ -21,11 +21,10 @@ export const PermissionCard = ({
   updatedAt,
   pdfPath,
   togglePermission,
-  providerStatus, // Receive providerStatus prop
+  providerStatus,
 }: PermissionCardProps) => {
   const { isOpen, closeModal, openModal } = useModal()
 
-  // Check if the provider status is blocked
   const isProviderBlocked = providerStatus === 'blocked'
 
   const handleToggle = () => {
@@ -33,7 +32,9 @@ export const PermissionCard = ({
   }
 
   return (
-    <div className='flex relative'>
+    <div className={cn('flex relative',{
+      'grayscale': isProviderBlocked
+    })}>
       <div
         className={cn(
           'flex justify-between gap-2 rounded-lg shadow-lg p-4 transition-width duration-300 w-full bg-gradient-to-r',
@@ -43,13 +44,13 @@ export const PermissionCard = ({
           }
         )}
       >
-        <div className='flex flex-col w-full '>
+        <div className='flex flex-col w-full'>
           <div className='flex flex-col gap-1'>
             <div className='flex items-center justify-between'>
               <div className='justify-self-center relative'>
                 <div
                   className={cn(
-                    'absolute top-0 left-0 w-6 h-6 rounded-full bg-green-300 z-0',
+                    'absolute top-0 left-0 w-6 h-6 rounded-full bg-green-300 z-0 transition-transform duration-300',
                     {
                       'bg-red-300': status === 'inactive',
                     }
@@ -62,29 +63,26 @@ export const PermissionCard = ({
                 />
               </div>
               {!isProviderBlocked && (
-                <div
+                <button
                   onClick={handleToggle}
                   className={cn(
-                    'flex items-center gap-2 border-2 px-1.5 py-0.5 rounded-full w-fit shadow-sm',
+                    'flex items-center gap-2 border-2 px-2 py-1 rounded-full w-17 shadow-sm transition-all duration-200 transform',
                     {
-                      'border-red-400 shadow-red-400': status === 'active',
-                      'border-green-400 shadow-green-400': status === 'inactive',
+                      'border-gray-400 text-gray-400 shadow-gray-400': status === 'active',
+                      'border-green-400 text-green-400 shadow-green-400': status === 'inactive',
                     }
                   )}
                 >
-                  <StarActiveIcon className='h-4 w-4 text-yellow-500' />
-                  <div
-                    className={cn('text-xs font-semibold', {
-                      'text-red-400': status === 'active',
+                  <StarActiveIcon
+                    className={cn('h-4 w-4', {
                       'text-green-400': status === 'inactive',
+                      'text-gray-400': status === 'active',
                     })}
-                  >
-                    <p className='flex items-center'>
-                      {status === 'active' ? 'Pierde -' : 'Gana +'}
-                      {points}
-                    </p>
-                  </div>
-                </div>
+                  />
+                  <span className='text-xs font-semibold'>
+                    {status === 'active' ? 'Perder' : 'Ganar'} {points} Puntos
+                  </span>
+                </button>
               )}
             </div>
             <h3 className='text-sm font-semibold'>{name}</h3>
@@ -94,9 +92,8 @@ export const PermissionCard = ({
             <p className='text-xs text-gray-800'>{description}</p>
             <div className='flex gap-2 items-center justify-between'>
               <button
-                onClick={() => openModal()} // Open the modal
-                className='text-xs underline font-semibold text-left text-primary'
-                aria-label='View Terms and Conditions'
+                onClick={openModal}
+                className='text-xs underline font-semibold text-left text-primary transition-colors duration-200'
               >
                 Términos y Condiciones
               </button>

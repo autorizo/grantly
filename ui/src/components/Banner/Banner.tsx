@@ -28,6 +28,10 @@ export const Banner = ({ userName }: BannerProps) => {
     (total, provider) => total + provider.total,
     0
   )
+  const totalInactivePoints = providers.inactive.reduce(
+    (total, provider) => total + provider.total,
+    0
+  )
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const location = useLocation()
@@ -59,7 +63,10 @@ export const Banner = ({ userName }: BannerProps) => {
         </h1>
         <p className='text-xs sm:text-md text-white'>
           Tienes un total de{' '}
-          <span className='font-semibold'>{totalPoints}</span> puntos
+          <span className='font-semibold'>
+            {totalPoints + totalInactivePoints}
+          </span>{' '}
+          puntos
         </p>
       </div>
 

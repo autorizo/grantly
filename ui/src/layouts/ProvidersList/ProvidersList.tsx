@@ -135,7 +135,10 @@ export const ProvidersList = ({ providerType }: ProvidersListProps) => {
   return (
     <div className='flex justify-center items-center gap-2 flex-col'>
       {/* Navigation Tabs */}
-      <NavigationTabs activeTab='/active' />
+
+      {providerType !== ProviderType.BLOCKED && (
+        <NavigationTabs activeTab='/active' />
+      )}
 
       {displayedProviders.map((provider, index) => (
         <ProviderCard
@@ -146,6 +149,19 @@ export const ProvidersList = ({ providerType }: ProvidersListProps) => {
           provider={provider}
         />
       ))}
+
+      {displayedProviders.length > 0 &&
+        providerType === ProviderType.BLOCKED && (
+          <div className='text-center space-y-4'>
+            <Link
+              to='/active'
+              className='text-blue-500 hover:text-blue-700 underline transition-colors duration-300'
+            >
+              Volver a proveedores activos
+            </Link>
+          </div>
+        )}
+
       {displayedProviders.length === 0 && (
         <div className='flex flex-col items-center justify-center text-gray-600 space-y-4 px-8'>
           <h1 className='text-xl font-semibold text-center'>

@@ -8,6 +8,7 @@ import {
 } from 'components'
 import { ProviderHeader } from './components'
 import { ProviderStatus } from 'stores'
+import cn from 'classnames'
 
 export const ProviderCard = ({
   provider,
@@ -60,9 +61,7 @@ export const ProviderCard = ({
             isInDetail
             closeParentDrawer={() => setIsOpen(false)}
           />
-          <p>
-            Obten puntos habilitando permisos
-          </p>
+          <p>Obten puntos habilitando permisos</p>
           <PermissionsDetails
             togglePermission={togglePermission}
             permissions={permissions}
