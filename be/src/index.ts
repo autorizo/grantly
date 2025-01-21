@@ -54,6 +54,11 @@ app.use('/proxy-pdf', async (req, res) => {
   }
 });
 
+app.use('/typeform-webhook', async (req, res) => {
+  console.log(req.body);
+  res.status(200).send('OK');
+});
+
 // Reset password route
 app.use(resetPassword);
 
