@@ -72,7 +72,6 @@ export const toggleProvider =
       const activeProviderIndex = state.providers.active.findIndex(
         provider => provider.id === providerId
       )
-
       // Check if the provider is in the inactive list
       const inactiveProviderIndex = state.providers.inactive.findIndex(
         provider => provider.id === providerId
@@ -95,16 +94,15 @@ export const toggleProvider =
       else if (inactiveProviderIndex !== -1) {
         const provider = state.providers.inactive[inactiveProviderIndex]
 
+        state.providers.inactive.splice(inactiveProviderIndex, 1) // Remove from inactive
+        provider.status = status // Update the status
+
         // If the status is set to active, move to the active list
         if (status === ProviderStatus.Enabled) {
-          provider.status = status // Update the status
           state.providers.active.push({ ...provider })
-          state.providers.inactive.splice(inactiveProviderIndex, 1) // Remove from inactive
         } else if (status === ProviderStatus.Blocked) {
           // Move to blocked if status is blocked
           state.providers.blocked.push({ ...provider })
-          state.providers.inactive.splice(inactiveProviderIndex, 1) // Remove from inactive
-          provider.status = status // Update the status
         }
       }
       // If the provider is not in either list

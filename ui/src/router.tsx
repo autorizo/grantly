@@ -19,15 +19,30 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'active',
-        element: <ProvidersList providerType={ProviderType.ACTIVE} />, // Pass prop for active
+        element: (
+          <ProvidersList
+            key={ProviderType.ACTIVE}
+            providerType={ProviderType.ACTIVE}
+          />
+        ), // Pass prop for active
       },
       {
         path: 'inactive',
-        element: <ProvidersList providerType={ProviderType.INACTIVE} />, // Pass prop for inactive
+        element: (
+          <ProvidersList
+            key={ProviderType.INACTIVE}
+            providerType={ProviderType.INACTIVE}
+          />
+        ), // Pass prop for inactive
       },
       {
         path: 'blocked',
-        element: <ProvidersList providerType={ProviderType.BLOCKED} />, // Pass prop for inactive
+        element: (
+          <ProvidersList
+            key={ProviderType.BLOCKED}
+            providerType={ProviderType.BLOCKED}
+          />
+        ), // Pass prop for inactive
       },
       {
         path: 'notifications',

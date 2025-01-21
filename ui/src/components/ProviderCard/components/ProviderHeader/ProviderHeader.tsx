@@ -11,7 +11,7 @@ import {
 import { ProviderHeaderProps } from './ProviderHeader.types'
 import { Fragment } from 'react/jsx-runtime'
 import { ProviderStatus, useProviders } from 'stores'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useMutation } from 'react-query'
 import { toggleProviderAPI } from 'servers'
 import { useToast } from 'contexts'
@@ -43,27 +43,27 @@ export const ProviderHeader = ({
       },
     }
   )
+  const previousTotalRef = useRef(total) // Ref to track the previous total value
 
   useEffect(() => {
-    if (isFirstRender) {
-      setIsFirstRender(false)
-      return
-    }
+    // Trigger animation only if the total has changed
+    if (previousTotalRef.current !== total) {
+      previousTotalRef.current = total // Update the ref to the new total
+      let currentValue = displayedTotal
 
-    let currentValue = displayedTotal
+      // Animate the displayedTotal to match the new total
+      const interval = setInterval(() => {
+        if (currentValue === total) {
+          clearInterval(interval) // Stop the animation once it matches
+        } else {
+          currentValue =
+            currentValue < total ? currentValue + 1 : currentValue - 1
+          setDisplayedTotal(currentValue)
+        }
+      }, 50)
 
-    const interval = setInterval(() => {
-      if (currentValue === total) {
-        clearInterval(interval)
-      } else {
-        currentValue =
-          currentValue < total ? currentValue + 1 : currentValue - 1
-        setDisplayedTotal(currentValue)
-      }
-    }, 50)
-
-    return () => {
-      clearInterval(interval)
+      // Cleanup interval on unmount or re-render
+      return () => clearInterval(interval)
     }
   }, [total])
 
