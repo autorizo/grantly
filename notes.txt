@@ -60,3 +60,14 @@ Cuentas de usuario
  - Terminar atualizacion de Datos
  - Resgristro de usuario
  - Ver temas de bugs que se han 
+
+
+
+
+ --- Periodos ---
+ 1. 
+ --- Encuestas ---
+ 1. notificación via websocket
+ 2. finalizar la encuesta (puntos por encuesta)
+ 3. encuestas con periodo de expiración (fecha limite)
+ 4. 

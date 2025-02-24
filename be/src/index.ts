@@ -7,6 +7,7 @@ if (process.env.NODE_ENV === 'production') {
     '@db': `${__dirname}/db`,
     '@errors': `${__dirname}/errors`,
     '@utils': `${__dirname}/utils`,
+    '@sockets': `${__dirname}/sockets`,
   });
 }
 
@@ -23,6 +24,14 @@ import {
 } from '@routes/index';
 import { authHandler } from '@utils/authHandler';
 import axios from 'axios';
+import { createServer } from 'http';
+import { Server, Socket } from 'socket.io';
+
+import { initializeSocket } from '@sockets/notifications';
+import { verifyToken } from '@utils/verifyToken';
+import { errorResponseHandler } from '@errors/errorResponseHandler';
+import { AppError } from '@errors/AppError';
+import jwt from 'jsonwebtoken';
 
 // Create an Express application
 const app = express();
@@ -77,11 +86,17 @@ app.use(providerRoutes);
 app.use(userRoutes);
 app.use(notificationRoutes);
 
+const httpServer = createServer(app);
+
 // Default route for 404 errors
 app.use((req, res) => {
   res.status(404).json({ message: 'Not Found' });
 });
-// Start the server
-app.listen(PORT, () => {
-  console.info(`Server running on port ${PORT}`);
+
+// Inicialización del socket con el servidor HTTP
+initializeSocket(httpServer);
+
+// Iniciar el servidor
+httpServer.listen(PORT, () => {
+  console.info(`🚀 Servidor corriendo en el puerto ${PORT}`);
 });

@@ -8,6 +8,7 @@ import {
   LoginLayout,
   RecoverPassword,
   ResetPassword,
+  Tickets,
   Profile,
   SignUp,
 } from 'layouts'
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
       {
         path: 'notifications',
         element: <Notifications />, // Your existing Notifications component
+      },
+      {
+        path: 'tickets',
+        element: <Tickets />,
       },
       {
         path: '/profile',

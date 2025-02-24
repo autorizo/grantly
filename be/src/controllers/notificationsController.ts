@@ -1,12 +1,13 @@
 import knex from '@db/index'; // Ensure you have your Knex instance imported
 import { AppError } from '@errors/index'; // Error handling utility
+import { sendNotificationToUser } from '@sockets/notifications';
 import dayjs from 'dayjs'; // For handling timestamps
 
 // Function to insert a notification
 export const insertNotification = async (
   providerId: string | null, // The provider ID, can be null if not applicable
   permissionId: string | null, // The permission ID, can be null if not applicable
-  userId: string | null, // The user ID, can be null if not applicable
+  userId: string, // The user ID, can be null if not applicable
   action:
     | 'active_permission'
     | 'block_provider'
@@ -27,6 +28,8 @@ export const insertNotification = async (
 
     // Insert the notification into the notifications table
     await knex('notifications').insert(notificationEntry);
+
+    sendNotificationToUser(userId, 'test');
 
     return {
       message: 'Notification inserted successfully',

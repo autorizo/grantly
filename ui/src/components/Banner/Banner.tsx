@@ -10,6 +10,7 @@ import {
   LogOutIcon,
   ProfileIcon,
   StarIcon,
+  TicketIcon,
 } from 'components'
 import { useFetchNotifications, useFetchProviders } from 'hooks'
 import { useProviders } from 'stores'
@@ -119,6 +120,16 @@ export const Banner = ({ userName }: BannerProps) => {
             >
               <StarIcon className='h-5 w-5' />
               <h2 className='text-md'>Activos</h2>
+            </div>
+          </button>
+          <button className='w-full' onClick={() => handleClick('/tickets')}>
+            <div
+              className={cn('flex items-center gap-2 border-t border-b py-4', {
+                'border-primary font-bold': isActiveRoute('/tickets'),
+              })}
+            >
+              <TicketIcon className='h-5 w-5' />
+              <h2 className='text-md'>Tickets</h2>
             </div>
           </button>
           <button className='w-full' onClick={() => handleClick('/blocked')}>

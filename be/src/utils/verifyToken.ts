@@ -2,19 +2,32 @@ import jwt from 'jsonwebtoken';
 import { Session } from './types';
 import { AppError } from '@errors/index';
 
-const scretKey = process.env.SECRET_KEY as string;
+const secretKey = process.env.SECRET_KEY as string;
 
-export const verifyToken = (token: string): Promise<Session | null> => {
+export const verifyToken = (token: string): Promise<Session> => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, scretKey, (err, decoded) => {
+    if (!secretKey) {
+      return reject(
+        new AppError(500, 'Internal Server Error', ['Secret key missing'])
+      );
+    }
+
+    const decoded = jwt.decode(token);
+
+    if (!decoded) {
+      return reject(new AppError(403, 'Forbidden', ['Invalid token format']));
+    }
+
+    jwt.verify(token, secretKey, (err, verifiedPayload) => {
       if (err) {
-        // Token verification failed
         return reject(
-          new AppError(403, 'Forbidden', ['Invalid or expired token'])
+          new AppError(403, 'Forbidden', [
+            'Failed token verify, invalid or expired token',
+          ])
         );
       }
-      // Token is valid, return the decoded payload
-      resolve(decoded as Session);
+
+      resolve(verifiedPayload as Session);
     });
   });
 };

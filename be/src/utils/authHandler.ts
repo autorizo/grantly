@@ -37,7 +37,9 @@ export const authHandler = async (
     if (!user) {
       return errorResponseHandler(
         res,
-        new AppError(403, 'Forbidden', ['Invalid or expired token'])
+        new AppError(403, 'Forbidden', [
+          'Invalid or expired token auth handler',
+        ])
       );
     }
 
