@@ -5,6 +5,7 @@ import providerRoutes from './providerRoutes';
 import authRoutes from './authRoutes';
 import resetPassword from './resetPassword';
 import signupRoutes from './signupRoutes';
+import ticketRoutes from './ticketRoutes';
 
 export {
   permissionRoutes,
@@ -14,4 +15,5 @@ export {
   authRoutes,
   resetPassword,
   signupRoutes,
+  ticketRoutes,
 };

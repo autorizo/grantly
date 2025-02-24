@@ -14,5 +14,7 @@ export type Categories = {
 
 export type TicketsState = {
   categories: Categories[]
+  userTickets: Categories[]
   setTickets: (tickets: Categories[]) => void
+  setUserTickets: (tickets: Categories[]) => void
 }

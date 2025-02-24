@@ -21,17 +21,12 @@ import {
   resetPassword,
   signupRoutes,
   userRoutes,
+  ticketRoutes
 } from '@routes/index';
 import { authHandler } from '@utils/authHandler';
 import axios from 'axios';
 import { createServer } from 'http';
-import { Server, Socket } from 'socket.io';
-
 import { initializeSocket } from '@sockets/notifications';
-import { verifyToken } from '@utils/verifyToken';
-import { errorResponseHandler } from '@errors/errorResponseHandler';
-import { AppError } from '@errors/AppError';
-import jwt from 'jsonwebtoken';
 
 // Create an Express application
 const app = express();
@@ -85,6 +80,7 @@ app.use(permissionRoutes);
 app.use(providerRoutes);
 app.use(userRoutes);
 app.use(notificationRoutes);
+app.use(ticketRoutes);
 
 const httpServer = createServer(app);
 
